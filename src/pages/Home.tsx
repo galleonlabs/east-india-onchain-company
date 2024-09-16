@@ -1,5 +1,5 @@
 // src/pages/Home.tsx
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { YieldOpportunity, OpportunityCategory } from "../types";
 import {
@@ -51,7 +51,7 @@ const Home: React.FC = () => {
 
       let allOpportunities: YieldOpportunity[] = [];
       let counts: Record<OpportunityCategory, number> = new Object() as Record<OpportunityCategory, number>;
-      
+
       if (user?.isPaidUser) {
         allOpportunities = await getYieldOpportunities();
         counts = allOpportunities.reduce((acc, opp) => {
@@ -106,22 +106,19 @@ const Home: React.FC = () => {
     setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
   };
 
-  const sortOpportunities = useCallback(
-    (opps: YieldOpportunity[]) => {
-      return [...opps].sort((a, b) => {
-        if (a.isBenchmark) return -1;
-        if (b.isBenchmark) return 1;
+  const sortOpportunities = (opps: YieldOpportunity[]) => {
+    return [...opps].sort((a, b) => {
+      if (a.isBenchmark) return -1;
+      if (b.isBenchmark) return 1;
 
-        let aValue = a[sortKey];
-        let bValue = b[sortKey];
+      let aValue = a[sortKey];
+      let bValue = b[sortKey];
 
-        if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
-        if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
-        return 0;
-      });
-    },
-    [sortKey, sortDirection]
-  );
+      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+      return 0;
+    });
+  };
 
   const formatTVL = (tvl: number): string => {
     const trillion = 1_000_000_000_000;

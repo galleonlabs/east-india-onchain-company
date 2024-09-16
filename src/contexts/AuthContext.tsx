@@ -1,6 +1,6 @@
 // src/contexts/AuthContext.tsx
 
-import React, { createContext, useState, useEffect, useContext, useCallback } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { User } from "../types";
 import { connectWallet, getOrCreateUser, isAdmin as checkIsAdmin } from "../services/walletAuth";
 
