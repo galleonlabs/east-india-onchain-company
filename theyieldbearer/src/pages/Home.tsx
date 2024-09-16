@@ -262,7 +262,9 @@ const Home: React.FC = () => {
   return (
     <div className="terminal-content">
       <h1 className="text-2xl font-bold mb-2 terminal-prompt text-terminal">YIELD_OPPORTUNITIES</h1>
-      <p className="mb-8 text-terminal ml-2 text-md">### LAST_UPDATED: {formatLastUpdated(lastUpdated)}</p>
+      <p className="mb-8 text-terminal ml-2 text-md">
+        ### LAST_UPDATED: {formatLastUpdated(lastUpdated ? lastUpdated : new Date())}
+      </p>
       {renderOpportunityTable("stablecoin", "STABLECOIN_YIELD")}
       {renderOpportunityTable("volatileAsset", "VOLATILE_ASSET_YIELD")}
       {renderOpportunityTable("advancedStrategies", "ADVANCED_STRATEGIES")}
