@@ -1,8 +1,8 @@
-// src/pages/Subscribe.tsx
-import React, { useState, useEffect } from "react";
+// Subscribe.tsx 
+import React, { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { getPaymentDetails, initiatePayment, PaymentDetails } from "../services/cryptoPayment";
-import { checkUserSubscriptionStatus } from "../services/firebase"; // Assuming this function exists
+import { getPaymentDetails, initiatePayment, PaymentDetails, checkPaymentStatus } from "../services/cryptoPayment";
+import { checkUserSubscriptionStatus } from "../services/firebase";
 
 const Subscribe: React.FC = () => {
   const { user } = useAuth();
@@ -11,29 +11,53 @@ const Subscribe: React.FC = () => {
   const [message, setMessage] = useState<{ type: "info" | "success" | "error"; content: string } | null>(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
 
-  useEffect(() => {
-    const checkStatus = async () => {
-      if (user) {
+  const checkStatus = useCallback(async () => {
+    if (user) {
+      try {
         const status = await checkUserSubscriptionStatus(user.address);
         setIsSubscribed(status);
+      } catch (error) {
+        console.error("Error checking subscription status:", error);
+        setMessage({ type: "error", content: "Failed to check subscription status. Please try again." });
       }
-    };
-
-    checkStatus();
-    const intervalId = setInterval(checkStatus, 30000); // Check every 30 seconds
-
-    return () => clearInterval(intervalId);
+    }
   }, [user]);
 
   useEffect(() => {
+    checkStatus();
+    const intervalId = setInterval(checkStatus, 30000); // Check every 30 seconds
+    return () => clearInterval(intervalId);
+  }, [checkStatus]);
+
+  useEffect(() => {
     if (transactionHash) {
-      setMessage({
-        type: "info",
-        content:
-          "Your transaction has been initiated. It may take up to 5 minutes for your subscription to be enabled. Please wait...",
-      });
+      const checkTransaction = async () => {
+        try {
+          const status = await checkPaymentStatus(transactionHash);
+          if (status) {
+            setMessage({
+              type: "success",
+              content: "Your subscription has been activated. Enjoy full access!",
+            });
+            checkStatus(); // Recheck subscription status
+          } else {
+            setMessage({
+              type: "info",
+              content: "Transaction is still processing. Please wait...",
+            });
+            setTimeout(checkTransaction, 30000); // Check again after 30 seconds
+          }
+        } catch (error) {
+          console.error("Error checking transaction status:", error);
+          setMessage({
+            type: "error",
+            content: "Failed to verify transaction. Please contact support if this persists.",
+          });
+        }
+      };
+      checkTransaction();
     }
-  }, [transactionHash]);
+  }, [transactionHash, checkStatus]);
 
   const handleSubscribe = async (duration: "month" | "year") => {
     if (!user) {
@@ -46,13 +70,32 @@ const Subscribe: React.FC = () => {
       const paymentDetails: PaymentDetails = getPaymentDetails(duration);
       const txHash = await initiatePayment(user, paymentDetails);
       setTransactionHash(txHash);
+      setMessage({
+        type: "info",
+        content: "Transaction initiated. Please wait for confirmation...",
+      });
     } catch (error) {
       console.error("Subscription failed:", error);
-      setMessage({ type: "error", content: "Subscription failed. Please try again." });
+      setMessage({ type: "error", content: `Subscription failed: ${(error as Error).message}` });
     } finally {
       setIsProcessing(false);
     }
   };
+
+  const renderSubscriptionOption = (duration: "month" | "year", amount: string) => (
+    <div className="bg-black border border-terminal p-4 text-terminal">
+      <h3 className="text-xl mb-2 font-bold">{duration.toUpperCase()}_ACCESS</h3>
+      <p className="mb-4">Access all yield opportunities for one {duration}</p>
+      <p className="text-2xl mb-4">{amount} ETH</p>
+      <button
+        onClick={() => handleSubscribe(duration)}
+        disabled={isProcessing || isSubscribed}
+        className="w-full bg-terminal hover:bg-terminal/70 text-black font-bold py-2 px-4 disabled:opacity-50"
+      >
+        {isProcessing ? "Processing..." : `Unlock ${duration.charAt(0).toUpperCase() + duration.slice(1)} Access`}
+      </button>
+    </div>
+  );
 
   return (
     <div className="terminal-content">
@@ -85,37 +128,14 @@ const Subscribe: React.FC = () => {
           <h2 className="text-xl mb-4">### Choose access duration</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-black border border-terminal p-4 text-terminal ">
-              <h3 className="text-xl mb-2 font-bold">MONTH_ACCESS</h3>
-              <p className="mb-4">Access all yield opportunities for one month</p>
-              <p className="text-2xl mb-4">0.01 ETH</p>
-              <button
-                onClick={() => handleSubscribe("month")}
-                disabled={isProcessing}
-                className="w-full bg-terminal hover:bg-terminal/70 text-black font-bold py-2 px-4 disabled:opacity-50"
-              >
-                {isProcessing ? "Processing..." : "Unlock One Month Access"}
-              </button>
-            </div>
-
-            <div className="bg-black border border-terminal p-4 text-terminal ">
-              <h3 className="text-xl mb-2 font-bold">YEAR_ACCESS</h3>
-              <p className="mb-4">Access all yield opportunities for one year</p>
-              <p className="text-2xl mb-4">0.10 ETH</p>
-              <button
-                onClick={() => handleSubscribe("year")}
-                disabled={isProcessing}
-                className="w-full bg-terminal hover:bg-terminal/70 text-black font-bold py-2 px-4 disabled:opacity-50"
-              >
-                {isProcessing ? "Processing..." : "Unlock One Year Access"}
-              </button>
-            </div>
+            {renderSubscriptionOption("month", "0.01")}
+            {renderSubscriptionOption("year", "0.10")}
           </div>
         </div>
       )}
 
       {transactionHash && (
-        <div className="bg-terminal/30 text-terminal p-6 ">
+        <div className="bg-terminal/30 text-terminal p-6">
           <h2 className="text-xl mb-4 terminal-prompt">Transaction Details</h2>
           <p className="font-mono break-all">Transaction Hash: {transactionHash}</p>
         </div>

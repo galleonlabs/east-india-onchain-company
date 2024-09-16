@@ -1,7 +1,23 @@
 // src/services/firebase.ts
+
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDocs, where, getCountFromServer, query, limit, getDoc, Timestamp } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  getDocs,
+  where,
+  getCountFromServer,
+  query,
+  limit,
+  getDoc,
+  Timestamp,
+  runTransaction,
+} from "firebase/firestore";
 import { OpportunityCategory, YieldOpportunity } from "../types";
 
 const firebaseConfig = {
@@ -17,48 +33,88 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-export const addYieldOpportunity = async (opportunity: Omit<YieldOpportunity, "id">) => {
-  const docRef = await addDoc(collection(db, "yieldOpportunities"), opportunity);
-  return docRef.id;
+export const addYieldOpportunity = async (opportunity: Omit<YieldOpportunity, "id">): Promise<string> => {
+  try {
+    const docRef = await addDoc(collection(db, "yieldOpportunities"), {
+      ...opportunity,
+      dateAdded: Timestamp.now(),
+    });
+    await updateYieldLastUpdated();
+    return docRef.id;
+  } catch (error) {
+    console.error("Error adding yield opportunity:", error);
+    throw new Error("Failed to add yield opportunity");
+  }
 };
 
-export const updateYieldOpportunity = async (id: string, opportunity: Partial<YieldOpportunity>) => {
-  await updateDoc(doc(db, "yieldOpportunities", id), opportunity);
+export const updateYieldOpportunity = async (id: string, opportunity: Partial<YieldOpportunity>): Promise<void> => {
+  try {
+    await updateDoc(doc(db, "yieldOpportunities", id), opportunity);
+    await updateYieldLastUpdated();
+  } catch (error) {
+    console.error("Error updating yield opportunity:", error);
+    throw new Error("Failed to update yield opportunity");
+  }
 };
 
-export const deleteYieldOpportunity = async (id: string) => {
-  await deleteDoc(doc(db, "yieldOpportunities", id));
+export const deleteYieldOpportunity = async (id: string): Promise<void> => {
+  try {
+    await deleteDoc(doc(db, "yieldOpportunities", id));
+    await updateYieldLastUpdated();
+  } catch (error) {
+    console.error("Error deleting yield opportunity:", error);
+    throw new Error("Failed to delete yield opportunity");
+  }
 };
 
 export const getYieldOpportunities = async (): Promise<YieldOpportunity[]> => {
-  const querySnapshot = await getDocs(collection(db, "yieldOpportunities"));
-  return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as YieldOpportunity));
+  try {
+    const q = query(collection(db, "yieldOpportunities"), where("isActive", "==", true));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as YieldOpportunity));
+  } catch (error) {
+    console.error("Error fetching yield opportunities:", error);
+    throw new Error("Failed to fetch yield opportunities");
+  }
 };
 
 export const getYieldOpportunitiesSample = async () => {
-  const sampleOpportunities: YieldOpportunity[] = [];
-  const counts: Record<OpportunityCategory, number> = {
-    stablecoin: 0,
-    volatileAsset: 0,
-    advancedStrategies: 0,
-  };
+  try {
+    const sampleOpportunities: YieldOpportunity[] = [];
+    const counts: Record<OpportunityCategory, number> = {
+      stablecoin: 0,
+      volatileAsset: 0,
+      advancedStrategies: 0,
+    };
 
-  for (const category of Object.keys(counts) as OpportunityCategory[]) {
-    const querySnapshot = await getDocs(
-      query(collection(db, "yieldOpportunities"), where("category", "==", category), limit(1))
-    );
-    const countSnapshot = await getCountFromServer(
-      query(collection(db, "yieldOpportunities"), where("category", "==", category))
-    );
+    for (const category of Object.keys(counts) as OpportunityCategory[]) {
+      const q = query(
+        collection(db, "yieldOpportunities"),
+        where("category", "==", category),
+        where("isActive", "==", true),
+        limit(1)
+      );
+      const querySnapshot = await getDocs(q);
 
-    counts[category] = countSnapshot.data().count;
+      const countQ = query(
+        collection(db, "yieldOpportunities"),
+        where("category", "==", category),
+        where("isActive", "==", true)
+      );
+      const countSnapshot = await getCountFromServer(countQ);
 
-    if (!querySnapshot.empty) {
-      sampleOpportunities.push({ id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() } as YieldOpportunity);
+      counts[category] = countSnapshot.data().count;
+
+      if (!querySnapshot.empty) {
+        sampleOpportunities.push({ id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() } as YieldOpportunity);
+      }
     }
-  }
 
-  return { opportunities: sampleOpportunities, counts };
+    return { opportunities: sampleOpportunities, counts };
+  } catch (error) {
+    console.error("Error fetching yield opportunities sample:", error);
+    throw new Error("Failed to fetch yield opportunities sample");
+  }
 };
 
 export const checkUserSubscriptionStatus = async (userAddress: string): Promise<boolean> => {
@@ -69,27 +125,24 @@ export const checkUserSubscriptionStatus = async (userAddress: string): Promise<
     if (userDocSnap.exists()) {
       const userData = userDocSnap.data();
 
-      // Check if user is marked as a paid user
       if (!userData.isPaidUser) {
         return false;
       }
 
-      // Check if subscription has expired
       const subscriptionExpiry = userData.subscriptionExpiry as Timestamp;
       if (subscriptionExpiry && subscriptionExpiry.toDate() > new Date()) {
         return true;
       } else {
-        // Subscription has expired
+        // Subscription has expired, update user status
+        await updateDoc(userDocRef, { isPaidUser: false });
         return false;
       }
     } else {
-      // User document doesn't exist
       return false;
     }
   } catch (error) {
     console.error("Error checking user subscription status:", error);
-    // In case of error, we assume the user is not subscribed
-    return false;
+    throw new Error("Failed to check user subscription status");
   }
 };
 
@@ -104,6 +157,54 @@ export const getYieldLastUpdated = async (): Promise<Timestamp | null> => {
     return null;
   } catch (error) {
     console.error("Error fetching last updated timestamp:", error);
-    return null;
+    throw new Error("Failed to fetch last updated timestamp");
+  }
+};
+
+const updateYieldLastUpdated = async (): Promise<void> => {
+  try {
+    const metadataRef = doc(db, "metadata", "yieldData");
+    await updateDoc(metadataRef, {
+      yieldLastUpdated: Timestamp.now(),
+    });
+  } catch (error) {
+    console.error("Error updating last updated timestamp:", error);
+    throw new Error("Failed to update last updated timestamp");
+  }
+};
+
+export const updateUserSubscription = async (userAddress: string, duration: "month" | "year"): Promise<void> => {
+  try {
+    await runTransaction(db, async (transaction) => {
+      const userDocRef = doc(db, "users", userAddress);
+      const userDoc = await transaction.get(userDocRef);
+
+      if (!userDoc.exists()) {
+        throw new Error("User does not exist");
+      }
+
+      const userData = userDoc.data();
+      let newExpiryDate: Date;
+
+      if (userData.subscriptionExpiry && userData.subscriptionExpiry.toDate() > new Date()) {
+        newExpiryDate = userData.subscriptionExpiry.toDate();
+      } else {
+        newExpiryDate = new Date();
+      }
+
+      if (duration === "month") {
+        newExpiryDate.setMonth(newExpiryDate.getMonth() + 1);
+      } else {
+        newExpiryDate.setFullYear(newExpiryDate.getFullYear() + 1);
+      }
+
+      transaction.update(userDocRef, {
+        isPaidUser: true,
+        subscriptionExpiry: Timestamp.fromDate(newExpiryDate),
+      });
+    });
+  } catch (error) {
+    console.error("Error updating user subscription:", error);
+    throw new Error("Failed to update user subscription");
   }
 };

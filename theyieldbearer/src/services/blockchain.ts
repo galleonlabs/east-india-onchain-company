@@ -5,8 +5,12 @@ import { addDoc, collection } from "firebase/firestore";
 
 const RECEIVER_ADDRESS = "0x30B0D5758c79645Eb925825E1Ee8A2c448812F37";
 
-export const createTransaction = async (amount: string) => {
-  if (typeof window.ethereum !== "undefined") {
+export const createTransaction = async (amount: string): Promise<ethers.TransactionResponse> => {
+  try {
+    if (typeof window.ethereum === "undefined") {
+      throw new Error("Ethereum object not found. Do you have MetaMask installed?");
+    }
+
     await window.ethereum.request({ method: "eth_requestAccounts" });
     const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
@@ -17,8 +21,9 @@ export const createTransaction = async (amount: string) => {
     });
 
     return tx;
-  } else {
-    throw new Error("Ethereum object not found, do you have MetaMask installed?");
+  } catch (error) {
+    console.error("Transaction failed:", error);
+    throw new Error("Failed to create transaction. Please try again.");
   }
 };
 
