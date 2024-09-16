@@ -1,0 +1,57 @@
+/* src/index.css */
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #000;
+  color: #00ff00 !important;
+  font-family: "VT323", monospace;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.terminal-window {
+  background-color: #0a0a0a;
+  border: 2px solid #00ff00;
+  box-shadow: 0 0 10px #00ff00;
+  padding: 20px;
+  margin: 20px;
+}
+
+.terminal-header {
+  border-bottom: 1px solid #00ff00;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.terminal-prompt::before {
+  content: "> ";
+  color: #00ff00;
+}
+
+.terminal-content {
+  padding: 20px;
+}
+
+button {
+  cursor: pointer;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+@media (max-width: 640px) {
+  .terminal-window {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .terminal-content {
+    padding: 10px;
+  }
+}
