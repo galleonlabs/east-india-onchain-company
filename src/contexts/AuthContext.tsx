@@ -22,7 +22,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const initAuth = async () => {
-      const address = localStorage.getItem("walletAddress");
+      const address = await connectWallet();
       if (address) {
         try {
           const user = await getOrCreateUser(address);
@@ -37,28 +37,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initAuth();
   }, []);
 
-  const handleConnectWallet = useCallback(async () => {
+  const handleConnectWallet = async () => {
     try {
       const address = await connectWallet();
       const user = await getOrCreateUser(address);
       setUser(user);
       setIsAdmin(checkIsAdmin(address));
-      localStorage.setItem("walletAddress", address);
     } catch (error) {
       console.error("Failed to connect wallet:", error);
     }
-  }, []);
+  };
 
-  const handleDisconnect = useCallback(() => {
+  const handleDisconnect = () => {
     setUser(null);
     setIsAdmin(false);
-    localStorage.removeItem("walletAddress");
-  }, []);
+  };
 
-  const updateUser = useCallback((updatedUser: User) => {
+  const updateUser = (updatedUser: User) => {
     setUser(updatedUser);
     setIsAdmin(checkIsAdmin(updatedUser.address));
-  }, []);
+  };
 
   const value = {
     user,
