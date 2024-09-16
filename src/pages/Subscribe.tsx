@@ -1,4 +1,4 @@
-// Subscribe.tsx 
+// Subscribe.tsx
 import React, { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { getPaymentDetails, initiatePayment, PaymentDetails, checkPaymentStatus } from "../services/cryptoPayment";
@@ -83,14 +83,14 @@ const Subscribe: React.FC = () => {
   };
 
   const renderSubscriptionOption = (duration: "month" | "year", amount: string) => (
-    <div className="bg-black border border-terminal p-4 text-terminal">
-      <h3 className="text-xl mb-2 font-bold">{duration.toUpperCase()}_ACCESS</h3>
+    <div className="bg-theme-pan-champagne border border-theme-pan-navy p-4 text-theme-pan-navy">
+      <h3 className="text-xl mb-2 font-bold">{duration.toUpperCase()} ACCESS</h3>
       <p className="mb-4">Access all yield opportunities for one {duration}</p>
       <p className="text-2xl mb-4">{amount} ETH</p>
       <button
         onClick={() => handleSubscribe(duration)}
         disabled={isProcessing || isSubscribed}
-        className="w-full bg-terminal hover:bg-terminal/70 text-black font-bold py-2 px-4 disabled:opacity-50"
+        className="w-full bg-theme-pan-navy/10 hover:bg-theme-pan-navy/20 text-theme-pan-navy font-bold py-2 px-4 disabled:opacity-50"
       >
         {isProcessing ? "Processing..." : `Unlock ${duration.charAt(0).toUpperCase() + duration.slice(1)} Access`}
       </button>
@@ -98,20 +98,20 @@ const Subscribe: React.FC = () => {
   );
 
   return (
-    <div className="terminal-content">
-      <h1 className="text-2xl font-bold mb-8 terminal-prompt text-terminal">UNLOCK_ACCESS</h1>
+    <div className="">
+      <h1 className="text-2xl font-bold mb-8 text-theme-pan-navy">UNLOCK ACCESS</h1>
 
       {message && (
         <div
-          className={`p-4 mb-4 text-terminal ${
+          className={`p-4 mb-4 text-theme-pan-navy ${
             message.type === "error"
               ? "bg-red-800/30"
               : message.type === "success"
-              ? "bg-terminal/30"
-              : "bg-gray-800/30"
+              ? "bg-theme-pan-navy/10"
+              : "bg-theme-pan-sky/10"
           }`}
         >
-          <p>### {message.content}</p>
+          <p>{message.content}</p>
           <button onClick={() => setMessage(null)} className="mt-2 text-md underline">
             Dismiss
           </button>
@@ -119,13 +119,13 @@ const Subscribe: React.FC = () => {
       )}
 
       {isSubscribed ? (
-        <div className="bg-black border border-terminal text-terminal p-6 mb-8">
+        <div className="bg-theme-pan-champagne border border-theme-pan-navy text-theme-pan-navy p-6 mb-8">
           <h2 className="text-xl mb-4 terminal-prompt">You have already unlocked access</h2>
-          <p>### Enjoy viewing all of our curated yield opportunities.</p>
+          <p>Enjoy viewing all of our curated yield opportunities.</p>
         </div>
       ) : (
-        <div className="bg-terminal/30 text-terminal p-6 mb-8">
-          <h2 className="text-xl mb-4">### Choose access duration</h2>
+        <div className="bg-theme-pan-navy/10 text-theme-pan-navy p-6 mb-8">
+          <h2 className="text-xl mb-4">Choose access duration</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {renderSubscriptionOption("month", "0.01")}
@@ -135,9 +135,9 @@ const Subscribe: React.FC = () => {
       )}
 
       {transactionHash && (
-        <div className="bg-terminal/30 text-terminal p-6">
+        <div className="bg-theme-pan-navy/10 text-terminal p-6">
           <h2 className="text-xl mb-4 terminal-prompt">Transaction Details</h2>
-          <p className="font-mono break-all">Transaction Hash: {transactionHash}</p>
+          <p className="break-all">Transaction Hash: {transactionHash}</p>
         </div>
       )}
     </div>

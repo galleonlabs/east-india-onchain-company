@@ -16,10 +16,10 @@ const App: React.FC = () => {
       <AuthProvider>
         <Router>
           <Suspense fallback={<div>Loading...</div>}>
-            <div className="min-h-screen bg-black text-green-400 font-mono">
+            <div className="min-h-screen bg-theme-pan-champagne">
               <div className="terminal-window">
                 <Header />
-                <main className="p-4">
+                <main className="p-4 max-w-7xl mx-auto pb-72 lg:pt-32 md:pt-16">
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/subscribe" element={<Subscribe />} />

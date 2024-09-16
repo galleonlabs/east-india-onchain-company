@@ -3,12 +3,12 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="border-t border-terminal text-terminal p-4">
+    <footer className="border-t border-theme-pan-navy text-theme-pan-navy p-4">
       <div className="container mx-auto flex justify-center items-center">
-        <a href="https://x.com/galleonlabs" className="mx-2 hover:text-green-300">
+        <a href="https://x.com/galleonlabs" className="mx-2 hover:text-theme-pan-sky">
           TWITTER
         </a>
-        <a href="https://github.com/galleonlabs" className="mx-2 hover:text-green-300">
+        <a href="https://github.com/galleonlabs" className="mx-2 hover:text-theme-pan-sky">
           GITHUB
         </a>
       </div>

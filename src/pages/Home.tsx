@@ -154,44 +154,50 @@ const Home: React.FC = () => {
 
       return (
         <div className="mb-8">
-          <h2 className="text-xl font-bold mb-4 terminal-prompt text-terminal">{title}</h2>
+          <h2 className="text-xl font-bold mb-4 text-theme-pan-navy">{title}</h2>
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse border border-terminal text-terminal">
+            <table className="w-full border-collapse border border-theme-pan-navy text-theme-pan-navy">
               <thead>
-                <tr className="bg-terminal/30">
-                  <th className="p-2 border border-terminal">Name</th>
-                  <th className="p-2 border border-terminal cursor-pointer" onClick={() => handleSort("estimatedApy")}>
+                <tr className="bg-theme-pan-navy text-theme-pan-champagne">
+                  <th className="p-2 border border-theme-pan-navy">Name</th>
+                  <th
+                    className="p-2 border border-theme-pan-navy cursor-pointer"
+                    onClick={() => handleSort("estimatedApy")}
+                  >
                     APY {sortKey === "estimatedApy" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
                   </th>
-                  <th className="p-2 border border-terminal">Network</th>
-                  <th className="p-2 border border-terminal cursor-pointer" onClick={() => handleSort("tvl")}>
+                  <th className="p-2 border border-theme-pan-navy">Network</th>
+                  <th className="p-2 border border-theme-pan-navy cursor-pointer" onClick={() => handleSort("tvl")}>
                     TVL {sortKey === "tvl" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
                   </th>
-                  <th className="p-2 border border-terminal cursor-pointer" onClick={() => handleSort("relativeRisk")}>
+                  <th
+                    className="p-2 border border-theme-pan-navy cursor-pointer"
+                    onClick={() => handleSort("relativeRisk")}
+                  >
                     Risk {sortKey === "relativeRisk" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
                   </th>
-                  <th className="p-2 border border-terminal">Notes</th>
-                  <th className="p-2 border border-terminal">Link</th>
+                  <th className="p-2 border border-theme-pan-navy">Notes</th>
+                  <th className="p-2 border border-theme-pan-navy">Link</th>
                 </tr>
               </thead>
               <tbody>
                 {displayOpportunities.map((opp) => (
-                  <tr key={opp.id} className={`${opp.isBenchmark ? "bg-terminal/10" : ""}`}>
-                    <td className="p-2 border border-terminal text-terminal">
+                  <tr key={opp.id} className={`${opp.isBenchmark ? "bg-theme-pan-sky/10" : ""}`}>
+                    <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">
                       {isNew(opp.dateAdded) ? "NEW - " : ""}
                       {opp.name} {opp.isBenchmark && "(Benchmark)"}
                     </td>
-                    <td className="p-2 border border-terminal text-terminal">{opp.estimatedApy}</td>
-                    <td className="p-2 border border-terminal text-terminal">{opp.network}</td>
-                    <td className="p-2 border border-terminal text-terminal">{opp.tvl}</td>
-                    <td className="p-2 border border-terminal text-terminal">{opp.relativeRisk}</td>
-                    <td className="p-2 border border-terminal text-terminal">{opp.notes}</td>
-                    <td className="p-2 border border-terminal text-terminal">
+                    <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.estimatedApy}</td>
+                    <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.network}</td>
+                    <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.tvl}</td>
+                    <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.relativeRisk}</td>
+                    <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.notes}</td>
+                    <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">
                       <a
                         href={opp.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-terminal hover:underline"
+                        className="text-theme-pan-navy hover:underline"
                       >
                         Visit
                       </a>
@@ -200,29 +206,29 @@ const Home: React.FC = () => {
                 ))}
                 {(!showAll || isAdvanced) && totalOpportunities > displayOpportunities.length && (
                   <>
-                    <tr className="bg-terminal/10 text-terminal/70">
-                      <td colSpan={7} className="p-2 border border-terminal text-center">
+                    <tr className="bg-theme-pan-navy/10 text-theme-pan-navy">
+                      <td colSpan={7} className="p-2 border border-theme-pan-navy text-center">
                         {totalOpportunities - displayOpportunities.length} more opportunities available with
-                        subscription
+                        full acceess
                       </td>
                     </tr>
-                    <tr className="bg-terminal/10 text-terminal">
-                      <td className="p-2 border border-terminal blur-sm">Hidden Opportunity</td>
-                      <td className="p-2 border border-terminal blur-sm">XX.X%</td>
-                      <td className="p-2 border border-terminal blur-sm">Network</td>
-                      <td className="p-2 border border-terminal blur-sm">$XXXM</td>
-                      <td className="p-2 border border-terminal blur-sm">Medium</td>
-                      <td className="p-2 border border-terminal blur-sm">Hidden notes...</td>
-                      <td className="p-2 border border-terminal blur-sm">Visit</td>
+                    <tr className="bg-theme-pan-navy/10 text-theme-pan-navy">
+                      <td className="p-2 border border-theme-pan-navy blur-sm">Hidden Opportunity</td>
+                      <td className="p-2 border border-theme-pan-navy blur-sm">XX.X%</td>
+                      <td className="p-2 border border-theme-pan-navy blur-sm">Network</td>
+                      <td className="p-2 border border-theme-pan-navy blur-sm">$XXXM</td>
+                      <td className="p-2 border border-theme-pan-navy blur-sm">Medium</td>
+                      <td className="p-2 border border-theme-pan-navy blur-sm">Hidden notes...</td>
+                      <td className="p-2 border border-theme-pan-navy blur-sm">Visit</td>
                     </tr>
                   </>
                 )}
               </tbody>
             </table>
           </div>
-          {!user && <div className="text-terminal/70 mt-2">Connect your wallet to see more opportunities</div>}
+          {!user && <div className="text-theme-pan-navy mt-2">Connect your wallet to see more opportunities</div>}
           {user && !user.isPaidUser && (
-            <div className="text-terminal/70 mt-2">
+            <div className="text-theme-pan-navy mt-2">
               {isAdvanced
                 ? `Unlock full access to unlock ${totalOpportunities} Advanced Strategies`
                 : `Unlock full access to see ${totalOpportunities - displayOpportunities.length} more opportunities`}
@@ -252,7 +258,7 @@ const Home: React.FC = () => {
   }, []);
 
   if (isLoading) {
-    return <div className="text-terminal">Loading yield opportunities...</div>;
+    return <div className="text-theme-pan-navy">Loading yield opportunities...</div>;
   }
 
   if (error) {
@@ -260,14 +266,14 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div className="terminal-content">
-      <h1 className="text-2xl font-bold mb-2 terminal-prompt text-terminal">YIELD_OPPORTUNITIES</h1>
-      <p className="mb-8 text-terminal ml-2 text-md">
-        ### LAST_UPDATED: {formatLastUpdated(lastUpdated ? lastUpdated : new Date())}
+    <div className="">
+      <h1 className="text-3xl font-bold mb-2 text-theme-pan-navy">Yield Opportunities</h1>
+      <p className="mb-4 text-theme-pan-navy text-md">
+        LAST UPDATED: {formatLastUpdated(lastUpdated ? lastUpdated : new Date())}
       </p>
-      {renderOpportunityTable("stablecoin", "STABLECOIN_YIELD")}
-      {renderOpportunityTable("volatileAsset", "VOLATILE_ASSET_YIELD")}
-      {renderOpportunityTable("advancedStrategies", "ADVANCED_STRATEGIES")}
+      {renderOpportunityTable("stablecoin", "Stablecoin Yield")}
+      {renderOpportunityTable("volatileAsset", "Volatility Asset Yield")}
+      {renderOpportunityTable("advancedStrategies", "Advanced Strategies")}
     </div>
   );
 };

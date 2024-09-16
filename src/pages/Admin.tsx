@@ -54,8 +54,8 @@ const Admin: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4 terminal-prompt">Manage Yield Opportunities</h1>
+    <div className="container mx-auto px-4 py-8 text-theme-pan-navy">
+      <h1 className="text-2xl font-bold mb-4 ">Manage Yield Opportunities</h1>
 
       <form onSubmit={handleSubmit} className="mb-8">
         <input
@@ -64,7 +64,7 @@ const Admin: React.FC = () => {
           value={currentOpp.name || ""}
           onChange={handleInputChange}
           placeholder="Name"
-          className="mb-2 w-full p-2 bg-gray-700 text-white rounded"
+          className="mb-2 w-full p-2 bg-theme-pan-champagne text-theme-pan-navy rounded"
         />
         <input
           type="text"
@@ -72,7 +72,7 @@ const Admin: React.FC = () => {
           value={currentOpp.estimatedApy || ""}
           onChange={handleInputChange}
           placeholder="Estimated APY"
-          className="mb-2 w-full p-2 bg-gray-700 text-white rounded"
+          className="mb-2 w-full p-2 bg-theme-pan-champagne text-theme-pan-navy rounded"
         />
         <input
           type="text"
@@ -80,7 +80,7 @@ const Admin: React.FC = () => {
           value={currentOpp.network || ""}
           onChange={handleInputChange}
           placeholder="Network"
-          className="mb-2 w-full p-2 bg-gray-700 text-white rounded"
+          className="mb-2 w-full p-2 bg-theme-pan-champagne text-theme-pan-navy rounded"
         />
         <input
           type="text"
@@ -88,13 +88,13 @@ const Admin: React.FC = () => {
           value={currentOpp.tvl || ""}
           onChange={handleInputChange}
           placeholder="TVL"
-          className="mb-2 w-full p-2 bg-gray-700 text-white rounded"
+          className="mb-2 w-full p-2 bg-theme-pan-champagne text-theme-pan-navy rounded"
         />
         <select
           name="relativeRisk"
           value={currentOpp.relativeRisk || ""}
           onChange={handleInputChange}
-          className="mb-2 w-full p-2 bg-gray-700 text-white rounded"
+          className="mb-2 w-full p-2 bg-theme-pan-champagne text-theme-pan-navy rounded"
         >
           <option value="">Select Risk Level</option>
           <option value="Low">Low</option>
@@ -105,7 +105,7 @@ const Admin: React.FC = () => {
           name="category"
           value={currentOpp.category || ""}
           onChange={handleInputChange}
-          className="mb-2 w-full p-2 bg-gray-700 text-white rounded"
+          className="mb-2 w-full p-2 bg-theme-pan-champagne text-theme-pan-navy rounded"
         >
           <option value="">Select Category</option>
           <option value="stablecoin">Stablecoin Yield</option>
@@ -117,7 +117,7 @@ const Admin: React.FC = () => {
           value={currentOpp.notes || ""}
           onChange={handleInputChange}
           placeholder="Notes"
-          className="mb-2 w-full p-2 bg-gray-700 text-white rounded"
+          className="mb-2 w-full p-2 bg-theme-pan-champagne text-theme-pan-navy rounded"
         />
         <input
           type="text"
@@ -125,7 +125,7 @@ const Admin: React.FC = () => {
           value={currentOpp.link || ""}
           onChange={handleInputChange}
           placeholder="Link"
-          className="mb-2 w-full p-2 bg-gray-700 text-white rounded"
+          className="mb-2 w-full p-2 bg-theme-pan-champagne text-theme-pan-navy rounded"
         />
         <div className="mb-2">
           <label className="inline-flex items-center">
@@ -134,9 +134,9 @@ const Admin: React.FC = () => {
               name="isBenchmark"
               checked={currentOpp.isBenchmark || false}
               onChange={handleInputChange}
-              className="form-checkbox h-5 w-5 text-green-600"
+              className="form-checkbox h-5 w-5 text-theme-pan-navy"
             />
-            <span className="ml-2 text-white">Benchmark</span>
+            <span className="ml-2 text-pan-theme-navy">Benchmark</span>
           </label>
         </div>
         <input
@@ -144,16 +144,16 @@ const Admin: React.FC = () => {
           name="dateAdded"
           value={currentOpp.dateAdded ? new Date(currentOpp.dateAdded).toISOString().split("T")[0] : ""}
           onChange={handleInputChange}
-          className="mb-2 w-full p-2 bg-gray-700 text-white rounded"
+          className="mb-2 w-full p-2 bg-theme-pan-champagne text-theme-pan-navy rounded"
         />
-        <button type="submit" className="bg-green-500 hover:bg-green-600 text-black font-bold py-2 px-4 rounded">
+        <button type="submit" className="bg-theme-pan-navy text-theme-pan-champagne font-bold py-2 px-4 rounded">
           {isEditing ? "Update" : "Add"} Opportunity
         </button>
       </form>
 
       <div>
         {opportunities.map((opp) => (
-          <div key={opp.id} className="mb-4 p-4 bg-gray-700 rounded">
+          <div key={opp.id} className="mb-4 p-4 bg-theme-pan-champagne rounded">
             <h3 className="font-bold">{opp.name}</h3>
             <p>APY: {opp.estimatedApy}</p>
             <p>Network: {opp.network}</p>
@@ -171,13 +171,13 @@ const Admin: React.FC = () => {
             <p>Date Added: {new Date(opp.dateAdded).toLocaleDateString()}</p>
             <button
               onClick={() => handleEdit(opp)}
-              className="mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded"
+              className="mr-2 bg-blue-500 hover:bg-blue-600 text-theme-pan-navy font-bold py-1 px-2 rounded"
             >
               Edit
             </button>
             <button
               onClick={() => handleDelete(opp.id)}
-              className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
+              className="bg-red-500 hover:bg-red-600 text-theme-pan-navy font-bold py-1 px-2 rounded"
             >
               Delete
             </button>

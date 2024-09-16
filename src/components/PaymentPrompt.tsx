@@ -45,7 +45,7 @@ const PaymentPrompt: React.FC = () => {
             message.type === "error" ? "bg-red-800/30" : message.type === "success" ? "bg-terminal/30" : "bg-red-800/30"
           }`}
         >
-          <p>### {message.content}</p>
+          <p>{message.content}</p>
           <button onClick={() => setMessage(null)} className="mt-2 text-sm underline">
             Dismiss
           </button>
