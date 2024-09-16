@@ -22,7 +22,7 @@ const Header: React.FC = () => {
             {"/"}
            
             <Link to="/subscribe" className="hover:text-terminal/70 text-terminal">
-              UNLOCK ACCESS
+              UNLOCK_ACCESS
             </Link>
             {"/"}
             {isAdmin && (
@@ -53,7 +53,7 @@ const Header: React.FC = () => {
               YIELD
             </Link>
             <Link to="/subscribe" className="block py-2 hover:text-terminal/70 text-terminal">
-              UNLOCK ACCESS
+              UNLOCK_ACCESS
             </Link>
             {isAdmin && (
               <Link to="/admin" className="block py-2 hover:text-terminal/70 text-terminal">

@@ -37,7 +37,7 @@ const PaymentPrompt: React.FC = () => {
 
   return (
     <div className="p-4 bg-gray-800  text-terminal">
-      <h2 className="text-xl mb-4 terminal-prompt">UNLOCK ACCESS</h2>
+      <h2 className="text-xl mb-4 terminal-prompt">UNLOCK_ACCESS</h2>
 
       {message && (
         <div

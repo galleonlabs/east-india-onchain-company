@@ -56,12 +56,16 @@ const Subscribe: React.FC = () => {
 
   return (
     <div className="terminal-content">
-      <h1 className="text-2xl font-bold mb-8 terminal-prompt text-terminal">UNLOCK ACCESS</h1>
+      <h1 className="text-2xl font-bold mb-8 terminal-prompt text-terminal">UNLOCK_ACCESS</h1>
 
       {message && (
         <div
           className={`p-4 mb-4 text-terminal ${
-            message.type === "error" ? "bg-red-800/30" : message.type === "success" ? "bg-terminal/30" : "bg-gray-800/30"
+            message.type === "error"
+              ? "bg-red-800/30"
+              : message.type === "success"
+              ? "bg-terminal/30"
+              : "bg-gray-800/30"
           }`}
         >
           <p>### {message.content}</p>
@@ -82,8 +86,8 @@ const Subscribe: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-black border border-terminal p-4 text-terminal ">
-              <h3 className="text-xl mb-2 font-bold">Month Access</h3>
-              <p className="mb-4">Access all data for one month</p>
+              <h3 className="text-xl mb-2 font-bold">MONTH_ACCESS</h3>
+              <p className="mb-4">Access all yield opportunities for one month</p>
               <p className="text-2xl mb-4">0.01 ETH</p>
               <button
                 onClick={() => handleSubscribe("month")}
@@ -95,8 +99,8 @@ const Subscribe: React.FC = () => {
             </div>
 
             <div className="bg-black border border-terminal p-4 text-terminal ">
-              <h3 className="text-xl mb-2 font-bold">Year Access  </h3>
-              <p className="mb-4">Access all data for one year</p>
+              <h3 className="text-xl mb-2 font-bold">YEAR_ACCESS</h3>
+              <p className="mb-4">Access all yield opportunities for one year</p>
               <p className="text-2xl mb-4">0.10 ETH</p>
               <button
                 onClick={() => handleSubscribe("year")}
