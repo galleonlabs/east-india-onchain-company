@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className=" py-4 text-theme-pan-navy">
+    <header className=" py-4 text-theme-pan-navy border-b border-theme-pan-navy">
       <nav className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold flex">
@@ -35,7 +35,7 @@ const Header: React.FC = () => {
                 <span className="text-md truncate w-28">- {user.address}</span>
                 <button
                   onClick={disconnect}
-                  className="text-theme-pan-navy border border-theme-pan-navy bg-theme-pan-champagne hover:bg-theme-pan-navy/10 -translate-y-0.5 py-1 px-2"
+                  className="text-theme-pan-navy border border-theme-pan-navy bg-theme-pan-champagne hover:bg-theme-pan-navy/10  py-1 px-2"
                 >
                   DISCONNECT
                 </button>
@@ -43,13 +43,13 @@ const Header: React.FC = () => {
             ) : (
               <button
                 onClick={connectWallet}
-                className="text-theme-pan-navy border border-theme-pan-navy bg-theme-pan-champagne hover:bg-theme-pan-navy/10 -translate-y-0.5 py-1 px-2"
+                className="text-theme-pan-navy border border-theme-pan-navy bg-theme-pan-champagne hover:bg-theme-pan-navy/10 py-1 px-2"
               >
                 CONNECT WALLET
               </button>
             )}
           </div>
-          <button className="lg:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button className="lg:hidden text-3xl" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             ☰
           </button>
         </div>

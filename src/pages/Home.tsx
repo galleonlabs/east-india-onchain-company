@@ -181,8 +181,8 @@ const Home: React.FC = () => {
               {displayOpportunities.map((opp) => (
                 <tr key={opp.id} className={`${opp.isBenchmark ? "bg-theme-pan-sky/10" : ""}`}>
                   <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">
-                    {isNew(opp.dateAdded) ? "NEW - " : ""}
-                    {opp.name} {opp.isBenchmark && "(Benchmark)"}
+                    <span className="text-theme-pan-sky text-xs border border-theme-pan-sky px-1 py-0.5">{isNew(opp.dateAdded.toDate()) ? "NEW" : ""}</span>
+                    {isNew(opp.dateAdded.toDate())? ' ' : ""}{opp.name} {opp.isBenchmark && "(Benchmark)"}
                   </td>
                   <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.estimatedApy}%</td>
                   <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.network}</td>
@@ -234,17 +234,16 @@ const Home: React.FC = () => {
     );
   };
 
-  const isNew = (dateAdded: string) => {
-    const addedDate = new Date(dateAdded);
+  const isNew = (dateAdded: Date) => {
     const now = new Date();
-    const diffTime = Math.abs(now.getTime() - addedDate.getTime());
+    const diffTime = Math.abs(now.getTime() - dateAdded.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays <= 7;
   };
 
   const formatLastUpdated = (date: Date | null) => {
     if (!date) return "Unknown";
-    return date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString("en-GB", {
       year: "numeric",
       month: "numeric",
       day: "numeric",
@@ -261,12 +260,12 @@ const Home: React.FC = () => {
 
   return (
     <div className="">
-      <h1 className="text-3xl font-bold mb-2 text-theme-pan-navy">Yield Opportunities</h1>
+      <h1 className="text-3xl font-bold mb-2 text-theme-pan-navy">Curated Yield Opportunities</h1>
       <p className="mb-4 text-theme-pan-navy text-md">
-        LAST UPDATED: {formatLastUpdated(lastUpdated ? lastUpdated : new Date())}
+        LAST UPDATED: <span className="text-lg">{formatLastUpdated(lastUpdated ? lastUpdated : new Date())}</span>
       </p>
       {renderOpportunityTable("stablecoin", "Stablecoin Yield")}
-      {renderOpportunityTable("volatileAsset", "Volatility Asset Yield")}
+      {renderOpportunityTable("volatileAsset", "Volatile Asset Yield")}
       {renderOpportunityTable("advancedStrategies", "Advanced Strategies")}
     </div>
   );

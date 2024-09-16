@@ -119,7 +119,7 @@ const Subscribe: React.FC = () => {
       )}
 
       {isSubscribed ? (
-        <div className="bg-theme-pan-champagne border border-theme-pan-navy text-theme-pan-navy p-6 mb-8">
+        <div className="bg-theme-pan-champagne border border-theme-pan-navy bg-theme-pan-sky/10 text-theme-pan-navy p-6 mb-8">
           <h2 className="text-xl mb-4 terminal-prompt">You have already unlocked access</h2>
           <p>Enjoy viewing all of our curated yield opportunities.</p>
         </div>
@@ -137,7 +137,12 @@ const Subscribe: React.FC = () => {
       {transactionHash && (
         <div className="bg-theme-pan-navy/10 text-terminal p-6">
           <h2 className="text-xl mb-4 terminal-prompt">Transaction Details</h2>
-          <p className="break-all">Transaction Hash: {transactionHash}</p>
+          <p className="break-all">
+            Transaction:{" "}
+            <a className="text-theme-pan-sky" target="_blank" href={"https://etherscan.io/tx/" + transactionHash}>
+              {transactionHash}
+            </a>
+          </p>
         </div>
       )}
     </div>

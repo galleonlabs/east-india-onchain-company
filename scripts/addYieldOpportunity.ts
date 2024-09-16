@@ -267,7 +267,7 @@ batch
   .then(() => {
     console.log("Successfully added yield opportunities to Firestore.");
   })
-  .catch((error) => {
+  .catch((error: any) => {
     console.error("Error adding yield opportunities to Firestore: ", error);
   });
 
@@ -283,6 +283,6 @@ db.collection("metadata")
   .then(() => {
     console.log("Successfully updated last updated timestamp.");
   })
-  .catch((error) => {
+  .catch((error: any) => {
     console.error("Error updating last updated timestamp: ", error);
   });

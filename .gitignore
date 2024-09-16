@@ -26,3 +26,4 @@ dist-ssr
 .env
 /.firebase
 src/scripts/key.json
+scripts/key.json

@@ -19,7 +19,7 @@ const App: React.FC = () => {
             <div className="min-h-screen bg-theme-pan-champagne">
               <div className="terminal-window">
                 <Header />
-                <main className="p-4 max-w-7xl mx-auto pb-72 lg:pt-32 md:pt-16">
+                <main className="p-4 max-w-7xl mx-auto pb-32 pt-16">
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/subscribe" element={<Subscribe />} />
