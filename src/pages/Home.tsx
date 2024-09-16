@@ -1,14 +1,13 @@
 // src/pages/Home.tsx
 import React, { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { YieldOpportunity, OpportunityCategory, OPPORTUNITY_CATEGORIES } from "../types";
+import { YieldOpportunity, OpportunityCategory } from "../types";
 import {
   getYieldOpportunities,
   getYieldOpportunitiesSample,
   getYieldLastUpdated,
   checkUserSubscriptionStatus,
 } from "../services/firebase";
-import { mockYieldOpportunities } from "../mockData";
 
 type SortKey = "estimatedApy" | "relativeRisk" | "tvl";
 
@@ -53,30 +52,16 @@ const Home: React.FC = () => {
       let allOpportunities: YieldOpportunity[];
       let counts: Record<OpportunityCategory, number>;
 
-      if (import.meta.env.DEV) {
-        if (user?.isPaidUser) {
-          allOpportunities = mockYieldOpportunities;
-        } else {
-          allOpportunities = OPPORTUNITY_CATEGORIES.map(
-            (category) => mockYieldOpportunities.find((opp) => opp.category === category)!
-          );
-        }
-        counts = mockYieldOpportunities.reduce((acc, opp) => {
+      if (user?.isPaidUser) {
+        allOpportunities = await getYieldOpportunities();
+        counts = allOpportunities.reduce((acc, opp) => {
           acc[opp.category] = (acc[opp.category] || 0) + 1;
           return acc;
         }, {} as Record<OpportunityCategory, number>);
       } else {
-        if (user?.isPaidUser) {
-          allOpportunities = await getYieldOpportunities();
-          counts = allOpportunities.reduce((acc, opp) => {
-            acc[opp.category] = (acc[opp.category] || 0) + 1;
-            return acc;
-          }, {} as Record<OpportunityCategory, number>);
-        } else {
-          const { opportunities: sampleOpportunities, counts: sampleCounts } = await getYieldOpportunitiesSample();
-          allOpportunities = sampleOpportunities;
-          counts = sampleCounts;
-        }
+        const { opportunities: sampleOpportunities, counts: sampleCounts } = await getYieldOpportunitiesSample();
+        allOpportunities = sampleOpportunities;
+        counts = sampleCounts;
       }
 
       const categorizedOpportunities = allOpportunities.reduce((acc, opp) => {
@@ -128,11 +113,6 @@ const Home: React.FC = () => {
         let aValue = a[sortKey];
         let bValue = b[sortKey];
 
-        if (sortKey === "estimatedApy" || sortKey === "tvl") {
-          aValue = parseFloat(aValue.replace(/[^0-9.]/g, "")).toString();
-          bValue = parseFloat(bValue.replace(/[^0-9.]/g, "")).toString();
-        }
-
         if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
         if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
         return 0;
@@ -140,6 +120,25 @@ const Home: React.FC = () => {
     },
     [sortKey, sortDirection]
   );
+
+  const formatTVL = (tvl: number): string => {
+    const trillion = 1_000_000_000_000;
+    const billion = 1_000_000_000;
+    const million = 1_000_000;
+    const thousand = 1_000;
+
+    if (tvl >= trillion) {
+      return `$${(tvl / trillion).toFixed(2)}T`;
+    } else if (tvl >= billion) {
+      return `$${(tvl / billion).toFixed(2)}B`;
+    } else if (tvl >= million) {
+      return `$${(tvl / million).toFixed(2)}M`;
+    } else if (tvl >= thousand) {
+      return `$${(tvl / thousand).toFixed(2)}K`;
+    } else {
+      return `$${tvl.toFixed(2)}`;
+    }
+  };
 
   const renderOpportunityTable = useCallback(
     (category: OpportunityCategory, title: string) => {
@@ -187,9 +186,9 @@ const Home: React.FC = () => {
                       {isNew(opp.dateAdded) ? "NEW - " : ""}
                       {opp.name} {opp.isBenchmark && "(Benchmark)"}
                     </td>
-                    <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.estimatedApy}</td>
+                    <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.estimatedApy}%</td>
                     <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.network}</td>
-                    <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.tvl}</td>
+                    <td className="p-2 border border-theme-pan-navy text-theme-pan-navy"> {formatTVL(opp.tvl)} </td>
                     <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.relativeRisk}</td>
                     <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.notes}</td>
                     <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">
@@ -208,8 +207,8 @@ const Home: React.FC = () => {
                   <>
                     <tr className="bg-theme-pan-navy/10 text-theme-pan-navy">
                       <td colSpan={7} className="p-2 border border-theme-pan-navy text-center">
-                        {totalOpportunities - displayOpportunities.length} more opportunities available with
-                        full acceess
+                        {totalOpportunities - displayOpportunities.length} more opportunities available with full
+                        acceess
                       </td>
                     </tr>
                     <tr className="bg-theme-pan-navy/10 text-theme-pan-navy">

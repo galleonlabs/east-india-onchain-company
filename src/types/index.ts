@@ -4,9 +4,9 @@ export type OpportunityCategory = (typeof OPPORTUNITY_CATEGORIES)[number];
 export interface YieldOpportunity {
   id: string;
   name: string;
-  estimatedApy: string;
+  estimatedApy: number;
   network: string;
-  tvl: string;
+  tvl: number;
   relativeRisk: "Low" | "Medium" | "High";
   notes: string;
   category: OpportunityCategory;

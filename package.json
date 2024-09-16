@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "add-yield": "ts-node --project tsconfig.script.json src/scripts/addYieldOpportunity.ts"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^2.8.0",

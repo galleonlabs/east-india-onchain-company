@@ -69,7 +69,7 @@ export const deleteYieldOpportunity = async (id: string): Promise<void> => {
 
 export const getYieldOpportunities = async (): Promise<YieldOpportunity[]> => {
   try {
-    const q = query(collection(db, "yieldOpportunities"), where("isActive", "==", true));
+    const q = query(collection(db, "yieldOpportunities"));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as YieldOpportunity));
   } catch (error) {
@@ -91,16 +91,12 @@ export const getYieldOpportunitiesSample = async () => {
       const q = query(
         collection(db, "yieldOpportunities"),
         where("category", "==", category),
-        where("isActive", "==", true),
+
         limit(1)
       );
       const querySnapshot = await getDocs(q);
 
-      const countQ = query(
-        collection(db, "yieldOpportunities"),
-        where("category", "==", category),
-        where("isActive", "==", true)
-      );
+      const countQ = query(collection(db, "yieldOpportunities"), where("category", "==", category));
       const countSnapshot = await getCountFromServer(countQ);
 
       counts[category] = countSnapshot.data().count;
