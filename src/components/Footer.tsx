@@ -12,6 +12,13 @@ const Footer: React.FC = () => {
           GITHUB
         </a>
       </div>
+      <div className="opacity-75 text-sm mt-4 max-w-7xl mx-auto text-center">
+        All information provided on this website, including by the East India Onchain Company and its operator, Galleon
+        Labs, is intended for educational purposes only and does not constitute financial advice. You are solely
+        responsible for your financial decisions. The cryptocurrency market is highly volatile and carries significant
+        risk. Conduct thorough research and consult with a licensed financial advisor before making any financial
+        decisions.
+      </div>
     </footer>
   );
 };
