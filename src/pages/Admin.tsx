@@ -130,20 +130,22 @@ const Admin: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 text-theme-pan-navy">
-      <h1 className="text-2xl font-bold mb-4">Manage Yield Opportunities</h1>
+      <h1 className="text-3xl font-bold mb-8">Manage Yield Opportunities</h1>
 
-      {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}
+      {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">{error}</div>}
 
-      <form onSubmit={handleSubmit} className="mb-8 space-y-4">
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-          placeholder="Name"
-          className="w-full p-2 bg-theme-pan-champagne text-theme-pan-navy rounded border border-theme-pan-navy"
-          required
-        />
+      <form onSubmit={handleSubmit} className="mb-12 space-y-6 bg-theme-pan-champagne p-6 rounded-lg shadow-md">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            placeholder="Name"
+            className="w-full p-2 bg-white text-theme-pan-navy rounded border border-theme-pan-navy focus:outline-none focus:ring-2 focus:ring-theme-pan-sky"
+            required
+          />
+        </div>
         <input
           type="number"
           name="estimatedApy"
@@ -234,11 +236,18 @@ const Admin: React.FC = () => {
           className="w-full p-2 bg-theme-pan-champagne text-theme-pan-navy rounded border border-theme-pan-navy"
           required
         />
-        <button type="submit" className="bg-theme-pan-navy text-theme-pan-champagne font-bold py-2 px-4 rounded">
+        <button
+          type="submit"
+          className="bg-theme-pan-navy text-theme-pan-champagne font-bold py-2 px-4 rounded transition-colors duration-200 hover:bg-theme-pan-navy/80"
+        >
           {isEditing ? "Update" : "Add"} Opportunity
         </button>
         {isEditing && (
-          <button type="button" onClick={resetForm} className="ml-2 bg-gray-500 text-white font-bold py-2 px-4 rounded">
+          <button
+            type="button"
+            onClick={resetForm}
+            className="ml-2 bg-gray-500 text-white font-bold py-2 px-4 rounded transition-colors duration-200 hover:bg-gray-600"
+          >
             Cancel
           </button>
         )}
@@ -260,8 +269,12 @@ const Admin: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {opportunities.map((opp) => (
-              <tr key={opp.id} className="border-b border-theme-pan-navy">
+            {opportunities.map((opp, index) => (
+              <tr
+                key={opp.id}
+                className="border-b border-theme-pan-navy hover:bg-theme-pan-navy/5 transition-colors duration-200 animate-fadeIn"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
                 <td className="px-4 py-2">{opp.name}</td>
                 <td className="px-4 py-2">{opp.estimatedApy.toFixed(2)}%</td>
                 <td className="px-4 py-2">{opp.network}</td>

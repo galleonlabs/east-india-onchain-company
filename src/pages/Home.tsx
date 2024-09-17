@@ -179,13 +179,19 @@ const Home: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {displayOpportunities.map((opp) => (
-                <tr key={opp.id} className={`${opp.isBenchmark ? "bg-theme-pan-sky/10" : ""}`}>
+              {displayOpportunities.map((opp, index) => (
+                <tr
+                  key={opp.id}
+                  className={`
+                    ${opp.isBenchmark ? "bg-theme-pan-sky/10" : ""}
+                    hover:bg-theme-pan-navy/5 transition-colors duration-200
+                    animate-fadeIn
+                  `}
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
                   <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">
                     {opp.dateAdded && isNew(opp.dateAdded) && (
-                      <span className="text-theme-pan-sky text-xs border border-theme-pan-sky px-1 py-0.5">
-                        NEW
-                      </span>
+                      <span className="text-theme-pan-sky text-xs border border-theme-pan-sky px-1 py-0.5">NEW</span>
                     )}
                     {opp.dateAdded && isNew(opp.dateAdded) ? " " : ""}
                     {opp.name} {opp.isBenchmark && "(Benchmark)"}
