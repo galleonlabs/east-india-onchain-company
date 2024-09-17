@@ -3,6 +3,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { getPaymentDetails, initiatePayment, PaymentDetails, checkPaymentStatus } from "../services/cryptoPayment";
 import { checkUserSubscriptionStatus } from "../services/firebase";
+import { NetworkConfig, networks } from "../config/networks";
+import TransactionDetails from "../components/TransactionDetails";
 
 const Subscribe: React.FC = () => {
   const { user } = useAuth();
@@ -10,6 +12,40 @@ const Subscribe: React.FC = () => {
   const [transactionHash, setTransactionHash] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: "info" | "success" | "error"; content: string } | null>(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [selectedNetwork, setSelectedNetwork] = useState<NetworkConfig | null>(null);
+
+  const handleNetworkChange = async (networkId: string) => {
+    const network = networks.find((n) => n.chainId === networkId);
+    if (network) {
+      setSelectedNetwork(network);
+      try {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: network.chainId }],
+        });
+      } catch (error: any) {
+        if (error.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [
+                {
+                  chainId: network.chainId,
+                  chainName: network.name,
+                  nativeCurrency: network.nativeCurrency,
+                  rpcUrls: [network.rpcUrl],
+                  blockExplorerUrls: [network.blockExplorerUrl],
+                },
+              ],
+            });
+          } catch (addError) {
+            console.error("Error adding network:", addError);
+          }
+        }
+        console.error("Error switching network:", error);
+      }
+    }
+  };
 
   const checkStatus = useCallback(async () => {
     if (user) {
@@ -33,7 +69,7 @@ const Subscribe: React.FC = () => {
     if (transactionHash) {
       const checkTransaction = async () => {
         try {
-          const status = await checkPaymentStatus(transactionHash);
+          const status = await checkPaymentStatus(transactionHash, selectedNetwork?.chainId || "");
           if (status) {
             setMessage({
               type: "success",
@@ -60,15 +96,15 @@ const Subscribe: React.FC = () => {
   }, [transactionHash, checkStatus]);
 
   const handleSubscribe = async (duration: "month" | "year") => {
-    if (!user) {
-      setMessage({ type: "error", content: "Please connect your wallet first" });
+    if (!user || !selectedNetwork) {
+      setMessage({ type: "error", content: "Please connect your wallet and select a network first" });
       return;
     }
 
     setIsProcessing(true);
     try {
-      const paymentDetails: PaymentDetails = getPaymentDetails(duration);
-      const txHash = await initiatePayment(user, paymentDetails);
+      const paymentDetails: PaymentDetails = getPaymentDetails(duration, selectedNetwork);
+      const txHash = await initiatePayment(user, paymentDetails, selectedNetwork);
       setTransactionHash(txHash);
       setMessage({
         type: "info",
@@ -100,6 +136,25 @@ const Subscribe: React.FC = () => {
   return (
     <div className="">
       <h1 className="text-2xl font-bold mb-8 text-theme-pan-navy">UNLOCK ACCESS</h1>
+
+      <div className="mb-4">
+        <label htmlFor="network-select" className="block mb-2">
+          Select Network:
+        </label>
+        <select
+          id="network-select"
+          value={selectedNetwork?.chainId || ""}
+          onChange={(e) => handleNetworkChange(e.target.value)}
+          className="w-full p-2 border rounded"
+        >
+          <option value="">Select a network</option>
+          {networks.map((network) => (
+            <option key={network.chainId} value={network.chainId}>
+              {network.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {message && (
         <div
@@ -134,16 +189,8 @@ const Subscribe: React.FC = () => {
         </div>
       )}
 
-      {transactionHash && (
-        <div className="bg-theme-pan-navy/10 text-terminal p-6">
-          <h2 className="text-xl mb-4 terminal-prompt">Transaction Details</h2>
-          <p className="break-all">
-            Transaction:{" "}
-            <a className="text-theme-pan-sky" target="_blank" href={"https://etherscan.io/tx/" + transactionHash}>
-              {transactionHash}
-            </a>
-          </p>
-        </div>
+      {transactionHash && selectedNetwork && (
+        <TransactionDetails transactionHash={transactionHash} networkChainId={selectedNetwork.chainId} />
       )}
     </div>
   );

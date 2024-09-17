@@ -2,12 +2,12 @@ import { ethers } from "ethers";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as dotenv from "dotenv";
+import { networks } from "./config/networks";
 
 admin.initializeApp();
 dotenv.config();
 
-const INFURA_PROJECT_ID = functions.config().infura.project_id;
-const provider = new ethers.InfuraProvider("mainnet", INFURA_PROJECT_ID);
+const ALCHEMY_KEY = process.env.ALCHEMY_KEY;
 
 const logEvent = (eventName: string, data?: any) => {
   console.log(
@@ -72,6 +72,13 @@ export const verifyTransactions = functions.pubsub.schedule("every 5 minutes").o
     for (const doc of pendingTxs.docs) {
       const tx = doc.data();
       try {
+        const network = networks.find((n) => n.chainId === tx.chainId);
+        if (!network) {
+          console.error(`Invalid network for transaction ${tx.hash}`);
+          continue;
+        }
+
+        const provider = new ethers.JsonRpcProvider(network.rpcUrl + ALCHEMY_KEY);
         const receipt = await provider.getTransactionReceipt(tx.hash);
 
         if (receipt && receipt.status === 1) {

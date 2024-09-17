@@ -85,7 +85,7 @@ const Admin: React.FC = () => {
   const handleEdit = (opp: YieldOpportunity) => {
     setFormData({
       ...opp,
-      dateAdded: opp.dateAdded.toDate().toISOString().split("T")[0],
+      dateAdded: new Date(opp.dateAdded.seconds * 1000).toISOString().split("T")[0],
     });
     setIsEditing(true);
     setEditingId(opp.id);
@@ -269,7 +269,7 @@ const Admin: React.FC = () => {
                 <td className="px-4 py-2">{opp.relativeRisk}</td>
                 <td className="px-4 py-2">{opp.category}</td>
                 <td className="px-4 py-2">{opp.isBenchmark ? "Yes" : "No"}</td>
-                <td className="px-4 py-2">{opp.dateAdded.toDate().toLocaleDateString()}</td>
+                <td className="px-4 py-2">{new Date(opp.dateAdded.seconds * 1000).toLocaleDateString()}</td>
                 <td className="px-4 py-2">
                   <button
                     onClick={() => handleEdit(opp)}

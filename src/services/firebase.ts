@@ -33,6 +33,31 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
+const CACHE_KEY = "yieldOpportunities";
+
+const getFromCache = (): YieldOpportunity[] | null => {
+  try {
+    const cached = sessionStorage.getItem(CACHE_KEY);
+    if (!cached) return null;
+    const parsedCache = JSON.parse(cached);
+    if (!Array.isArray(parsedCache)) {
+      return null;
+    }
+    return parsedCache;
+  } catch (error) {
+    console.error("Error reading from cache:", error);
+    return null;
+  }
+};
+
+const setCache = (data: YieldOpportunity[]) => {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
+  } catch (error) {
+    console.error("Error setting cache:", error);
+  }
+};
+
 export const addYieldOpportunity = async (opportunity: Omit<YieldOpportunity, "id">): Promise<string> => {
   try {
     const docRef = await addDoc(collection(db, "yieldOpportunities"), {
@@ -68,10 +93,17 @@ export const deleteYieldOpportunity = async (id: string): Promise<void> => {
 };
 
 export const getYieldOpportunities = async (): Promise<YieldOpportunity[]> => {
+  const cached = getFromCache();
+  if (cached) {
+    return cached;
+  }
+
   try {
     const q = query(collection(db, "yieldOpportunities"));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as YieldOpportunity));
+    const opportunities = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as YieldOpportunity));
+    setCache(opportunities);
+    return opportunities;
   } catch (error) {
     console.error("Error fetching yield opportunities:", error);
     throw new Error("Failed to fetch yield opportunities");
@@ -79,6 +111,16 @@ export const getYieldOpportunities = async (): Promise<YieldOpportunity[]> => {
 };
 
 export const getYieldOpportunitiesSample = async () => {
+  const cached = getFromCache();
+  if (cached) {
+    const sampleOpportunities = cached.slice(0, 3); // Get first 3 as a sample
+    const counts: Record<OpportunityCategory, number> = cached.reduce((acc, opp) => {
+      acc[opp.category] = (acc[opp.category] || 0) + 1;
+      return acc;
+    }, {} as Record<OpportunityCategory, number>);
+    return { opportunities: sampleOpportunities, counts };
+  }
+
   try {
     const sampleOpportunities: YieldOpportunity[] = [];
     const counts: Record<OpportunityCategory, number> = {
@@ -88,12 +130,7 @@ export const getYieldOpportunitiesSample = async () => {
     };
 
     for (const category of Object.keys(counts) as OpportunityCategory[]) {
-      const q = query(
-        collection(db, "yieldOpportunities"),
-        where("category", "==", category),
-
-        limit(1)
-      );
+      const q = query(collection(db, "yieldOpportunities"), where("category", "==", category), limit(1));
       const querySnapshot = await getDocs(q);
 
       const countQ = query(collection(db, "yieldOpportunities"), where("category", "==", category));
@@ -105,6 +142,10 @@ export const getYieldOpportunitiesSample = async () => {
         sampleOpportunities.push({ id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() } as YieldOpportunity);
       }
     }
+
+    // Cache the full set of opportunities
+    const allOpportunities = await getYieldOpportunities();
+    setCache(allOpportunities);
 
     return { opportunities: sampleOpportunities, counts };
   } catch (error) {
