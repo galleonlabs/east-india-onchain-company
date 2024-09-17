@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Landing: React.FC = () => {
   return (
     <div className="text-theme-pan-navy">
-      <h1 className="text-4xl font-bold mb-12 underline underline-offset-8">
+      <h1 className="text-4xl font-bold mb-4 underline underline-offset-8">
         Yield merchants and traders of natural crypto resources
       </h1>
 
@@ -59,13 +59,13 @@ const Landing: React.FC = () => {
         <p className="text-lg mb-2">Ready to explore the landscape of DeFi yield opportunities?</p>
         <Link
           to="/yield"
-          className="bg-theme-pan-navy mx-2 text-lg text-theme-pan-champagne py-2 px-6 hover:bg-opacity-90 transition-colors duration-200 inline-block"
+          className="hover:bg-theme-pan-navy mx-2 text-lg border border-theme-pan-navy hover:text-theme-pan-champagne py-2 px-6 hover:bg-opacity-90 transition-colors duration-200 inline-block"
         >
           Explore Yield Opportunities
         </Link>
         <Link
           to="/subscribe"
-          className="bg-theme-pan-sky mx-2 text-lg text-white py-2 px-6 hover:bg-opacity-90 transition-colors duration-200 inline-block mt-4 md:mt-0"
+          className="border border-theme-pan-sky mx-2 text-lg text-theme-pan-sky hover:bg-theme-pan-sky hover:text-theme-pan-champagne py-2 px-6 hover:bg-opacity-90 transition-colors duration-200 inline-block mt-4 md:mt-0"
         >
           Unlock Full Access
         </Link>

@@ -14,7 +14,7 @@ export interface NetworkConfig {
 
 export const networks: NetworkConfig[] = [
   {
-    name: "Ethereum Mainnet",
+    name: "Ethereum",
     chainId: "0x1",
     symbol: "ETH",
     decimals: 18,

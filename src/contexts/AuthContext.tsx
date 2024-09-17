@@ -1,8 +1,7 @@
-// src/contexts/AuthContext.tsx
-
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { User } from "../types";
-import { connectWallet, getOrCreateUser, isAdmin as checkIsAdmin } from "../services/walletAuth";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { getOrCreateUser, isAdmin as checkIsAdmin } from "../services/walletAuth";
 
 interface AuthContextType {
   user: User | null;
@@ -20,10 +19,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  const { address, isConnected } = useAccount();
+  const { connectAsync, connectors } = useConnect();
+  const { disconnectAsync } = useDisconnect();
+
   useEffect(() => {
     const initAuth = async () => {
-      const address = await connectWallet();
-      if (address) {
+      if (isConnected && address) {
         try {
           const user = await getOrCreateUser(address);
           setUser(user);
@@ -35,20 +37,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
     };
     initAuth();
-  }, []);
+  }, [isConnected, address]);
 
   const handleConnectWallet = async () => {
     try {
-      const address = await connectWallet();
-      const user = await getOrCreateUser(address);
-      setUser(user);
-      setIsAdmin(checkIsAdmin(address));
+      const connector = connectors[0]; // Using the first available connector
+      if (connector) {
+        await connectAsync({ connector });
+      } else {
+        throw new Error("No connector available");
+      }
     } catch (error) {
       console.error("Failed to connect wallet:", error);
     }
   };
 
-  const handleDisconnect = () => {
+  const handleDisconnect = async () => {
+    await disconnectAsync();
     setUser(null);
     setIsAdmin(false);
   };

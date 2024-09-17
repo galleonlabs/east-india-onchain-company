@@ -1,5 +1,4 @@
 // src/services/walletAuth.ts
-import { ethers } from "ethers";
 import { User } from "../types";
 import { db } from "./firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
@@ -9,23 +8,6 @@ declare global {
     ethereum?: any;
   }
 }
-
-export const connectWallet = async (): Promise<string> => {
-  if (typeof window.ethereum !== "undefined") {
-    try {
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      return await signer.getAddress();
-    } catch (error) {
-      console.error("User rejected connection:", error);
-      throw error;
-    }
-  } else {
-    console.error("Ethereum object not found, do you have MetaMask installed?");
-    throw new Error("No crypto wallet found. Please install MetaMask.");
-  }
-};
 
 export const getOrCreateUser = async (address: string): Promise<User> => {
   const userRef = doc(db, "users", address);
