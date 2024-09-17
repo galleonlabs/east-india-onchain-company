@@ -6,9 +6,11 @@ import Footer from "./components/Footer";
 import AdminRoute from "./components/AdminRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import ErrorBoundary from "./components/ErrorBoundary";
-const Home = lazy(() => import("./pages/Home"));
+
+const Yield = lazy(() => import("./pages/Yield")); 
 const Subscribe = lazy(() => import("./pages/Subscribe"));
 const Admin = lazy(() => import("./pages/Admin"));
+const Landing = lazy(() => import("./pages/Landing")); 
 
 const App: React.FC = () => {
   return (
@@ -21,7 +23,8 @@ const App: React.FC = () => {
                 <Header />
                 <main className="p-4 max-w-7xl mx-auto pb-32 pt-16">
                   <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<Landing />} />
+                    <Route path="/yield" element={<Yield />} />
                     <Route path="/subscribe" element={<Subscribe />} />
                     <Route
                       path="/admin"

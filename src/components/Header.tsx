@@ -18,6 +18,9 @@ const Header: React.FC = () => {
          </Link>
          <div className="hidden md:flex items-center space-x-4">
            <Link to="/" className="hover:text-theme-pan-sky transition-colors duration-200">
+             HOME
+           </Link>
+           <Link to="/yield" className="hover:text-theme-pan-sky transition-colors duration-200">
              YIELD
            </Link>
            <Link to="/subscribe" className="hover:text-theme-pan-sky transition-colors duration-200">
@@ -57,14 +60,29 @@ const Header: React.FC = () => {
        </div>
        {isMenuOpen && (
          <div className="mt-4 md:hidden">
-           <Link to="/" className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200">
+           <Link
+             to="/"
+             className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
+           >
+             HOME
+           </Link>
+           <Link
+             to="/yield"
+             className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
+           >
              YIELD
            </Link>
-           <Link to="/subscribe" className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200">
+           <Link
+             to="/subscribe"
+             className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
+           >
              UNLOCK ACCESS
            </Link>
            {isAdmin && (
-             <Link to="/admin" className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200">
+             <Link
+               to="/admin"
+               className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
+             >
                ADMIN
              </Link>
            )}
