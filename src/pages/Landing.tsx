@@ -1,81 +1,99 @@
-// src/pages/Landing.tsx
 import React from "react";
 import { Link } from "react-router-dom";
+import { Coins, TrendingUp, Briefcase } from "lucide-react";
+
+// Import icons
+import AboutIcon from "../assets/brand/About-Icon.png";
+import ApplicationIcon from "../assets/brand/Application-Icon.png";
+import CommunityIcon from "../assets/brand/Community-Icon.png";
+import ResourcesIcon from "../assets/brand/Resources-Icon.png";
 
 const Landing: React.FC = () => {
   return (
-    <div className="text-theme-pan-navy">
-      <h1 className="text-4xl font-bold mb-6 underline underline-offset-8">
-        Yield merchants and traders of natural crypto resources
-      </h1>
-
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-2">Discover Yield Opportunities</h2>
-        <p className="mb-4 text-lg">
+    <div className="text-theme-pan-navy max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header className="text-center py-8">
+        <h1 className="text-4xl font-bold mb-6 underline underline-offset-8">
+          Yield Merchants and Traders of Natural Crypto Resources
+        </h1>
+        <p className="text-xl mb-8 max-w-5xl mx-auto">
           Every week, the East India Onchain Company team curates a selection of yield opportunities in the DeFi sector,
           providing you with insights to make informed decisions about your digital assets.
         </p>
-        <p className="mb-4 italic opacity-75">
-          "In the vast ocean of DeFi, we are your trusted navigators, charting courses through both familiar and
-          unexplored waters."
-        </p>
-      </div>
+      </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-theme-pan-navy/10 p-6 transition-transform duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold mb-3">Stablecoin Yield</h3>
-          <p>
-            Discover opportunities for your stablecoin holdings. Navigate through strategies designed for stability and
-            consistency.
-          </p>
+      <section className="mb-6">
+        <h2 className="text-3xl  mb-6 text-center">Discover Yield Opportunities</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <YieldCard
+            Icon={Coins}
+            title="Stablecoin Yield"
+            description="Navigate through strategies designed for stability and consistency with your stablecoin holdings."
+          />
+          <YieldCard
+            Icon={TrendingUp}
+            title="Volatile Asset Yield"
+            description="Explore yield prospects across liquidity pools, staking, and yield farms for volatile assets."
+          />
+          <YieldCard
+            Icon={Briefcase}
+            title="Advanced Strategies"
+            description="Access sophisticated yield strategies for seasoned DeFi users, including options and beyond."
+          />
         </div>
-        <div className="bg-theme-pan-navy/10 p-6 transition-transform duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold mb-3">Volatile Asset Yield</h3>
-          <p>
-            Explore yield prospects across liquidity pools, staking, and yield farms. Understand the dynamics of
-            volatile asset strategies.
-          </p>
+      </section>
+
+      <section className=" p-8 mb-8">
+        <h2 className="text-3xl  mb-8 text-center">Why Sail with Us?</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Feature icon={ResourcesIcon} text="Weekly curated selection of yield opportunities" />
+          <Feature icon={AboutIcon} text="Strategies categorized for various risk tolerances" />
+          <Feature icon={ApplicationIcon} text="Comprehensive risk assessments and market insights" />
+          <Feature icon={CommunityIcon} text="Continuous monitoring and updates on market trends" />
         </div>
-        <div className="bg-theme-pan-navy/10 p-6 transition-transform duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold mb-3">Advanced Strategies</h3>
-          <p>
-            Access sophisticated yield strategies for seasoned DeFi users. Explore complex territories including options
-            and beyond.
-          </p>
+      </section>
+
+      <section className="text-center border-t border-theme-pan-navy max-w-5xl pt-6 mx-auto">
+        <h2 className="text-3xl mb-4 ">Ready to Explore?</h2>
+        <div className="space-y-4 sm:space-y-0 sm:space-x-4">
+          <Link
+            to="/yield"
+            className="inline-block px-6 py-2 text-lg border border-theme-pan-navy hover:bg-theme-pan-navy hover:text-theme-pan-champagne transition-colors duration-200"
+          >
+            Explore Yield Opportunities
+          </Link>
+          <Link
+            to="/subscribe"
+            className="inline-block px-6 py-2 text-lg border border-theme-pan-sky text-theme-pan-sky hover:bg-theme-pan-sky hover:text-theme-pan-champagne transition-colors duration-200"
+          >
+            Unlock Full Access
+          </Link>
         </div>
-      </div>
+      </section>
 
-      <div className="bg-theme-pan-navy/10 p-6 mb-8">
-        <h2 className="text-2xl font-bold mb-4">Why sail with us?</h2>
-        <ul className="list-disc list-inside space-y-2">
-          <li>Weekly curated selection of yield opportunities</li>
-          <li>Comprehensive risk assessments and market insights</li>
-          <li>Strategies categorized for various risk tolerances</li>
-          <li>Continuous monitoring and updates on market trends</li>
-        </ul>
-      </div>
-
-      <div className="text-center mb-4">
-        <p className="text-lg mb-2">Ready to explore the landscape of DeFi yield opportunities?</p>
-        <Link
-          to="/yield"
-          className="hover:bg-theme-pan-navy mx-2 text-lg border border-theme-pan-navy hover:text-theme-pan-champagne py-2 px-6 hover:bg-opacity-90 transition-colors duration-200 inline-block"
-        >
-          Explore Yield Opportunities
-        </Link>
-        <Link
-          to="/subscribe"
-          className="border border-theme-pan-sky mx-2 text-lg text-theme-pan-sky hover:bg-theme-pan-sky hover:text-theme-pan-champagne py-2 px-6 hover:bg-opacity-90 transition-colors duration-200 inline-block mt-4 md:mt-0"
-        >
-          Unlock Full Access
-        </Link>
-      </div>
-
-      <div className="text-center text-sm opacity-75 ">
+      <footer className="text-center text-sm opacity-75 py-4">
         <p>The East India Onchain Company is operated by Galleon Labs</p>
-      </div>
+      </footer>
     </div>
   );
 };
+
+const YieldCard: React.FC<{ Icon: React.ElementType; title: string; description: string }> = ({
+  Icon,
+  title,
+  description,
+}) => (
+  <div className="border border-theme-oldlace bg-theme-pan-navy/10 px-6 py-6 transition-transform duration-300 hover:scale-105">
+    <Icon className="w-12 h-12 mb-3 mx-auto text-theme-pan-navy" />
+    <h3 className="text-2xl mb-2 text-center">{title}</h3>
+    <p className="text-center">{description}</p>
+  </div>
+);
+
+const Feature: React.FC<{ icon: string; text: string }> = ({ icon, text }) => (
+  <div className="flex items-center space-x-3">
+    <img src={icon} alt="Feature icon" className="w-8 h-8 flex-shrink-0" />
+    <p className="text-lg md:pl-0 pl-2">{text}</p>
+  </div>
+);
 
 export default Landing;

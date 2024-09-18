@@ -16,7 +16,7 @@ const Header: React.FC = () => {
             <img src={logo} className="h-8 w-8 mr-4" alt="logo" />
             East India Onchain Company
           </Link>
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-5">
             <Link to="/" className="hover:text-theme-pan-sky transition-colors duration-200">
               HOME
             </Link>
