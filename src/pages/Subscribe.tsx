@@ -140,7 +140,7 @@ const Subscribe: React.FC = () => {
         </div>
       ) : (
         <div className="bg-theme-pan-navy/10 text-theme-pan-navy p-6 mb-8">
-          <h2 className="text-xl mb-4">Choose access duration</h2>
+          <h2 className="text-xl mb-4">Choose duration</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {renderSubscriptionOption("month", MONTH_PRICE)}

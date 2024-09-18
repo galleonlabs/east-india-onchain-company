@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Landing: React.FC = () => {
   return (
     <div className="text-theme-pan-navy">
-      <h1 className="text-4xl font-bold mb-4 underline underline-offset-8">
+      <h1 className="text-4xl font-bold mb-6 underline underline-offset-8">
         Yield merchants and traders of natural crypto resources
       </h1>
 
@@ -72,7 +72,7 @@ const Landing: React.FC = () => {
       </div>
 
       <div className="text-center text-sm opacity-75 ">
-        <p>The East India Onchain Company is created and operated by Galleon Labs</p>
+        <p>The East India Onchain Company is operated by Galleon Labs</p>
       </div>
     </div>
   );
