@@ -13,10 +13,16 @@ const db = getFirestore();
 
 async function generateNewsletter() {
   const categories = ["stablecoin", "volatileAsset", "advancedStrategies"];
-  let newsletterContent = `Welcome to this week's drop of The Trade Winds. Below is a snapshot of the yield data we currently have on deck, a curated sample of actionable opportunities, and a brief overview of what is influencing the market this week.
+  let newsletterContent = `Welcome to this week's drop of **The Trade Winds**. Below is a snapshot of the yield data we currently have on deck, a curated sample of actionable opportunities, and a brief overview of what is influencing the market this week.
 
-Market Insights
-[Insert brief market commentary or insights here]
+Market Influences
+[Insert market influences here, e.g.:
+* FED interest rate decision at 18:00 UTC 18/09/2024 (expected cut to 5.25%).
+* FOMC press conference for economic outlook at 18:00 UTC 18/09/2024.
+* US presidential election.]
+
+[Insert market sentiment analysis here, e.g.:
+The sentiment of the above is that the beginning of an orderly rate-cutting cycle (-0.25%) with a dovish FED stance is a bullish tailwind that might be further catalysed by a Trump win in the US election due to being significantly more pro-crypto than the opposition. In contrast, dramatic rate cuts representing more panic measures could signify hard-landing recessionary risks and be short to mid-term headwinds for risk assets alongside a democratic win in the upcoming election.]
 
 `;
 
@@ -39,27 +45,23 @@ Market Insights
       const opportunity = categoryOpportunities.docs[0].data();
       newsletterContent += `${categoryTitles[category]}
 ${opportunity.name}
-
-• Estimated APY: ${opportunity.estimatedApy.toFixed(2)}%
-• Network: ${opportunity.network}
-• TVL: $${formatTVL(opportunity.tvl)}
-• Risk Level: ${opportunity.relativeRisk}
-
-${opportunity.notes}
-
-Go to opportunity: ${opportunity.link}
+* Estimated APY: ${opportunity.estimatedApy.toFixed(2)}%
+* Network: ${opportunity.network}
+* TVL: $${formatTVL(opportunity.tvl)}
+* Risk Level: ${opportunity.relativeRisk}
+${opportunity.notes ? `* Note: ${opportunity.notes}\n` : ""}
+Go to opportunity → ${opportunity.link}
 
 `;
     }
   }
 
-  newsletterContent += `Explore all yield data
+  newsletterContent += `Explore All Yield Data
+For more yield opportunities and analysis, visit our premium data yield dashboard at the East India Onchain Company.
 
-For more yield opportunities and detailed analysis, visit East India Onchain Company: https://eastindiaonchaincompany.com 
+`;
 
-Yield Data Metrics`;
-
- // Fetch all opportunities for analysis
+  // Fetch all opportunities for analysis
   const allOpportunities = await db.collection("yieldOpportunities").get();
   const opportunities = allOpportunities.docs.map((doc) => doc.data());
 
@@ -69,20 +71,27 @@ Yield Data Metrics`;
   const yieldDistribution = calculateNumericDistribution(opportunities, "estimatedApy");
   const tvlDistribution = calculateNumericDistribution(opportunities, "tvl");
 
-  newsletterContent += `
-Total Yield Opportunities: ${opportunities.length}
-Network Distribution: ${formatDistribution(networkDistribution)}
-Risk Distribution: ${formatDistribution(riskDistribution)}
-Yield Distribution: ${formatNumericDistribution(yieldDistribution)}%
-TVL Distribution: $${formatNumericDistribution(tvlDistribution, true)}
+  newsletterContent += `Total Yield Opportunities
+${opportunities.length}
 
-`;
+Network Distribution 
+${formatDistributionAsList(networkDistribution)}
 
-newsletterContent += `Resources
-• Twitter: https://twitter.com/galleonlabs
-• GitHub: https://github.com/galleonlabs
+Risk Distribution
+${formatDistributionAsList(riskDistribution)}
 
-Remember, all investments carry risk. Always do your own research before investing. This is not financial advice but rather educative content designed to help you better understand the crypto markets and products.`;
+**Yield Distribution**
+${formatNumericDistribution(yieldDistribution)}%
+
+TVL Distribution
+$${formatNumericDistribution(tvlDistribution, true)}
+
+Resources
+Twitter - GitHub - Email - Newsletter
+
+Thanks for reading The Trade Winds! Subscribe for free to receive new posts and support my work.
+
+*Remember, all investments carry risk. Always do your own research before investing. This is not financial advice but rather educative content designed to help you better understand the crypto markets and products.*`;
 
   // Write the newsletter content to a file
   fs.writeFileSync(`weekly_newsletter_${Date.now()}.txt`, newsletterContent);
@@ -106,15 +115,17 @@ function calculateNumericDistribution(data, key) {
   };
 }
 
-function formatDistribution(distribution) {
+function formatDistributionAsList(distribution) {
   return Object.entries(distribution)
-    .map(([key, value]) => `${key}: ${value}`)
-    .join(", ");
+    .map(([key, value]) => `* ${key}: ${value}`)
+    .join("\n");
 }
 
 function formatNumericDistribution(distribution, isCurrency = false) {
   const format = isCurrency ? formatTVL : (num) => num.toFixed(2);
-  return `Min: ${format(distribution.min)}, Max: ${format(distribution.max)}, Median: ${format(distribution.median)}`;
+  return `* Min: ${format(distribution.min)} 
+* Max: ${format(distribution.max)}
+* Median: ${format(distribution.median)}`;
 }
 
 function formatTVL(tvl: number): string {
