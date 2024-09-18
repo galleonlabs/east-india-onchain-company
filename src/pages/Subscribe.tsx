@@ -100,13 +100,13 @@ const Subscribe: React.FC = () => {
 
   const renderSubscriptionOption = (duration: "month" | "year", amount: string) => (
     <div className="bg-theme-pan-champagne border border-theme-pan-navy p-4 text-theme-pan-navy">
-      <h3 className="text-xl mb-2 font-bold">{duration.toUpperCase()} ACCESS</h3>
+      <h3 className="text-xl mb-2 ">{duration.charAt(0).toUpperCase() + duration.slice(1)} Access</h3>
       <p className="mb-4">Access all yield opportunities for one {duration}</p>
       <p className="text-2xl mb-4">{amount} ETH</p>
       <button
         onClick={() => handleSubscribe(duration)}
         disabled={isProcessing || isSubscribed}
-        className="w-full bg-theme-pan-navy/10 hover:bg-theme-pan-navy/20 text-theme-pan-navy font-bold py-2 px-4 disabled:opacity-50 border border-theme-oldlace"
+        className="w-full bg-theme-pan-navy/10 hover:bg-theme-pan-navy/20 text-theme-pan-navy  py-2 px-4 disabled:opacity-50 border border-theme-oldlace"
       >
         {isProcessing ? "Processing..." : `Unlock ${duration.charAt(0).toUpperCase() + duration.slice(1)} Access`}
       </button>
@@ -115,7 +115,7 @@ const Subscribe: React.FC = () => {
 
   return (
     <div className="text-theme-pan-navy">
-      <h1 className="text-2xl font-bold mb-6">UNLOCK ACCESS</h1>
+      <h1 className="text-3xl  mb-6">Unlock Access</h1>
 
       {/* New "Getting Full Access" section */}
       <div className="bg-theme-pan-navy/10 p-6 mb-8 border border-theme-oldlace">

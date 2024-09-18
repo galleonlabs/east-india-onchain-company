@@ -545,7 +545,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="">
-      <h1 className="text-3xl font-bold mb-2 text-theme-pan-navy">Curated Yield Opportunities</h1>
+      <h1 className="text-3xl  mb-2 text-theme-pan-navy">Curated Yield Opportunities</h1>
       <p className="mb-4 text-theme-pan-navy text-md">
         LAST UPDATED: <span className="text-lg">{formatLastUpdated(lastUpdated ? lastUpdated : new Date())}</span>
       </p>

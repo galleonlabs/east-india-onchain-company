@@ -72,12 +72,12 @@ createRoot(document.getElementById("root")!).render(
               modalMobile: "0px",
             },
             shadows: {
-              connectButton: "0px 0px 0px 1px #27272A",
+              connectButton: "",
               dialog: "0px 0px 0px 1px #27272A",
               profileDetailsAction: "0px 0px 0px 1px #27272A",
               selectedOption: "0px 0px 0px 1px #27272A",
               selectedWallet: "0px 0px 0px 1px #27272A",
-              walletLogo: "0px 0px 0px 1px #27272A"
+              walletLogo: "0px 0px 0px 1px #27272A",
             },
           }}
         >

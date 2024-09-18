@@ -12,7 +12,7 @@ const Landing: React.FC = () => {
   return (
     <div className="text-theme-pan-navy max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <header className="text-center py-8">
-        <h1 className="text-4xl font-bold mb-6 underline underline-offset-8">
+        <h1 className="text-4xl  mb-6 underline underline-offset-8">
           Yield Merchants and Traders of Natural Crypto Resources
         </h1>
         <p className="text-xl mb-8 max-w-5xl mx-auto">
@@ -43,7 +43,7 @@ const Landing: React.FC = () => {
       </section>
 
       <section className=" p-8 mb-8">
-        <h2 className="text-3xl  mb-8 text-center">Why Sail with Us?</h2>
+        <h2 className="text-3xl  mb-8 text-center">Why Sail With Us?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Feature icon={ResourcesIcon} text="Weekly curated selection of yield opportunities" />
           <Feature icon={AboutIcon} text="Strategies categorized for various risk tolerances" />
