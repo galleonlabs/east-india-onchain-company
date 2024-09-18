@@ -113,7 +113,7 @@ export const getYieldOpportunities = async (): Promise<YieldOpportunity[]> => {
 export const getYieldOpportunitiesSample = async () => {
   const cached = getFromCache();
   if (cached) {
-    const sampleOpportunities = cached.slice(0, 3); // Get first 3 as a sample
+    const sampleOpportunities = cached.filter((opp) => opp.category !== "advancedStrategies").slice(0, 4);
     const counts: Record<OpportunityCategory, number> = cached.reduce((acc, opp) => {
       acc[opp.category] = (acc[opp.category] || 0) + 1;
       return acc;
@@ -129,19 +129,56 @@ export const getYieldOpportunitiesSample = async () => {
       advancedStrategies: 0,
     };
 
-    for (const category of Object.keys(counts) as OpportunityCategory[]) {
-      const q = query(collection(db, "yieldOpportunities"), where("category", "==", category), limit(1));
-      const querySnapshot = await getDocs(q);
+    const categoriesToFetch: OpportunityCategory[] = ["stablecoin", "volatileAsset"];
 
-      const countQ = query(collection(db, "yieldOpportunities"), where("category", "==", category));
-      const countSnapshot = await getCountFromServer(countQ);
+    for (const category of categoriesToFetch) {
+      // Fetch benchmark record
+      const benchmarkQuery = query(
+        collection(db, "yieldOpportunities"),
+        where("category", "==", category),
+        where("isBenchmark", "==", true),
+        limit(1)
+      );
+      const benchmarkSnapshot = await getDocs(benchmarkQuery);
 
+      // Fetch random non-benchmark record
+      const randomQuery = query(
+        collection(db, "yieldOpportunities"),
+        where("category", "==", category),
+        where("isBenchmark", "==", false),
+        limit(1)
+      );
+      const randomSnapshot = await getDocs(randomQuery);
+
+      // Get total count for the category
+      const countQuery = query(collection(db, "yieldOpportunities"), where("category", "==", category));
+      const countSnapshot = await getCountFromServer(countQuery);
       counts[category] = countSnapshot.data().count;
 
-      if (!querySnapshot.empty) {
-        sampleOpportunities.push({ id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() } as YieldOpportunity);
+      // Add benchmark record if exists
+      if (!benchmarkSnapshot.empty) {
+        sampleOpportunities.push({
+          id: benchmarkSnapshot.docs[0].id,
+          ...benchmarkSnapshot.docs[0].data(),
+        } as YieldOpportunity);
+      }
+
+      // Add random record if exists
+      if (!randomSnapshot.empty) {
+        sampleOpportunities.push({
+          id: randomSnapshot.docs[0].id,
+          ...randomSnapshot.docs[0].data(),
+        } as YieldOpportunity);
       }
     }
+
+    // Get count for advancedStrategies
+    const advancedCountQuery = query(
+      collection(db, "yieldOpportunities"),
+      where("category", "==", "advancedStrategies")
+    );
+    const advancedCountSnapshot = await getCountFromServer(advancedCountQuery);
+    counts.advancedStrategies = advancedCountSnapshot.data().count;
 
     // Cache the full set of opportunities
     const allOpportunities = await getYieldOpportunities();
