@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "add-yield": "ts-node --project tsconfig.script.json src/scripts/addYieldOpportunity.ts"
+    "add-yield": "ts-node --project tsconfig.script.json ./scripts/addYieldOpportunity.ts",
+    "gen-newsletter": "ts-node --project tsconfig.script.json ./scripts/generateNewsletter.ts"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.1.6",
