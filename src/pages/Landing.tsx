@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Coins, TrendingUp, Briefcase } from "lucide-react";
+import { Coins, TrendingUp, Bot } from "lucide-react";
 
 // Import icons
 import AboutIcon from "../assets/brand/About-Icon.png";
@@ -35,7 +35,7 @@ const Landing: React.FC = () => {
             description="Explore yield prospects across liquidity pools, staking, and yield farms for volatile assets."
           />
           <YieldCard
-            Icon={Briefcase}
+            Icon={Bot}
             title="Advanced Strategies"
             description="Access sophisticated yield strategies for seasoned DeFi users, including options and beyond."
           />
@@ -83,7 +83,7 @@ const YieldCard: React.FC<{ Icon: React.ElementType; title: string; description:
   description,
 }) => (
   <div className="border border-theme-oldlace bg-theme-pan-navy/10 px-6 py-6 transition-transform duration-300 hover:scale-105">
-    <Icon className="w-12 h-12 mb-3 mx-auto text-theme-pan-navy" />
+    <Icon strokeWidth={1} className="w-12 h-12 mb-3 mx-auto text-theme-pan-navy" />
     <h3 className="text-2xl mb-2 text-center">{title}</h3>
     <p className="text-center">{description}</p>
   </div>
@@ -91,7 +91,7 @@ const YieldCard: React.FC<{ Icon: React.ElementType; title: string; description:
 
 const Feature: React.FC<{ icon: string; text: string }> = ({ icon, text }) => (
   <div className="flex items-center space-x-3">
-    <img src={icon} alt="Feature icon" className="w-8 h-8 flex-shrink-0" />
+    <img src={icon} alt="Feature icon" className="w-8 h-8 flex-shrink-0 grayscale-[40%]" />
     <p className="text-lg md:pl-0 pl-2">{text}</p>
   </div>
 );
