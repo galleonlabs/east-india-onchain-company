@@ -106,7 +106,7 @@ const Subscribe: React.FC = () => {
       <button
         onClick={() => handleSubscribe(duration)}
         disabled={isProcessing || isSubscribed}
-        className="w-full bg-theme-pan-navy/10 hover:bg-theme-pan-navy/20 text-theme-pan-navy font-bold py-2 px-4 disabled:opacity-50"
+        className="w-full bg-theme-pan-navy/10 hover:bg-theme-pan-navy/20 text-theme-pan-navy font-bold py-2 px-4 disabled:opacity-50 border border-theme-oldlace"
       >
         {isProcessing ? "Processing..." : `Unlock ${duration.charAt(0).toUpperCase() + duration.slice(1)} Access`}
       </button>
@@ -114,16 +114,29 @@ const Subscribe: React.FC = () => {
   );
 
   return (
-    <div className="">
-      <h1 className="text-2xl font-bold mb-8 text-theme-pan-navy">UNLOCK ACCESS</h1>
+    <div className="text-theme-pan-navy">
+      <h1 className="text-2xl font-bold mb-6">UNLOCK ACCESS</h1>
+
+      {/* New "Getting Full Access" section */}
+      <div className="bg-theme-pan-navy/10 p-6 mb-8 border border-theme-oldlace">
+        <h2 className="text-2xl mb-4">Steps</h2>
+        <ul className="list-disc list-inside text-md space-y-2">
+          <li>Choose your preferred subscription duration (monthly or yearly).</li>
+          <li>Click the desired button to initiate a payment request.</li>
+          <li>Confirm the transaction in your wallet (MetaMask, Rabby, etc.).</li>
+          <li>On blockchain confirmation, your account will be automatically upgraded to full access.</li>
+          <li>Enjoy comprehensive yield opportunities and advanced strategies!</li>
+        </ul>
+      </div>
+
       {message && (
         <div
-          className={`p-4 mb-4 text-theme-pan-navy ${
+          className={`p-4 mb-8 text-theme-pan-navy ${
             message.type === "error"
               ? "bg-red-800/30"
               : message.type === "success"
-              ? "bg-theme-pan-navy/10"
-              : "bg-theme-pan-sky/10"
+              ? "bg-theme-pan-navy/10 border border-theme-oldlace"
+              : "bg-theme-pan-sky/10 border border-theme-pan-navy"
           }`}
         >
           <p>{message.content}</p>
@@ -139,8 +152,8 @@ const Subscribe: React.FC = () => {
           <p>Enjoy viewing all of our curated yield opportunities.</p>
         </div>
       ) : (
-        <div className="bg-theme-pan-navy/10 text-theme-pan-navy p-6 mb-8">
-          <h2 className="text-xl mb-4">Choose duration</h2>
+        <div className="bg-theme-pan-navy/10 text-theme-pan-navy p-6 mb-8 border border-theme-oldlace">
+          <h2 className="text-2xl mb-4">Choose duration</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {renderSubscriptionOption("month", MONTH_PRICE)}
