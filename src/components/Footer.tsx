@@ -5,11 +5,19 @@ const Footer: React.FC = () => {
   return (
     <footer className="border-t border-theme-pan-navy text-theme-pan-navy p-4">
       <div className="container mx-auto flex justify-center items-center">
-        <a href="https://x.com/galleonlabs" className="mx-2 hover:text-theme-pan-sky">
+        <a href="https://x.com/galleonlabs" className="mx-2 hover:text-theme-pan-sky" target="_blank">
           TWITTER
         </a>
-        <a href="https://github.com/galleonlabs" className="mx-2 hover:text-theme-pan-sky">
+        <a href="https://github.com/galleonlabs" className="mx-2 hover:text-theme-pan-sky" target="_blank">
           GITHUB
+        </a>
+        <a href="https://thetradewinds.substack.com/" className="mx-2 hover:text-theme-pan-sky" target="_blank">
+          NEWSLETTER
+        </a>
+        <a className="mx-2 hover:text-theme-pan-sky"
+            href="mailto:gm@galleonlabs.io"
+        >
+          CONTACT
         </a>
       </div>
       <div className="opacity-75 text-sm mt-4 max-w-7xl mx-auto text-center">
