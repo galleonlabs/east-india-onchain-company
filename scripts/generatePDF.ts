@@ -106,10 +106,6 @@ async function generateYieldPDF() {
         // Right side: TVL, APY
         const rightSide = `TVL: $${opp.tvl.toLocaleString()} - APY: ${opp.estimatedApy.toFixed(2)}%`;
 
-        // Calculate the width of the left side text
-        const leftWidth = doc.widthOfString(leftSide);
-        const pageWidth = doc.page.width - doc.page.margins.left - doc.page.margins.right;
-
         doc.text(leftSide, { continued: true });
         doc.text(rightSide, { align: "right" });
 
