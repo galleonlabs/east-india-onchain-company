@@ -19,6 +19,7 @@ export const getOrCreateUser = async (address: string): Promise<User> => {
     const newUser: User = {
       address,
       isPaidUser: false,
+      telegramNotificationsEnabled: false
     };
     await setDoc(userRef, newUser);
     return newUser;

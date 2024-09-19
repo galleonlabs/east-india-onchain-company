@@ -243,3 +243,15 @@ export const clearYieldOpportunitiesCache = (userAddress?: string) => {
     Object.keys(cache).forEach((key) => delete cache[key]);
   }
 };
+
+export const updateUserTelegramSettings = async (
+  userAddress: string,
+  telegramNotificationsEnabled: boolean,
+  telegramChatId?: string
+) => {
+  const userRef = doc(db, "users", userAddress);
+  await updateDoc(userRef, {
+    telegramNotificationsEnabled,
+    telegramChatId,
+  });
+};

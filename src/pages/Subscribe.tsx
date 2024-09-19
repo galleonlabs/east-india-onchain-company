@@ -7,11 +7,12 @@ import {
   updateTransactionStatus,
   YEAR_PRICE,
 } from "../services/cryptoPayment";
-import { checkUserSubscriptionStatus } from "../services/firebase";
+import { checkUserSubscriptionStatus, updateUserTelegramSettings } from "../services/firebase";
 import { networks } from "../config/networks";
 import TransactionDetails from "../components/TransactionDetails";
 import { useSendTransaction, useWaitForTransactionReceipt, useChainId } from "wagmi";
 import { parseEther, toHex } from "viem";
+import TelegramInstructions from "../components/TelegramInstructions";
 
 const Subscribe: React.FC = () => {
   const { user } = useAuth();
@@ -19,13 +20,21 @@ const Subscribe: React.FC = () => {
   const [transactionHash, setTransactionHash] = useState<`0x${string}` | undefined>();
   const [message, setMessage] = useState<{ type: "info" | "success" | "error"; content: string } | null>(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
-
+  const [telegramNotificationsEnabled, setTelegramNotificationsEnabled] = useState(false);
+  const [telegramChatId, setTelegramChatId] = useState("");
   const chainId = useChainId();
   const { sendTransactionAsync } = useSendTransaction();
 
   const { isLoading: _, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
     hash: transactionHash,
   });
+
+  useEffect(() => {
+    if (user) {
+      setTelegramNotificationsEnabled(user.telegramNotificationsEnabled || false);
+      setTelegramChatId(user.telegramChatId || "");
+    }
+  }, [user]);
 
   const checkStatus = useCallback(async () => {
     if (user) {
@@ -64,6 +73,18 @@ const Subscribe: React.FC = () => {
         });
     }
   }, [isConfirmed, transactionHash, checkStatus]);
+
+  const handleTelegramOptIn = async () => {
+    if (!user) return;
+
+    try {
+      await updateUserTelegramSettings(user.address, telegramNotificationsEnabled, telegramChatId);
+      setMessage({ type: "success", content: "Telegram notification settings updated successfully." });
+    } catch (error) {
+      console.error("Error updating Telegram settings:", error);
+      setMessage({ type: "error", content: "Failed to update Telegram settings. Please try again." });
+    }
+  };
 
   const handleSubscribe = async (duration: "month" | "year") => {
     if (!user || !chainId) {
@@ -124,7 +145,7 @@ const Subscribe: React.FC = () => {
           <li>Click the desired button to initiate a payment request.</li>
           <li>Confirm the transaction in your wallet (MetaMask, Rabby, etc.).</li>
           <li>On blockchain confirmation, your account will be automatically upgraded to full access.</li>
-          <li>Enjoy no 48-hour delay on new opportunities & PDF reports.</li>
+          <li>Enjoy no 48-hour delay on new opportunities, PDF reports & Telegram alerts</li>
           <li>Access all future new crew benefits as they develop.</li>
         </ul>
       </div>
@@ -165,6 +186,52 @@ const Subscribe: React.FC = () => {
       {transactionHash && chainId && (
         <TransactionDetails transactionHash={transactionHash} networkChainId={toHex(chainId)} />
       )}
+
+      <div
+        className={`bg-theme-pan-champagne border border-theme-pan-navy bg-theme-pan-sky/10 text-theme-pan-navy p-6 mb-8 ${
+          !isSubscribed ? "opacity-50" : ""
+        }`}
+      >
+        <h2 className="text-xl mb-4 terminal-prompt">Telegram Notifications</h2>
+        <div className="flex items-center mb-4">
+          <input
+            type="checkbox"
+            id="telegramNotifications"
+            checked={telegramNotificationsEnabled}
+            onChange={(e) => setTelegramNotificationsEnabled(e.target.checked)}
+            className="mr-2"
+            disabled={!isSubscribed}
+          />
+          <label htmlFor="telegramNotifications">Enable Telegram notifications for new yield opportunities</label>
+        </div>
+        <div className="mb-4">
+          <label htmlFor="telegramChatId" className="block mb-2">
+            Telegram Chat ID:
+          </label>
+          <input
+            type="text"
+            id="telegramChatId"
+            value={telegramChatId}
+            onChange={(e) => setTelegramChatId(e.target.value)}
+            className="w-full p-2 border border-theme-pan-navy"
+            placeholder="Enter your Telegram Chat ID"
+            disabled={!isSubscribed}
+          />
+        </div>
+        <TelegramInstructions />
+        <button
+          onClick={handleTelegramOptIn}
+          className="bg-theme-pan-navy text-theme-pan-champagne px-4 py-2 rounded mt-4"
+          disabled={!isSubscribed}
+        >
+          Save Telegram Settings
+        </button>
+        {!isSubscribed && (
+          <p className="mt-4 text-theme-pan-navy/70 italic">
+            Join the crew to enable Telegram notifications for instant updates on new yield opportunities.
+          </p>
+        )}
+      </div>
     </div>
   );
 };

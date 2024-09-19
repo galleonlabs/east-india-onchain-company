@@ -15,7 +15,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({ transactionHash
   const explorerUrl = getNetworkExplorerUrl(networkChainId);
 
   return (
-    <div className="bg-theme-pan-navy/10 text-terminal p-6 border border-theme-oldlace">
+    <div className="bg-theme-pan-navy/10 text-terminal p-6 mb-8 border border-theme-oldlace">
       <h2 className="text-xl mb-4 terminal-prompt">Transaction Details</h2>
       <p className="break-all">
         Explorer:{" "}

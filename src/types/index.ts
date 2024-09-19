@@ -20,8 +20,9 @@ export interface YieldOpportunity {
 export interface User {
   address: string;
   isPaidUser: boolean;
-  lastPaymentTimestamp?: number;
   subscriptionExpiryDate?: number;
+  telegramNotificationsEnabled: boolean;
+  telegramChatId?: string;
 }
 
 export type CryptoPaymentType = "ETH" | "USDC" | "DAI" | "USDT";
