@@ -9,7 +9,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "add-yield": "ts-node --project tsconfig.script.json ./scripts/addYieldOpportunity.ts",
-    "gen-newsletter": "ts-node --project tsconfig.script.json ./scripts/generateNewsletter.ts"
+    "gen-newsletter": "ts-node --project tsconfig.script.json ./scripts/generateNewsletter.ts",
+    "upload-opportunities": "ts-node --project tsconfig.script.json ./scripts/uploadOpportunities.ts",
+    "download-opportunities": "ts-node --project tsconfig.script.json ./scripts/downloadOpportunities.ts",
+    "gen-pdf": "ts-node --project tsconfig.script.json ./scripts/generatePDF.ts"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.1.6",
