@@ -523,6 +523,15 @@ const Home: React.FC = () => {
     });
   };
 
+  const handleDownloadPDF = () => {
+    const link = document.createElement("a");
+    link.href = "/yield_opportunities.pdf";
+    link.download = "yield_opportunities.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (isLoading) {
     return <div className="text-theme-pan-navy">Loading yield opportunities...</div>;
   }
@@ -546,9 +555,23 @@ const Home: React.FC = () => {
   return (
     <div className="">
       <h1 className="text-3xl  mb-2 text-theme-pan-navy">Curated Yield Opportunities</h1>
-      <p className="mb-4 text-theme-pan-navy text-md">
-        LAST UPDATED: <span className="text-lg">{formatLastUpdated(lastUpdated ? lastUpdated : new Date())}</span>
-      </p>
+
+      <div className="flex justify-between items-center ">
+        <p className="mb-4 text-theme-pan-navy text-md">
+          LAST UPDATED: <span className="text-lg">{formatLastUpdated(lastUpdated ? lastUpdated : new Date())}</span>
+        </p>
+        <button
+          onClick={handleDownloadPDF}
+          disabled={!user?.isPaidUser}
+          className={`px-4 py-2 text-sm border ${
+            user?.isPaidUser
+              ? "border-theme-pan-navy text-theme-pan-navy hover:bg-theme-pan-navy hover:text-theme-pan-champagne"
+              : "border-gray-300 text-gray-300 cursor-not-allowed"
+          } transition-colors duration-200`}
+        >
+          Download PDF
+        </button>
+      </div>
 
       {renderOpportunityTable("stablecoin", "Stablecoin Yield")}
       {renderOpportunityTable("volatileAsset", "Volatile Asset Yield")}

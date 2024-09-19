@@ -59,7 +59,14 @@ async function generateYieldPDF() {
 
     // Create a new PDF document
     const doc = new PDFDocument({ margin: 20, size: "A4" });
-    doc.pipe(fs.createWriteStream(path.resolve(__dirname, "yield_opportunities.pdf")));
+    const publicDir = path.resolve(__dirname, "..", "public");
+    const pdfPath = path.join(publicDir, "yield_opportunities.pdf");
+
+     if (!fs.existsSync(publicDir)) {
+       fs.mkdirSync(publicDir, { recursive: true });
+    }
+    
+    doc.pipe(fs.createWriteStream(pdfPath));
 
     // Set background color
     doc.rect(0, 0, doc.page.width, doc.page.height).fill(COLORS.CHAMPAGNE);
