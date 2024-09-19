@@ -33,8 +33,8 @@ const Subscribe: React.FC = () => {
         const status = await checkUserSubscriptionStatus(user.address);
         setIsSubscribed(status);
       } catch (error) {
-        console.error("Error checking subscription status:", error);
-        setMessage({ type: "error", content: "Failed to check subscription status. Please try again." });
+        console.error("Error checking access status:", error);
+        setMessage({ type: "error", content: "Failed to check access status. Please try again." });
       }
     }
   }, [user]);
@@ -51,7 +51,7 @@ const Subscribe: React.FC = () => {
         .then(() => {
           setMessage({
             type: "success",
-            content: "Your subscription has been activated. Enjoy full access!",
+            content: "Your access has been activated. Enjoy full access!",
           });
           checkStatus();
         })
@@ -91,8 +91,8 @@ const Subscribe: React.FC = () => {
         content: "Transaction initiated. Please wait for confirmation...",
       });
     } catch (error) {
-      console.error("Subscription failed:", error);
-      setMessage({ type: "error", content: `Subscription failed: ${(error as Error).message}` });
+      console.error("Access failed:", error);
+      setMessage({ type: "error", content: `Access failed: ${(error as Error).message}` });
     } finally {
       setIsProcessing(false);
     }
@@ -121,7 +121,7 @@ const Subscribe: React.FC = () => {
       <div className="bg-theme-pan-navy/10 p-6 mb-8 border border-theme-oldlace">
         <h2 className="text-2xl mb-4">Steps</h2>
         <ul className="list-disc list-inside text-md space-y-2">
-          <li>Choose your preferred subscription duration (monthly or yearly).</li>
+          <li>Choose your preferred access duration (month or year).</li>
           <li>Click the desired button to initiate a payment request.</li>
           <li>Confirm the transaction in your wallet (MetaMask, Rabby, etc.).</li>
           <li>On blockchain confirmation, your account will be automatically upgraded to full access.</li>
