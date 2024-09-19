@@ -1,16 +1,15 @@
 // src/App.tsx
-import React, { Suspense, lazy } from "react";
+import React, { Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AdminRoute from "./components/AdminRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import ErrorBoundary from "./components/ErrorBoundary";
-
-const Yield = lazy(() => import("./pages/Yield")); 
-const Subscribe = lazy(() => import("./pages/Subscribe"));
-const Admin = lazy(() => import("./pages/Admin"));
-const Landing = lazy(() => import("./pages/Landing")); 
+import Yield from "./pages/Yield";
+import Subscribe from "./pages/Subscribe";
+import Admin from "./pages/Admin";
+import Landing from "./pages/Landing";
 
 const App: React.FC = () => {
   return (
