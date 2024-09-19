@@ -24,7 +24,7 @@ const Header: React.FC = () => {
               Yield
             </Link>
             <Link to="/subscribe" className="hover:text-theme-pan-sky transition-colors duration-200">
-              Unlock Access
+              Join the Crew
             </Link>
             {isAdmin && (
               <Link to="/admin" className="hover:text-theme-pan-sky transition-colors duration-200">
@@ -61,7 +61,7 @@ const Header: React.FC = () => {
               to="/subscribe"
               className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
             >
-              Unlock Access
+              Join the Crew
             </Link>
             {isAdmin && (
               <Link

@@ -40,7 +40,7 @@ const Admin: React.FC = () => {
   const fetchOpportunities = async () => {
     try {
       const opps = await getYieldOpportunities();
-      setOpportunities(opps);
+      setOpportunities(opps.opportunities);
     } catch (err) {
       setError("Failed to fetch opportunities. Please try again.");
       console.error("Error fetching opportunities:", err);

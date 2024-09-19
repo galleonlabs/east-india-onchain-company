@@ -10,15 +10,12 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  where,
-  getCountFromServer,
   query,
-  limit,
   getDoc,
   Timestamp,
   runTransaction,
 } from "firebase/firestore";
-import { OpportunityCategory, YieldOpportunity } from "../types";
+import { User, YieldOpportunity } from "../types";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -33,30 +30,27 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-const CACHE_KEY = "yieldOpportunities";
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
-const getFromCache = (): YieldOpportunity[] | null => {
-  try {
-    const cached = sessionStorage.getItem(CACHE_KEY);
-    if (!cached) return null;
-    const parsedCache = JSON.parse(cached);
-    if (!Array.isArray(parsedCache)) {
-      return null;
-    }
-    return parsedCache;
-  } catch (error) {
-    console.error("Error reading from cache:", error);
-    return null;
-  }
-};
+interface CachedData {
+  timestamp: number;
+  data: YieldOpportunity[];
+  userStatus: "public" | "free" | "paid";
+  recentCount: number;
+}
 
-const setCache = (data: YieldOpportunity[]) => {
-  try {
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
-  } catch (error) {
-    console.error("Error setting cache:", error);
-  }
-};
+interface YieldOpportunitiesResponse {
+  opportunities: YieldOpportunity[];
+  recentOpportunitiesCount: number;
+}
+
+const cache: { [key: string]: CachedData } = {};
+
+async function getUserStatus(userAddress: string): Promise<"free" | "paid"> {
+  const userDoc = await getDoc(doc(db, "users", userAddress));
+  const userData = userDoc.data() as User | undefined;
+  return userData?.isPaidUser ? "paid" : "free";
+}
 
 export const addYieldOpportunity = async (opportunity: Omit<YieldOpportunity, "id">): Promise<string> => {
   try {
@@ -92,102 +86,61 @@ export const deleteYieldOpportunity = async (id: string): Promise<void> => {
   }
 };
 
-export const getYieldOpportunities = async (): Promise<YieldOpportunity[]> => {
-  const cached = getFromCache();
-  if (cached) {
-    return cached;
-  }
-
+export const getYieldOpportunities = async (userAddress?: string): Promise<YieldOpportunitiesResponse> => {
   try {
-    const q = query(collection(db, "yieldOpportunities"));
-    const querySnapshot = await getDocs(q);
-    const opportunities = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as YieldOpportunity));
-    setCache(opportunities);
-    return opportunities;
+    const now = Date.now();
+    const cacheKey = userAddress || "public";
+    let currentUserStatus: "public" | "free" | "paid" = "public";
+
+    if (userAddress) {
+      currentUserStatus = await getUserStatus(userAddress);
+    }
+
+    // Check if we have valid cached data for the current user status
+    if (
+      cache[cacheKey] &&
+      now - cache[cacheKey].timestamp < CACHE_DURATION &&
+      cache[cacheKey].userStatus === currentUserStatus
+    ) {
+      return {
+        opportunities: cache[cacheKey].data,
+        recentOpportunitiesCount: cache[cacheKey].recentCount,
+      };
+    }
+
+    let opportunities: YieldOpportunity[];
+    let recentOpportunitiesCount = 0;
+
+    const cutoffDate = new Date();
+    cutoffDate.setHours(cutoffDate.getHours() - 48);
+
+    const allOpportunitiesQuery = query(collection(db, "yieldOpportunities"));
+    const allOpportunitiesSnapshot = await getDocs(allOpportunitiesQuery);
+
+    const allOpportunities = allOpportunitiesSnapshot.docs.map(
+      (doc) => ({ id: doc.id, ...doc.data() } as YieldOpportunity)
+    );
+
+    if (currentUserStatus === "public" || currentUserStatus === "free") {
+      opportunities = allOpportunities.filter((opp) => opp.dateAdded.toDate() <= cutoffDate);
+      recentOpportunitiesCount = allOpportunities.length - opportunities.length;
+    } else {
+      opportunities = allOpportunities;
+      recentOpportunitiesCount = 0;
+    }
+
+    // Update the cache
+    cache[cacheKey] = {
+      timestamp: now,
+      data: opportunities,
+      userStatus: currentUserStatus,
+      recentCount: recentOpportunitiesCount,
+    };
+
+    return { opportunities, recentOpportunitiesCount };
   } catch (error) {
     console.error("Error fetching yield opportunities:", error);
     throw new Error("Failed to fetch yield opportunities");
-  }
-};
-
-export const getYieldOpportunitiesSample = async () => {
-  const cached = getFromCache();
-  if (cached) {
-    const sampleOpportunities = cached.filter((opp) => opp.category !== "advancedStrategies").slice(0, 4);
-    const counts: Record<OpportunityCategory, number> = cached.reduce((acc, opp) => {
-      acc[opp.category] = (acc[opp.category] || 0) + 1;
-      return acc;
-    }, {} as Record<OpportunityCategory, number>);
-    return { opportunities: sampleOpportunities, counts };
-  }
-
-  try {
-    const sampleOpportunities: YieldOpportunity[] = [];
-    const counts: Record<OpportunityCategory, number> = {
-      stablecoin: 0,
-      volatileAsset: 0,
-      advancedStrategies: 0,
-    };
-
-    const categoriesToFetch: OpportunityCategory[] = ["stablecoin", "volatileAsset"];
-
-    for (const category of categoriesToFetch) {
-      // Fetch benchmark record
-      const benchmarkQuery = query(
-        collection(db, "yieldOpportunities"),
-        where("category", "==", category),
-        where("isBenchmark", "==", true),
-        limit(1)
-      );
-      const benchmarkSnapshot = await getDocs(benchmarkQuery);
-
-      // Fetch random non-benchmark record
-      const randomQuery = query(
-        collection(db, "yieldOpportunities"),
-        where("category", "==", category),
-        where("isBenchmark", "==", false),
-        limit(1)
-      );
-      const randomSnapshot = await getDocs(randomQuery);
-
-      // Get total count for the category
-      const countQuery = query(collection(db, "yieldOpportunities"), where("category", "==", category));
-      const countSnapshot = await getCountFromServer(countQuery);
-      counts[category] = countSnapshot.data().count;
-
-      // Add benchmark record if exists
-      if (!benchmarkSnapshot.empty) {
-        sampleOpportunities.push({
-          id: benchmarkSnapshot.docs[0].id,
-          ...benchmarkSnapshot.docs[0].data(),
-        } as YieldOpportunity);
-      }
-
-      // Add random record if exists
-      if (!randomSnapshot.empty) {
-        sampleOpportunities.push({
-          id: randomSnapshot.docs[0].id,
-          ...randomSnapshot.docs[0].data(),
-        } as YieldOpportunity);
-      }
-    }
-
-    // Get count for advancedStrategies
-    const advancedCountQuery = query(
-      collection(db, "yieldOpportunities"),
-      where("category", "==", "advancedStrategies")
-    );
-    const advancedCountSnapshot = await getCountFromServer(advancedCountQuery);
-    counts.advancedStrategies = advancedCountSnapshot.data().count;
-
-    // Cache the full set of opportunities
-    const allOpportunities = await getYieldOpportunities();
-    setCache(allOpportunities);
-
-    return { opportunities: sampleOpportunities, counts };
-  } catch (error) {
-    console.error("Error fetching yield opportunities sample:", error);
-    throw new Error("Failed to fetch yield opportunities sample");
   }
 };
 
@@ -280,5 +233,13 @@ export const updateUserSubscription = async (userAddress: string, duration: "mon
   } catch (error) {
     console.error("Error updating user subscription:", error);
     throw new Error("Failed to update user subscription");
+  }
+};
+
+export const clearYieldOpportunitiesCache = (userAddress?: string) => {
+  if (userAddress) {
+    delete cache[userAddress];
+  } else {
+    Object.keys(cache).forEach((key) => delete cache[key]);
   }
 };

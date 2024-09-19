@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import { User } from "../types";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { getOrCreateUser, isAdmin as checkIsAdmin } from "../services/walletAuth";
+import { checkUserSubscriptionStatus, clearYieldOpportunitiesCache } from "../services/firebase";
 
 interface AuthContextType {
   user: User | null;
@@ -10,6 +11,7 @@ interface AuthContextType {
   connectWallet: () => Promise<void>;
   disconnect: () => void;
   updateUser: (updatedUser: User) => void;
+  updateUserStatus: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -63,6 +65,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsAdmin(checkIsAdmin(updatedUser.address));
   };
 
+   const updateUserStatus = async () => {
+     if (user) {
+       const isSubscribed = await checkUserSubscriptionStatus(user.address);
+       if (isSubscribed !== user.isPaidUser) {
+         const updatedUser = { ...user, isPaidUser: isSubscribed };
+         setUser(updatedUser);
+         clearYieldOpportunitiesCache(user.address); // Clear cache when status changes
+       }
+     }
+  };
+  
   const value = {
     user,
     isAdmin,
@@ -70,6 +83,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     connectWallet: handleConnectWallet,
     disconnect: handleDisconnect,
     updateUser,
+    updateUserStatus,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -115,17 +115,17 @@ const Subscribe: React.FC = () => {
 
   return (
     <div className="text-theme-pan-navy">
-      <h1 className="text-3xl  mb-6">Unlock Access</h1>
+      <h1 className="text-3xl  mb-6">Join the Crew</h1>
 
-      {/* New "Getting Full Access" section */}
       <div className="bg-theme-pan-navy/10 p-6 mb-8 border border-theme-oldlace">
-        <h2 className="text-2xl mb-4">Steps</h2>
+        <h2 className="text-2xl mb-4">Unlocking Full Access</h2>
         <ul className="list-disc list-inside text-md space-y-2">
           <li>Choose your preferred access duration (month or year).</li>
           <li>Click the desired button to initiate a payment request.</li>
           <li>Confirm the transaction in your wallet (MetaMask, Rabby, etc.).</li>
           <li>On blockchain confirmation, your account will be automatically upgraded to full access.</li>
-          <li>Enjoy comprehensive yield opportunities and advanced strategies!</li>
+          <li>Enjoy no 48-hour delay on new opportunities & PDF reports.</li>
+          <li>Access all future new crew benefits as they develop.</li>
         </ul>
       </div>
 
@@ -148,12 +148,12 @@ const Subscribe: React.FC = () => {
 
       {isSubscribed ? (
         <div className="bg-theme-pan-champagne border border-theme-pan-navy bg-theme-pan-sky/10 text-theme-pan-navy p-6 mb-8">
-          <h2 className="text-xl mb-4 terminal-prompt">You have already unlocked access</h2>
-          <p>Enjoy viewing all of our curated yield opportunities.</p>
+          <h2 className="text-xl mb-4 terminal-prompt">You have joined the crew</h2>
+          <p>Enjoy immediate access to all new yield opportunities.</p>
         </div>
       ) : (
         <div className="bg-theme-pan-navy/10 text-theme-pan-navy p-6 mb-8 border border-theme-oldlace">
-          <h2 className="text-2xl mb-4">Choose duration</h2>
+          <h2 className="text-2xl mb-4">Choose your duration</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {renderSubscriptionOption("month", MONTH_PRICE)}

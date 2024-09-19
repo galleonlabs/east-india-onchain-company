@@ -2,12 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { YieldOpportunity, OpportunityCategory } from "../types";
-import {
-  getYieldOpportunities,
-  getYieldOpportunitiesSample,
-  getYieldLastUpdated,
-  checkUserSubscriptionStatus,
-} from "../services/firebase";
+import { getYieldOpportunities, getYieldLastUpdated } from "../services/firebase";
 import { Timestamp } from "firebase/firestore";
 import { Pie, Bar } from "react-chartjs-2";
 import {
@@ -22,6 +17,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { Link } from "react-router-dom";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, BarElement, Title, Tooltip, Legend);
 
@@ -43,55 +39,55 @@ const Home: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [recentOpportunitiesCount, setRecentOpportunitiesCount] = useState<number>(0);
+  const { user, updateUserStatus } = useAuth();
 
-  const { user, updateUser } = useAuth();
+  const sortOpportunities = (opportunities: YieldOpportunity[]): YieldOpportunity[] => {
+    return [...opportunities].sort((a, b) => {
+      // First, prioritize benchmarks
+      if (a.isBenchmark && !b.isBenchmark) return -1;
+      if (!a.isBenchmark && b.isBenchmark) return 1;
 
-  const checkSubscriptionStatus = async () => {
-    if (user && user.address) {
-      try {
-        const isSubscribed = await checkUserSubscriptionStatus(user.address);
-        if (isSubscribed !== user.isPaidUser) {
-          updateUser({ ...user, isPaidUser: isSubscribed });
-        }
-      } catch (error) {
-        console.error("Error checking subscription status:", error);
+      // If both are benchmarks or both are not, sort by the selected key
+      let aValue = a[sortKey];
+      let bValue = b[sortKey];
+
+      if (sortKey === "relativeRisk") {
+        const riskLevels = { Low: 1, Medium: 2, High: 3 };
+        aValue = riskLevels[aValue as "Low" | "Medium" | "High"];
+        bValue = riskLevels[bValue as "Low" | "Medium" | "High"];
       }
-    }
+
+      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+      return 0;
+    });
   };
 
   const fetchOpportunities = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      await checkSubscriptionStatus(); // Check subscription status before fetching opportunities
-
-      let allOpportunities: YieldOpportunity[] = [];
-      let counts: Record<OpportunityCategory, number> = new Object() as Record<OpportunityCategory, number>;
-
-      if (user?.isPaidUser) {
-        allOpportunities = await getYieldOpportunities();
-        counts = allOpportunities.reduce((acc, opp) => {
-          acc[opp.category] = (acc[opp.category] || 0) + 1;
-          return acc;
-        }, {} as Record<OpportunityCategory, number>);
-      } else if (user && !user.isPaidUser) {
-        const { opportunities: sampleOpportunities, counts: sampleCounts } = await getYieldOpportunitiesSample();
-        allOpportunities = sampleOpportunities;
-        counts = sampleCounts;
+      if (user) {
+        await updateUserStatus();
       }
+      const { opportunities: allOpportunities, recentOpportunitiesCount } = await getYieldOpportunities(user?.address);
 
-      if (user && allOpportunities) {
-        const categorizedOpportunities = allOpportunities.reduce((acc, opp) => {
-          if (!acc[opp.category]) {
-            acc[opp.category] = [];
-          }
-          acc[opp.category].push(opp);
-          return acc;
-        }, {} as Record<OpportunityCategory, YieldOpportunity[]>);
+      const categorizedOpportunities = allOpportunities.reduce((acc, opp) => {
+        if (!acc[opp.category]) {
+          acc[opp.category] = [];
+        }
+        acc[opp.category].push(opp);
+        return acc;
+      }, {} as Record<OpportunityCategory, YieldOpportunity[]>);
 
-        setOpportunities(categorizedOpportunities);
-        setTotalCounts(counts);
-      }
+      setOpportunities(categorizedOpportunities);
+      setTotalCounts({
+        stablecoin: categorizedOpportunities.stablecoin?.length || 0,
+        volatileAsset: categorizedOpportunities.volatileAsset?.length || 0,
+        advancedStrategies: categorizedOpportunities.advancedStrategies?.length || 0,
+      });
+      setRecentOpportunitiesCount(recentOpportunitiesCount);
     } catch (err) {
       console.error("Error fetching opportunities:", err);
       setError("Failed to load yield opportunities. Please try again later.");
@@ -99,6 +95,11 @@ const Home: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchOpportunities();
+    fetchLastUpdated();
+  }, [user]);
 
   const fetchLastUpdated = async () => {
     try {
@@ -120,20 +121,6 @@ const Home: React.FC = () => {
   const handleSort = (key: SortKey) => {
     setSortKey(key);
     setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
-  };
-
-  const sortOpportunities = (opps: YieldOpportunity[]) => {
-    return [...opps].sort((a, b) => {
-      if (a.isBenchmark) return -1;
-      if (b.isBenchmark) return 1;
-
-      let aValue = a[sortKey];
-      let bValue = b[sortKey];
-
-      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
-      return 0;
-    });
   };
 
   const formatTVL = (tvl: number): string => {
@@ -397,14 +384,9 @@ const Home: React.FC = () => {
   };
 
   const renderOpportunityTable = (category: OpportunityCategory, title: string) => {
-    const isAdvanced = category === "advancedStrategies";
-    const showAll = user?.isPaidUser;
-    let displayOpportunities = sortOpportunities(opportunities[category] || []);
+    const categoryOpportunities = opportunities[category] || [];
     const totalOpportunities = totalCounts[category] || 0;
-
-    if (isAdvanced && !showAll) {
-      displayOpportunities = [];
-    }
+    const sortedOpportunities = sortOpportunities(categoryOpportunities);
 
     return (
       <div className="mb-8">
@@ -435,7 +417,7 @@ const Home: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {displayOpportunities.map((opp, index) => (
+              {sortedOpportunities.map((opp, index) => (
                 <tr
                   key={opp.id}
                   className={`${
@@ -471,35 +453,16 @@ const Home: React.FC = () => {
                   </td>
                 </tr>
               ))}
-              {(!showAll || isAdvanced) && totalOpportunities > displayOpportunities.length && (
-                <>
-                  <tr className="bg-theme-pan-navy/10 text-theme-pan-navy">
-                    <td colSpan={7} className="p-2 border border-theme-pan-navy text-center">
-                      {totalOpportunities - displayOpportunities.length} more opportunities available with full access
-                    </td>
-                  </tr>
-                  <tr className="bg-theme-pan-navy/10 text-theme-pan-navy">
-                    <td className="p-2 border border-theme-pan-navy blur-sm">Hidden Opportunity</td>
-                    <td className="p-2 border border-theme-pan-navy blur-sm">XX.X%</td>
-                    <td className="p-2 border border-theme-pan-navy blur-sm">Network</td>
-                    <td className="p-2 border border-theme-pan-navy blur-sm">$XXXM</td>
-                    <td className="p-2 border border-theme-pan-navy blur-sm">Medium</td>
-                    <td className="p-2 border border-theme-pan-navy blur-sm">Hidden notes...</td>
-                    <td className="p-2 border border-theme-pan-navy blur-sm">Visit</td>
-                  </tr>
-                </>
+              {!user?.isPaidUser && totalOpportunities > categoryOpportunities.length && (
+                <tr className="bg-theme-pan-navy/10 text-theme-pan-navy">
+                  <td colSpan={7} className="p-2 border border-theme-pan-navy text-center">
+                    {recentOpportunitiesCount} more opportunities available for crew members.
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
         </div>
-        {!user && <div className="text-theme-pan-navy mt-2">Connect your wallet to see more opportunities</div>}
-        {user && !user.isPaidUser && (
-          <div className="text-theme-pan-navy mt-2">
-            {isAdvanced
-              ? `Unlock full access to unlock ${totalOpportunities} Advanced Strategies`
-              : `Unlock full access to see ${totalOpportunities - displayOpportunities.length} more opportunities`}
-          </div>
-        )}
       </div>
     );
   };
@@ -560,6 +523,15 @@ const Home: React.FC = () => {
         <p className="mb-4 text-theme-pan-navy text-md">
           LAST UPDATED: <span className="text-lg">{formatLastUpdated(lastUpdated ? lastUpdated : new Date())}</span>
         </p>
+        <p className="mb-4 text-theme-pan-navy text-md">
+          {user?.isPaidUser ? (
+            <span className="text-lg"></span>
+          ) : (
+            <span className="animate-pulse bg-theme-pan-navy/10 py-1 px-4 border border-theme-oldlace">
+              48 hours delayed for visitors
+            </span>
+          )}
+        </p>
         <button
           onClick={handleDownloadPDF}
           disabled={!user?.isPaidUser}
@@ -576,8 +548,20 @@ const Home: React.FC = () => {
       {renderOpportunityTable("stablecoin", "Stablecoin Yield")}
       {renderOpportunityTable("volatileAsset", "Volatile Asset Yield")}
       {renderOpportunityTable("advancedStrategies", "Advanced Strategies")}
+      {!user ||
+        (user && !user?.isPaidUser && (
+          <div className=" mx-auto text-center text-theme-pan-navy">
+            <p className="mb-2">{recentOpportunitiesCount} more opportunities await</p>
+            <Link
+              to="/subscribe"
+              className="inline-block px-6 py-2 text-lg border border-theme-pan-sky text-theme-pan-sky hover:bg-theme-pan-sky hover:text-theme-pan-champagne transition-colors duration-200"
+            >
+              Join the crew
+            </Link>
+          </div>
+        ))}
 
-      {user && user?.isPaidUser && chartContainer}
+      {chartContainer}
     </div>
   );
 };

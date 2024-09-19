@@ -16,8 +16,8 @@ const Landing: React.FC = () => {
           Yield Merchants and Traders of Natural Crypto Resources
         </h1>
         <p className="text-xl mb-8 max-w-5xl mx-auto">
-          Every week, the East India Onchain Company team curates a selection of yield opportunities in the DeFi sector,
-          providing you with insights to make informed decisions about your digital assets.
+          The East India Onchain Company team curates a selection of yield opportunities in the DeFi sector, providing
+          you with free insights to make informed decisions about your digital assets. 
         </p>
       </header>
 
@@ -45,10 +45,10 @@ const Landing: React.FC = () => {
       <section className=" p-8 mb-8">
         <h2 className="text-3xl  mb-8 text-center">Why Sail With Us?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Feature icon={ResourcesIcon} text="Weekly curated selection of yield opportunities" />
+          <Feature icon={ResourcesIcon} text="Curated selection of yield opportunities for all users" />
           <Feature icon={AboutIcon} text="Strategies categorized for various risk tolerances" />
           <Feature icon={ApplicationIcon} text="Comprehensive risk assessments and market insights" />
-          <Feature icon={CommunityIcon} text="Continuous monitoring and updates on market trends" />
+          <Feature icon={CommunityIcon} text="Crew members get immediate access to opportunities" />
         </div>
       </section>
 
@@ -65,7 +65,7 @@ const Landing: React.FC = () => {
             to="/subscribe"
             className="inline-block px-6 py-2 text-lg border border-theme-pan-sky text-theme-pan-sky hover:bg-theme-pan-sky hover:text-theme-pan-champagne transition-colors duration-200"
           >
-            Unlock Full Access
+            Join the Crew
           </Link>
         </div>
       </section>
