@@ -5,7 +5,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import logo from "../assets/logo.png";
 
 const Header: React.FC = () => {
-  const { isAdmin } = useAuth();
+  const { isAdmin, user } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -14,7 +14,7 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center">
           <Link to="/" className="text-2xl flex items-center hover:opacity-80 transition-opacity">
             <img src={logo} className="h-8 w-8 mr-4" alt="logo" />
-            East India Onchain Company
+            {!user ? "East India Onchain Company" : "East India Onchain Co."}
           </Link>
           <div className="hidden md:flex items-center space-x-5">
             {/* <Link to="/" className="hover:text-theme-pan-sky transition-colors duration-200">
