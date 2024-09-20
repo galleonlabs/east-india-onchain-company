@@ -145,7 +145,7 @@ const Subscribe: React.FC = () => {
           <li>Click the desired button to initiate a payment request.</li>
           <li>Confirm the transaction in your wallet (MetaMask, Rabby, etc.).</li>
           <li>On blockchain confirmation, your account will be automatically upgraded to full access.</li>
-          <li>Enjoy no 48-hour delay on new opportunities, PDF reports & Telegram alerts</li>
+          <li>Enjoy no 48-hour delay on new opportunities, PDF reports & Telegram alerts.</li>
           <li>Access all future new crew benefits as they develop.</li>
         </ul>
       </div>

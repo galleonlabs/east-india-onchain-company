@@ -17,9 +17,9 @@ const Header: React.FC = () => {
             East India Onchain Company
           </Link>
           <div className="hidden md:flex items-center space-x-5">
-            <Link to="/" className="hover:text-theme-pan-sky transition-colors duration-200">
+            {/* <Link to="/" className="hover:text-theme-pan-sky transition-colors duration-200">
               Home
-            </Link>
+            </Link> */}
             <Link to="/yield" className="hover:text-theme-pan-sky transition-colors duration-200">
               Yield
             </Link>
