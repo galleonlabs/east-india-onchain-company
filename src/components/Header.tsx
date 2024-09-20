@@ -26,14 +26,16 @@ const Header: React.FC = () => {
             <Link to="/subscribe" className="hover:text-theme-pan-sky transition-colors duration-200">
               Join the Crew
             </Link>
+            <Link to="/fund" className="hover:text-theme-pan-sky transition-colors duration-200">
+              Fund
+            </Link>
             {isAdmin && (
               <Link to="/admin" className="hover:text-theme-pan-sky transition-colors duration-200">
                 Admin
               </Link>
             )}
-          
-              <ConnectButton />
-      
+
+            <ConnectButton />
           </div>
           <button
             className="lg:hidden text-2xl focus:outline-none"
@@ -62,6 +64,12 @@ const Header: React.FC = () => {
               className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
             >
               Join the Crew
+            </Link>
+            <Link
+              to="/fund"
+              className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
+            >
+              Fund
             </Link>
             {isAdmin && (
               <Link

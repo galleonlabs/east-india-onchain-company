@@ -10,6 +10,7 @@ import Yield from "./pages/Yield";
 import Subscribe from "./pages/Subscribe";
 import Admin from "./pages/Admin";
 import Landing from "./pages/Landing";
+import Fund from "./pages/Fund";
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
                     <Route path="/" element={<Landing />} />
                     <Route path="/yield" element={<Yield />} />
                     <Route path="/subscribe" element={<Subscribe />} />
+                    <Route path="/fund" element={<Fund />} />
                     <Route
                       path="/admin"
                       element={

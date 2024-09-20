@@ -135,7 +135,7 @@ const Subscribe: React.FC = () => {
   );
 
   return (
-    <div className="text-theme-pan-navy">
+    <div className="text-theme-pan-navy max-w-4xl mx-auto">
       <h1 className="text-3xl  mb-6">Join the Crew</h1>
 
       <div className="bg-theme-pan-navy/10 p-6 mb-8 border border-theme-oldlace">

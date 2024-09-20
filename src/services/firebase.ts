@@ -255,3 +255,11 @@ export const updateUserTelegramSettings = async (
     telegramChatId,
   });
 };
+
+export const updateUserFundInterest = async (userAddress: string, isInterested: boolean, email: string) => {
+  const userRef = doc(db, "users", userAddress);
+  await updateDoc(userRef, {
+    fundInterested: isInterested,
+    email: email,
+  });
+};
