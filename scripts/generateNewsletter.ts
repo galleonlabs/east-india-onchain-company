@@ -12,23 +12,24 @@ initializeApp({
 const db = getFirestore();
 
 async function generateNewsletter() {
-  const categories = ["stablecoin", "volatileAsset"];
   let newsletterContent = `Welcome to this week's drop of **The Trade Winds**. Below is a snapshot of the yield data we currently have on deck, a curated sample of actionable opportunities, and a brief overview of what is influencing the market this week.
 
 Market Influences
 [Insert market influences here, e.g.:
-* FED interest rate decision at 18:00 UTC 18/09/2024 (expected cut to 5.25%).
-* FOMC press conference for economic outlook at 18:00 UTC 18/09/2024.
-* US presidential election.]
+* Renewed energy from Token2049 in Singapore & Solana Breakpoint
+* Tailwinds from FED 0.5% rate cut and dovish FOMC.]
 
 [Insert market sentiment analysis here, e.g.:
-The sentiment of the above is that the beginning of an orderly rate-cutting cycle (-0.25%) with a dovish FED stance is a bullish tailwind that might be further catalysed by a Trump win in the US election due to being significantly more pro-crypto than the opposition. In contrast, dramatic rate cuts representing more panic measures could signify hard-landing recessionary risks and be short to mid-term headwinds for risk assets alongside a democratic win in the upcoming election.]
+Token2049 showed that despite recent general apathy across the market in primarily anything beyond BTC, there is undoubtedly a significant drive to progress the industry forward, with a larger community of builders and advocates every year. Raises for new projects are still in full swing, with an expected wave of existing projects preparing to deploy their highly anticipated tokens in Q4 this year (e.g. EigenLayer & Hyperliquid).
+
+The FED cutting interest rates by 0.5%, communicating things are on track whilst pointing at a soft landing, and the BOJ keeping rates steady have given the markets the beginnings of a beneficial tailwind that could snowball, providing recession fears stay muted. Over six trillion dollars in money market funds are taking advantage of the current high interest rate environment, and everyone is betting on a portion of that to migrate into risk assets over the next few years.]
 
 `;
 
+  const categories = ["stablecoin", "volatileAsset"];
   const categoryTitles = {
-    stablecoin: "Stablecoin Opportunities",
-    volatileAsset: "ETH Opportunities"
+    stablecoin: "Stablecoin Yield Opportunity",
+    volatileAsset: "ETH Yield Opportunity",
   };
 
   for (const category of categories) {
@@ -44,11 +45,11 @@ The sentiment of the above is that the beginning of an orderly rate-cutting cycl
       const opportunity = categoryOpportunities.docs[0].data();
       newsletterContent += `${categoryTitles[category]}
 ${opportunity.name}
-* Estimated APY: ${opportunity.estimatedApy.toFixed(2)}%
+* Estimated APY: **${opportunity.estimatedApy.toFixed(2)}%**
 * Network: ${opportunity.network}
 * TVL: $${formatTVL(opportunity.tvl)}
 * Risk Level: ${opportunity.relativeRisk}
-${opportunity.notes ? `* Note: ${opportunity.notes}\n` : ""}
+${opportunity.notes ? `* ${opportunity.notes}\n` : ""}
 Go to opportunity → ${opportunity.link}
 
 `;
@@ -56,7 +57,7 @@ Go to opportunity → ${opportunity.link}
   }
 
   newsletterContent += `Explore All Yield Data
-For more yield opportunities and analysis, visit our premium data yield dashboard at the East India Onchain Company.
+For more yield opportunities and analysis, visit our public data yield dashboard at the East India Onchain Company. While you can enjoy the platform for free, we offer a premium tier that includes Telegram alerts, PDF generation, and early access to new yield opportunities.
 
 `;
 
@@ -67,26 +68,39 @@ For more yield opportunities and analysis, visit our premium data yield dashboar
   // Calculate highlight metrics
   const networkDistribution = calculateDistribution(opportunities, "network");
   const riskDistribution = calculateDistribution(opportunities, "relativeRisk");
-  const yieldDistribution = calculateNumericDistribution(opportunities, "estimatedApy");
-  const tvlDistribution = calculateNumericDistribution(opportunities, "tvl");
+  const stablecoinYieldDistribution = calculateNumericDistribution(
+    opportunities.filter((x) => x.category === "stablecoin"),
+    "estimatedApy"
+  );
+  const ethYieldDistribution = calculateNumericDistribution(
+    opportunities.filter((x) => x.category === "volatileAsset"),
+    "estimatedApy"
+  );
 
-  newsletterContent += `Total Yield Opportunities
-${opportunities.length}
+  newsletterContent += `Our curated yield landscape showcases ${opportunities.length} ${Object.keys(
+    networkDistribution
+  ).join(
+    ", "
+  )} network opportunities. The risk profile of these opportunities is balanced to cater to all risk tolerances, with the majority (${
+    riskDistribution.Medium || 0
+  }) falling into the medium-risk category, ${riskDistribution.Low || 0} low-risk options, and ${
+    riskDistribution.High || 0
+  } high-risk options. Below are the yield highlights for both the Stablecoin and ETH categories.
 
-Network Distribution 
-${formatDistributionAsList(networkDistribution)}
+Stablecoin Yield:
+${formatNumericDistribution(stablecoinYieldDistribution)}
 
-Risk Distribution
-${formatDistributionAsList(riskDistribution)}
+ETH Yield:
+${formatNumericDistribution(ethYieldDistribution)}
 
-**Yield Distribution**
-${formatNumericDistribution(yieldDistribution)}%
-
-TVL Distribution
-$${formatNumericDistribution(tvlDistribution, true)}
+Weekly DeFi Concept
+[Insert weekly DeFi concept here, e.g.:
+Yield Farming
+Yield farming involves lending or staking cryptocurrency assets to generate returns. Users provide liquidity to DeFi protocols and earn rewards, often through the platform's native tokens. 
+**Example:** A user deposits USDC into a lending protocol like Aave. They earn interest on their USDC and receive additional AAVE tokens as an incentive, potentially increasing their overall yield.]
 
 Resources
-Twitter - GitHub - Email - Newsletter
+Website - Twitter - GitHub - Email - Newsletter
 
 Thanks for reading The Trade Winds! Subscribe for free to receive new posts and support my work.
 
@@ -114,17 +128,10 @@ function calculateNumericDistribution(data, key) {
   };
 }
 
-function formatDistributionAsList(distribution) {
-  return Object.entries(distribution)
-    .map(([key, value]) => `* ${key}: ${value}`)
-    .join("\n");
-}
-
-function formatNumericDistribution(distribution, isCurrency = false) {
-  const format = isCurrency ? formatTVL : (num) => num.toFixed(2);
-  return `* Min: ${format(distribution.min)} 
-* Max: ${format(distribution.max)}
-* Median: ${format(distribution.median)}`;
+function formatNumericDistribution(distribution) {
+  return `* Minimum: ${distribution.min.toFixed(2)}%
+* Maximum: ${distribution.max.toFixed(2)}%
+* Median: ${distribution.median.toFixed(2)}%`;
 }
 
 function formatTVL(tvl: number): string {
