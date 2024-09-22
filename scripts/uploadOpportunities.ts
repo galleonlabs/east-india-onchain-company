@@ -19,7 +19,7 @@ interface YieldOpportunity {
   tvl: number;
   relativeRisk: "Low" | "Medium" | "High";
   notes: string;
-  category: "stablecoin" | "volatileAsset" | "advancedStrategies";
+  category: "stablecoin" | "volatileAsset";
   link: string;
   isBenchmark: boolean;
   dateAdded: admin.firestore.Timestamp;
@@ -68,7 +68,7 @@ function validateOpportunity(data: any): YieldOpportunity {
   if (typeof data.notes !== "string") {
     throw new Error("Invalid notes");
   }
-  if (!["stablecoin", "volatileAsset", "advancedStrategies"].includes(data.category)) {
+  if (!["stablecoin", "volatileAsset"].includes(data.category)) {
     throw new Error("Invalid category");
   }
   if (typeof data.link !== "string" || data.link.trim() === "") {
@@ -89,7 +89,7 @@ function validateOpportunity(data: any): YieldOpportunity {
     tvl: parseFloat(data.tvl),
     relativeRisk: data.relativeRisk as "Low" | "Medium" | "High",
     notes: data.notes,
-    category: data.category as "stablecoin" | "volatileAsset" | "advancedStrategies",
+    category: data.category as "stablecoin" | "volatileAsset",
     link: data.link,
     isBenchmark: data.isBenchmark === "TRUE",
     dateAdded: admin.firestore.Timestamp.fromDate(new Date(data.dateAdded)),

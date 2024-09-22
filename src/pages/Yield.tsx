@@ -27,12 +27,10 @@ const Home: React.FC = () => {
   const [opportunities, setOpportunities] = useState<Record<OpportunityCategory, YieldOpportunity[]>>({
     stablecoin: [],
     volatileAsset: [],
-    advancedStrategies: [],
   });
   const [totalCounts, setTotalCounts] = useState<Record<OpportunityCategory, number>>({
     stablecoin: 0,
     volatileAsset: 0,
-    advancedStrategies: 0,
   });
   const [sortKey, setSortKey] = useState<SortKey>("estimatedApy");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
@@ -85,7 +83,6 @@ const Home: React.FC = () => {
       setTotalCounts({
         stablecoin: categorizedOpportunities.stablecoin?.length || 0,
         volatileAsset: categorizedOpportunities.volatileAsset?.length || 0,
-        advancedStrategies: categorizedOpportunities.advancedStrategies?.length || 0,
       });
       setRecentOpportunitiesCount(recentOpportunitiesCount);
     } catch (err) {
@@ -180,15 +177,6 @@ const Home: React.FC = () => {
     // Benchmark factor
     if (opportunity.isBenchmark) {
       riskFactor *= 1.1;
-    }
-
-    // Category type
-    if (opportunity.category === "stablecoin") {
-      riskFactor *= 1;
-    } else if (opportunity.category === "volatileAsset") {
-      riskFactor *= 0.95;
-    } else if (opportunity.category === "advancedStrategies") {
-      riskFactor *= 0.9;
     }
 
     // Calculate risk-adjusted APY
@@ -321,8 +309,7 @@ const Home: React.FC = () => {
             data={{
               labels: Object.keys(categoryCounts).map((x) => {
                 if (x === "stablecoin") return "Stable";
-                if (x === "volatileAsset") return "Volatile";
-                if (x === "advancedStrategies") return "Advanced";
+                if (x === "volatileAsset") return "ETH";
               }),
               datasets: [
                 {
@@ -546,8 +533,8 @@ const Home: React.FC = () => {
       </div>
 
       {renderOpportunityTable("stablecoin", "Stablecoin Yield")}
-      {renderOpportunityTable("volatileAsset", "Volatile Asset Yield")}
-      {renderOpportunityTable("advancedStrategies", "Advanced Strategies")}
+      {renderOpportunityTable("volatileAsset", "ETH Yield")}
+      
       {!user ||
         (user && !user?.isPaidUser && (
           <div className=" mx-auto text-center text-theme-pan-navy">

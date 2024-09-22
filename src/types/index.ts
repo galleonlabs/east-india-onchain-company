@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 
-export const OPPORTUNITY_CATEGORIES = ["stablecoin", "volatileAsset", "advancedStrategies"] as const;
+export const OPPORTUNITY_CATEGORIES = ["stablecoin", "volatileAsset"] as const;
 export type OpportunityCategory = (typeof OPPORTUNITY_CATEGORIES)[number];
 
 export interface YieldOpportunity {

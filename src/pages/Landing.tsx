@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Coins, TrendingUp, Bot } from "lucide-react";
+import { Coins, TrendingUp } from "lucide-react";
 
 // Import icons
 import AboutIcon from "../assets/brand/About-Icon.png";
@@ -17,13 +17,13 @@ const Landing: React.FC = () => {
         </h1>
         <p className="text-xl mb-8 max-w-5xl mx-auto">
           The East India Onchain Company team curates a selection of yield opportunities in the DeFi sector, providing
-          you with free insights to make informed decisions about your digital assets. 
+          you with free insights to make informed decisions about your digital assets.
         </p>
       </header>
 
-      <section className="mb-6">
+      <section className="mb-6 max-w-5xl mx-auto text-center">
         <h2 className="text-3xl  mb-6 text-center">Discover Yield Opportunities</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <YieldCard
             Icon={Coins}
             title="Stablecoin Yield"
@@ -31,24 +31,19 @@ const Landing: React.FC = () => {
           />
           <YieldCard
             Icon={TrendingUp}
-            title="Volatile Asset Yield"
-            description="Explore yield prospects across liquidity pools, staking, and yield farms for volatile assets."
-          />
-          <YieldCard
-            Icon={Bot}
-            title="Advanced Strategies"
-            description="Access sophisticated yield strategies for seasoned DeFi users, including options and beyond."
+            title="ETH Yield"
+            description="Explore yield prospects across liquidity pools, staking, and strategy vaults for Ethereum."
           />
         </div>
       </section>
 
-      <section className=" p-8 mb-8">
+      <section className=" p-8 mb-8  max-w-5xl mx-auto">
         <h2 className="text-3xl  mb-8 text-center">Why Sail With Us?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Feature icon={ResourcesIcon} text="Curated selection of yield opportunities for all users" />
-          <Feature icon={AboutIcon} text="Strategies categorized for various risk tolerances" />
-          <Feature icon={ApplicationIcon} text="Comprehensive risk assessments and market insights" />
-          <Feature icon={CommunityIcon} text="Crew members get immediate access to opportunities" />
+          <Feature icon={ResourcesIcon} text="Curated selection of yield opportunities" />
+          <Feature icon={AboutIcon} text="Strategies for different risk tolerances" />
+          <Feature icon={ApplicationIcon} text="Comprehensive risk assessments and insights" />
+          <Feature icon={CommunityIcon} text="Frequently updated to always beat benchmarks" />
         </div>
       </section>
 

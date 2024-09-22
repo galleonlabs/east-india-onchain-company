@@ -9,7 +9,7 @@ import {
 import { Timestamp } from "firebase/firestore";
 
 const RISK_LEVELS = ["Low", "Medium", "High"] as const;
-const CATEGORIES: OpportunityCategory[] = ["stablecoin", "volatileAsset", "advancedStrategies"];
+const CATEGORIES: OpportunityCategory[] = ["stablecoin", "volatileAsset"];
 
 interface FormData extends Omit<YieldOpportunity, "id" | "dateAdded"> {
   dateAdded: string;

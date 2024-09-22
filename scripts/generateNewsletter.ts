@@ -12,7 +12,7 @@ initializeApp({
 const db = getFirestore();
 
 async function generateNewsletter() {
-  const categories = ["stablecoin", "volatileAsset", "advancedStrategies"];
+  const categories = ["stablecoin", "volatileAsset"];
   let newsletterContent = `Welcome to this week's drop of **The Trade Winds**. Below is a snapshot of the yield data we currently have on deck, a curated sample of actionable opportunities, and a brief overview of what is influencing the market this week.
 
 Market Influences
@@ -28,8 +28,7 @@ The sentiment of the above is that the beginning of an orderly rate-cutting cycl
 
   const categoryTitles = {
     stablecoin: "Stablecoin Opportunities",
-    volatileAsset: "Volatile Asset Opportunities",
-    advancedStrategies: "Advanced Strategies",
+    volatileAsset: "ETH Opportunities"
   };
 
   for (const category of categories) {

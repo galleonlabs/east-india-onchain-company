@@ -18,7 +18,7 @@ interface YieldOpportunity {
   tvl: number;
   relativeRisk: "Low" | "Medium" | "High";
   notes: string;
-  category: "stablecoin" | "volatileAsset" | "advancedStrategies";
+  category: "stablecoin" | "volatileAsset";
   link: string;
   isBenchmark: boolean;
   dateAdded: admin.firestore.Timestamp;
