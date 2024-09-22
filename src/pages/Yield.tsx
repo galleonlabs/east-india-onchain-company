@@ -461,7 +461,7 @@ const Home: React.FC = () => {
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays <= 7;
+    return diffDays <= 3;
   };
 
   const formatLastUpdated = (date: Date | null) => {
@@ -534,7 +534,7 @@ const Home: React.FC = () => {
 
       {renderOpportunityTable("stablecoin", "Stablecoin Yield")}
       {renderOpportunityTable("volatileAsset", "ETH Yield")}
-      
+
       {!user ||
         (user && !user?.isPaidUser && (
           <div className=" mx-auto text-center text-theme-pan-navy">
