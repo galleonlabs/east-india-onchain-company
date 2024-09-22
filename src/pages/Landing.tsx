@@ -10,13 +10,13 @@ import ResourcesIcon from "../assets/brand/Resources-Icon.png";
 
 const Landing: React.FC = () => {
   return (
-    <div className="text-theme-pan-navy max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <header className="text-center py-8">
-        <h1 className="text-4xl  mb-6 underline underline-offset-8">
-          Yield Merchants and Traders of Natural Crypto Resources
+    <div className="text-theme-pan-navy max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header className="text-center py-8 mt-8">
+        <h1 className="text-4xl mb-6 underline underline-offset-8">
+          Yield Merchants of Natural Crypto Resources
         </h1>
         <p className="text-xl mb-8 max-w-5xl mx-auto">
-          The East India Onchain Company team curates a selection of yield opportunities in the DeFi sector, providing
+          The East India Onchain Company team curates yield opportunities in the DeFi sector, providing
           you with free insights to make informed decisions about your digital assets.
         </p>
       </header>
@@ -40,14 +40,14 @@ const Landing: React.FC = () => {
       <section className=" p-8 mb-8  max-w-5xl mx-auto">
         <h2 className="text-3xl  mb-8 text-center">Why Sail With Us?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Feature icon={ResourcesIcon} text="Curated selection of yield opportunities" />
-          <Feature icon={AboutIcon} text="Strategies for different risk tolerances" />
-          <Feature icon={ApplicationIcon} text="Comprehensive risk assessments and insights" />
-          <Feature icon={CommunityIcon} text="Frequently updated to always beat benchmarks" />
+          <Feature icon={ResourcesIcon} text="Curated selection of yield opportunities for both stablecoin and ETH portfolios" />
+          <Feature icon={AboutIcon} text="Diverse strategies across all networks to source yield from all corners of DeFi" />
+          <Feature icon={ApplicationIcon} text="Comprehensive risk assessments and insights to cater to different profiles" />
+          <Feature icon={CommunityIcon} text="Frequently updated every week to always beat standard DeFi yield benchmarks" />
         </div>
       </section>
 
-      <section className="text-center border-t border-theme-pan-navy max-w-5xl pt-6 mx-auto">
+      <section className="text-center border-t border-theme-pan-navy max-w-5xl pt-8 mx-auto">
         <h2 className="text-3xl mb-4 ">Ready to Explore?</h2>
         <div className="space-y-4 sm:space-y-0 sm:space-x-4">
           <Link
