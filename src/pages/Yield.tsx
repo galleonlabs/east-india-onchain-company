@@ -1,7 +1,7 @@
 // src/pages/Home.tsx
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { YieldOpportunity, OpportunityCategory } from "../types";
+import { YieldOpportunity, OpportunityCategory, OPPORTUNITY_CATEGORIES } from "../types";
 import { getYieldOpportunities, getYieldLastUpdated } from "../services/firebase";
 import { Timestamp } from "firebase/firestore";
 import { Pie, Bar } from "react-chartjs-2";
@@ -227,17 +227,17 @@ const Home: React.FC = () => {
       acc[opp.relativeRisk] = (acc[opp.relativeRisk] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
-
+    
     return (
       <div className=" p-4 bg-theme-pan-navy/10 shadow ">
         <h2 className="text-lg mb-4 text-theme-pan-navy font-bold">Risk Distribution</h2>
         <div className="h-64 translate-y-6">
           <Bar
             data={{
-              labels: Object.keys(riskCounts),
+              labels: ['Low', 'Medium', 'High'],
               datasets: [
                 {
-                  data: Object.values(riskCounts),
+                  data: [riskCounts['Low'], riskCounts['Medium'], riskCounts['High']],
                   backgroundColor: ["#FDE6C4", "#0072B5", "#DC7F5A"],
                 },
               ],
@@ -256,21 +256,38 @@ const Home: React.FC = () => {
   };
 
   const YieldDistributionChart: React.FC<{ opportunities: YieldOpportunity[] }> = ({ opportunities }) => {
-    const yieldRanges = ["0-5%", "5-10%", "10-15%", "15-20%", "20%+"];
+    const type = opportunities[0]?.category;
+    const title = type === OPPORTUNITY_CATEGORIES[0] ? "Stablecoin" : "ETH";
 
-    const yieldCounts = opportunities.reduce((acc, opp) => {
-      const yield_ = opp.estimatedApy;
-      if (yield_ < 5) acc["0-5%"]++;
-      else if (yield_ < 10) acc["5-10%"]++;
-      else if (yield_ < 15) acc["10-15%"]++;
-      else if (yield_ < 20) acc["15-20%"]++;
-      else acc["20%+"]++;
-      return acc;
-    }, Object.fromEntries(yieldRanges.map((range) => [range, 0])));
+    let yieldCounts = {};
+
+    if (type === OPPORTUNITY_CATEGORIES[0]) {
+      const yieldRanges = ["0-5%", "5-10%", "10-15%", "15-20%", "20%+"];
+      yieldCounts = opportunities.reduce((acc, opp) => {
+        const yield_ = opp.estimatedApy;
+        if (yield_ < 5) acc["0-5%"]++;
+        else if (yield_ < 10) acc["5-10%"]++;
+        else if (yield_ < 15) acc["10-15%"]++;
+        else if (yield_ < 20) acc["15-20%"]++;
+        else acc["20%+"]++;
+        return acc;
+      }, Object.fromEntries(yieldRanges.map((range) => [range, 0])));
+    } else {
+      const yieldRanges = ["0-2.5%", "2.5-5%", "5-7.5%", "7.5-10%", "10%+"];
+      yieldCounts = opportunities.reduce((acc, opp) => {
+        const yield_ = opp.estimatedApy;
+        if (yield_ < 2.5) acc["0-2.5%"]++;
+        else if (yield_ < 5) acc["2.5-5%"]++;
+        else if (yield_ < 7.5) acc["5-7.5%"]++;
+        else if (yield_ < 10) acc["7.5-10%"]++;
+        else acc["10%+"]++;
+        return acc;
+      }, Object.fromEntries(yieldRanges.map((range) => [range, 0])));
+    }
 
     return (
       <div className=" p-4 bg-theme-pan-navy/10 shadow ">
-        <h2 className="text-lg mb-4 text-theme-pan-navy font-bold">Yield Distribution</h2>
+        <h2 className="text-lg mb-4 text-theme-pan-navy font-bold"> {title} Yield Distribution</h2>
         <div className="h-64 translate-y-6">
           <Bar
             data={{
@@ -308,8 +325,8 @@ const Home: React.FC = () => {
           <Pie
             data={{
               labels: Object.keys(categoryCounts).map((x) => {
-                if (x === "stablecoin") return "Stable";
-                if (x === "volatileAsset") return "ETH";
+                if (x === "stablecoin") return "Stablecoin Yield";
+                if (x === "volatileAsset") return "ETH Yield";
               }),
               datasets: [
                 {
@@ -495,10 +512,11 @@ const Home: React.FC = () => {
   const chartContainer = (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 border-t border-t-theme-pan-navy pt-8">
       <NetworkDistributionChart opportunities={allOpportunities} />
-      <RiskDistributionChart opportunities={allOpportunities} />
-      <YieldDistributionChart opportunities={allOpportunities} />
-      <CategoryDistributionChart opportunities={allOpportunities} />
       <TVLDistributionChart opportunities={allOpportunities} />
+      <CategoryDistributionChart opportunities={allOpportunities} />
+      <RiskDistributionChart opportunities={allOpportunities} />
+      <YieldDistributionChart opportunities={opportunities.stablecoin} />
+      <YieldDistributionChart opportunities={opportunities.volatileAsset} />
     </div>
   );
 
