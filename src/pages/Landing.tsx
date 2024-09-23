@@ -9,7 +9,7 @@ import ResourcesIcon from "../assets/brand/Resources-Icon.png";
 
 const Landing: React.FC = () => {
   return (
-    <div className="text-theme-navy sm:max-w-5xl  mx-auto sm:px-6 lg:px-8 border-l border-r border-theme-navy/20 bg-[url('./Frame.png')] bg-no-repeat bg-cover bg-center px-4">
+    <div className="text-theme-navy sm:max-w-5xl  mx-auto sm:px-6 lg:px-8  bg-[url('./Frame.png')] bg-no-repeat bg-cover bg-center px-4">
       <header className="text-center py-8 ">
         <div className="justify-center flex mb-8">
           <img src={logo} className="h-32 w-32" alt="logo" />
@@ -60,8 +60,8 @@ const Landing: React.FC = () => {
         </div>
       </section>
 
-      <section className="text-center border-t border-theme-pan-navy/20 max-w-5xl pt-8 mx-auto">
-        <h2 className="text-3xl mb-8 ">Ready to Explore?</h2>
+      <section className="text-center border-t border-theme-pan-navy  max-w-5xl pt-8 mx-auto">
+        <h2 className="text-3xl mb-8 bg-theme-champagne/40">Ready to Explore?</h2>
         <div className="space-y-4 sm:space-y-0 sm:space-x-4">
           <Link
             to="/yield"
