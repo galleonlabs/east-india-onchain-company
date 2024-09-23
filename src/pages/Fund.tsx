@@ -71,7 +71,7 @@ const Fund: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full p-2 border border-theme-navy rounded-md"
+                className="w-full p-2 border-2 border-theme-copper rounded-md"
               />
             </div>
             <button
@@ -83,7 +83,7 @@ const Fund: React.FC = () => {
           </form>
         )}
         {message && (
-          <p className={`mt-4 ${message.type === "success" ? "text-theme-sky" : "text-theme-copper-600"}`}>{message.content}</p>
+          <p className={`mt-4 ${message.type === "success" ? "text-theme-sky" : "text-theme-copper"}`}>{message.content}</p>
         )}
         <p className="mb-4 mt-4 opacity-75 text-theme-navy">
           This program provides strictly educational content to help guide you in making safer decisions with your

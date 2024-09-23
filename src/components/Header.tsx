@@ -51,32 +51,32 @@ const Header: React.FC = () => {
           <div className="mt-4 md:hidden">
             <Link
               to="/"
-              className="block py-2 hover:text-theme-champagne text-theme-pan-navy transition-colors duration-200"
+              className="block py-2 hover:text-theme-champagne text-theme-pan-champagne transition-colors duration-200"
             >
               Home
             </Link>
             <Link
               to="/yield"
-              className="block py-2 hover:text-theme-champagne text-theme-pan-navy transition-colors duration-200"
+              className="block py-2 hover:text-theme-champagne text-theme-pan-champagne transition-colors duration-200"
             >
               Yield
             </Link>
             <Link
               to="/subscribe"
-              className="block py-2 hover:text-theme-champagne text-theme-pan-navy transition-colors duration-200"
+              className="block py-2 hover:text-theme-champagne text-theme-pan-champagne transition-colors duration-200"
             >
               Join the Crew
             </Link>
             <Link
               to="/fund"
-              className="block py-2 hover:text-theme-champagne text-theme-pan-navy transition-colors duration-200"
+              className="block py-2 hover:text-theme-champagne text-theme-pan-champagne transition-colors duration-200"
             >
               Fund
             </Link>
             {isAdmin && (
               <Link
                 to="/admin"
-                className="block py-2 hover:text-theme-champagne text-theme-pan-navy transition-colors duration-200"
+                className="block py-2 hover:text-theme-champagne text-theme-pan-champagne transition-colors duration-200"
               >
                 Admin
               </Link>
