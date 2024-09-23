@@ -44,7 +44,7 @@ const Fund: React.FC = () => {
         </p>
       </section>
 
-      <section className="mb-8 bg-theme-oldlace text-theme-navy rounded-md  p-6 shadow-md">
+      <section className="mb-8 border border-theme-navy bg-theme-oldlace text-theme-navy rounded-md  p-6 shadow-md">
         <h2 className="text-2xl mb-4">How does it work</h2>
         <ul className="list-disc list-inside space-y-2">
           <li>Guidance on best practices for on-chain portfolio management</li>
