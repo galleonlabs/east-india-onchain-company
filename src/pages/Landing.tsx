@@ -65,13 +65,13 @@ const Landing: React.FC = () => {
         <div className="space-y-4 sm:space-y-0 sm:space-x-4">
           <Link
             to="/yield"
-            className="inline-block px-6 py-2 text-lg rounded-md hover:opacity-70  text-theme-pan-champagne bg-theme-pan-navy hover:text-theme-pan-champagne transition-colors duration-200 w-full sm:w-auto shadow-md"
+            className="inline-block px-6 py-2 text-lg rounded-md hover:opacity-70 border border-theme-navy  text-theme-pan-champagne bg-theme-navy hover:text-theme-pan-champagne transition-colors duration-200 w-full sm:w-auto shadow-md"
           >
             Explore Yield Opportunities
           </Link>
           <Link
             to="/subscribe"
-            className="inline-block px-6 py-2 text-lg rounded-md hover:opacity-70  text-theme-pan-champagne bg-theme-sky hover:text-theme-pan-champagne transition-colors duration-200 w-full sm:w-auto shadow-md"
+            className="inline-block px-6 py-2 text-lg rounded-md hover:opacity-70 border border-theme-navy  text-theme-pan-champagne bg-theme-sky hover:text-theme-pan-champagne transition-colors duration-200 w-full sm:w-auto shadow-md"
           >
             Join the Crew
           </Link>
@@ -90,7 +90,7 @@ const YieldCard: React.FC<{ Icon: React.ElementType; title: string; description:
   title,
   description,
 }) => (
-  <div className="border rounded-md border-theme-navy bg-[url('/Frame.png')] bg-no-repeat bg-cover bg-center text-theme-pan-champagne bg-theme-navy px-6 py-6 transition-transform duration-300 hover:scale-105 shadow-md">
+  <div className="border rounded-md border-theme-navy  text-theme-navy bg-theme-oldlace px-6 py-6 transition-transform duration-300 hover:scale-105 shadow-md">
     <Icon strokeWidth={1} className="w-12 h-12 mb-3 mx-auto " />
     <h3 className="text-2xl mb-2 text-center">{title}</h3>
     <p className="text-center">{description}</p>

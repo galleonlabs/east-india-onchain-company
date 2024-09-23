@@ -29,22 +29,22 @@ const Fund: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto text-theme-navy">
+    <div className="max-w-4xl mx-auto text-theme-navy bg-[url('/Frame.png')]  bg-no-repeat bg-cover bg-center">
       <h1 className="text-3xl mb-6 font-morion font-semibold">Self-Managed Fund Program</h1>
 
       <section className="mb-8">
         <div className="flex">
-          <h2 className="text-2xl mb-4">About the Program</h2>
+          <h2 className="text-2xl mb-4 bg-theme-champagne/40">About the Program</h2>
           <img src={ResourcesIcon} alt="Feature icon" className="w-10 h-10 -translate-y-1 ml-4 flex-shrink-0" />
         </div>
-        <p className="mb-4">
+        <p className="mb-4 bg-theme-champagne/40">
           Our self-managed fund program is designed to guide users in best practices for securing and executing changes
           to their portfolio on-chain. This initiative focuses on stablecoin yield portfolios, taking advantage of high
           yield opportunities whilst managing risk in the decentralized finance ecosystem.
         </p>
       </section>
 
-      <section className="mb-8 bg-theme-navy text-theme-pan-champagne rounded-md bg-[url('/Frame.png')]  bg-no-repeat bg-cover bg-center p-6 shadow-md">
+      <section className="mb-8 bg-theme-oldlace text-theme-navy rounded-md  p-6 shadow-md">
         <h2 className="text-2xl mb-4">How does it work</h2>
         <ul className="list-disc list-inside space-y-2">
           <li>Guidance on best practices for on-chain portfolio management</li>
@@ -56,9 +56,11 @@ const Fund: React.FC = () => {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl mb-4">Register Your Interest</h2>
+        <h2 className="text-2xl mb-4 bg-theme-champagne/40">Register Your Interest</h2>
         {isInterested ? (
-          <p className="text-theme-pan-navy">Thank you for your interest! We'll be in touch soon.</p>
+          <p className="text-theme-pan-navy bg-theme-champagne/40">
+            Thank you for your interest! We'll be in touch soon.
+          </p>
         ) : (
           <form onSubmit={handleRegisterInterest} className="space-y-4">
             <div>
@@ -76,7 +78,7 @@ const Fund: React.FC = () => {
             </div>
             <button
               type="submit"
-              className="bg-theme-sky text-theme-pan-champagne px-4 py-2 rounded-md hover:bg-opacity-70 transition-colors shadow-md"
+              className="bg-theme-sky border border-theme-navy text-theme-pan-champagne px-4 py-2 rounded-md hover:bg-opacity-70 transition-colors shadow-md"
             >
               Register Interest
             </button>

@@ -120,14 +120,14 @@ const Subscribe: React.FC = () => {
   };
 
   const renderSubscriptionOption = (duration: "month" | "year", amount: string) => (
-    <div className="bg-theme-pan-champagne rounded-md p-4 text-theme-pan-navy bg-[url('/Frame.png')]">
+    <div className="rounded-md p-4 text-theme-navy border border-theme-navy   bg-theme-oldlace shadow-md">
       <h3 className="text-xl mb-2 ">{duration.charAt(0).toUpperCase() + duration.slice(1)} Access</h3>
       <p className="mb-4">Access all yield opportunities for one {duration}</p>
       <p className="text-2xl mb-4 font-morion font-semibold">{amount} ETH</p>
       <button
         onClick={() => handleSubscribe(duration)}
         disabled={isProcessing || isSubscribed}
-        className="w-full bg-theme-sky text-theme-pan-champagne hover:opacity-70   py-2 px-4 disabled:opacity-50 rounded-md"
+        className="w-full bg-theme-navy text-theme-oldlace hover:opacity-70   py-2 px-4 disabled:opacity-50 rounded-md"
       >
         {isProcessing ? "Processing..." : `Unlock ${duration.charAt(0).toUpperCase() + duration.slice(1)} Access`}
       </button>
@@ -135,11 +135,11 @@ const Subscribe: React.FC = () => {
   );
 
   return (
-    <div className="text-theme-pan-navy  max-w-4xl mx-auto">
+    <div className="text-theme-pan-navy  max-w-4xl mx-auto bg-[url('/Frame.png')]  bg-no-repeat bg-cover bg-center">
       <h1 className="text-3xl font-morion font-semibold mb-6">Join the Crew</h1>
 
       {!isSubscribed && (
-        <div className=" text-theme-navy   bg-no-repeat bg-cover bg-center px-6 mb-8 rounded-md">
+        <div className=" text-theme-navy bg-theme-champagne/40  bg-no-repeat bg-cover bg-center px-6 mb-8 rounded-md">
           <h2 className="text-2xl mb-4">Unlocking Full Access</h2>
           <ul className="list-disc list-inside text-md space-y-2">
             <li>Choose your preferred access duration (month or year).</li>
@@ -156,10 +156,10 @@ const Subscribe: React.FC = () => {
         <div
           className={`p-4 mb-8 ${
             message.type === "error"
-              ? "text-theme-pan-champagne border bg-theme-navy rounded-md"
+              ? "text-theme-pan-champagne  bg-theme-navy rounded-md"
               : message.type === "success"
-              ? "text-theme-pan-champagne border bg-theme-navy rounded-md"
-              : "text-theme-pan-champagne border bg-theme-navy rounded-md"
+              ? "text-theme-pan-champagne  bg-theme-navy rounded-md"
+              : "text-theme-pan-champagne  bg-theme-navy rounded-md"
           }`}
         >
           <p>{message.content}</p>
@@ -170,12 +170,12 @@ const Subscribe: React.FC = () => {
       )}
 
       {isSubscribed ? (
-        <div className=" rounded-md bg-theme-sky text-theme-pan-champagne p-6 mb-8 bg-[url('/Frame.png')]  bg-no-repeat bg-cover bg-center shadow-md">
+        <div className=" rounded-md bg-theme-sky border border-theme-navy text-theme-oldlace p-6 mb-8 shadow-md">
           <h2 className="text-xl mb-4 terminal-prompt">You have joined the crew</h2>
           <p>Enjoy immediate access to all new yield opportunities.</p>
         </div>
       ) : (
-        <div className="bg-theme-navy text-theme-pan-champagne bg-[url('/Frame.png')]  bg-no-repeat bg-cover bg-center p-6 mb-8 rounded-md shadow-md">
+        <div className="bg-theme-oldlace border border-theme-navy text-theme-navy  bg-center p-6 mb-8 rounded-md shadow-md">
           <h2 className="text-2xl mb-4">Choose your duration</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -190,11 +190,11 @@ const Subscribe: React.FC = () => {
       )}
 
       <div
-        className={`bg-theme-navy rounded-md text-theme-pan-champagne p-6 mb-8 bg-[url('/Frame.png')]  bg-no-repeat bg-cover bg-center shadow-md ${
+        className={`bg-theme-oldlace rounded-md text-theme-navy border border-theme-navy p-6 mb-8  shadow-md ${
           !isSubscribed ? "opacity-50" : ""
         }`}
       >
-        <h2 className="text-xl mb-4 terminal-prompt">Telegram Notifications</h2>
+        <h2 className="text-xl mb-4">Telegram Notifications</h2>
         <div className="flex items-center mb-4">
           <input
             type="checkbox"
@@ -223,13 +223,13 @@ const Subscribe: React.FC = () => {
         <TelegramInstructions />
         <button
           onClick={handleTelegramOptIn}
-          className="bg-theme-sky text-theme-pan-champagne px-4 py-2 rounded mt-4 hover:opacity-70"
+          className="bg-theme-sky text-theme-oldlace border border-theme-navy px-4 py-2 rounded mt-4 hover:opacity-70"
           disabled={!isSubscribed}
         >
           Save Telegram Settings
         </button>
         {!isSubscribed && (
-          <p className="mt-4 text-theme-pan-champagne">
+          <p className="mt-4 text-theme-navy">
             Join the crew to enable Telegram notifications for instant updates on new yield opportunities.
           </p>
         )}

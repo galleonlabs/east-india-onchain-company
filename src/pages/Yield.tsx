@@ -197,9 +197,9 @@ const Home: React.FC = () => {
     }, {} as Record<string, number>);
 
     return (
-      <div className=" p-4 bg-theme-navy rounded-md shadow-md">
-        <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">Network Distribution</h2>
-        <div className="h-64 translate-x-8 text-theme-pan-champagne">
+      <div className=" p-4 bg-theme-oldlace rounded-md shadow-md border border-theme-navy">
+        <h2 className="text-lg mb-4 text-theme-navy font-bold">Network Distribution</h2>
+        <div className="h-64 translate-x-8 text-theme-navy">
           <Pie
             data={{
               labels: Object.keys(networkCounts),
@@ -212,7 +212,7 @@ const Home: React.FC = () => {
             }}
             options={{
               plugins: {
-                legend: { position: "right" as const, labels: { color: "#F4EEE8" } },
+                legend: { position: "right" as const, labels: { color: "#040728" } },
                 title: { display: false, text: "Network Distribution" },
               },
             }}
@@ -229,8 +229,8 @@ const Home: React.FC = () => {
     }, {} as Record<string, number>);
 
     return (
-      <div className=" p-4  bg-theme-navy rounded-md shadow-md">
-        <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">Risk Distribution</h2>
+      <div className=" p-4  bg-theme-oldlace border border-theme-navy rounded-md shadow-md">
+        <h2 className="text-lg mb-4 text-theme-navy font-bold">Risk Distribution</h2>
         <div className="h-64 translate-y-6">
           <Bar
             data={{
@@ -244,10 +244,10 @@ const Home: React.FC = () => {
             }}
             options={{
               plugins: {
-                legend: { display: false, labels: { color: "#F4EEE8" } },
+                legend: { display: false, labels: { color: "#040728" } },
                 title: { display: false, text: "Risk Distribution" },
               },
-              scales: { y: { beginAtZero: true, ticks: { color: "#F4EEE8" } }, x: { ticks: { color: "#F4EEE8" } } },
+              scales: { y: { beginAtZero: true, ticks: { color: "#040728" } }, x: { ticks: { color: "#040728" } } },
             }}
           />
         </div>
@@ -286,8 +286,8 @@ const Home: React.FC = () => {
     }
 
     return (
-      <div className=" p-4  bg-theme-navy rounded-md shadow-md">
-        <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold"> {title} Yield Distribution</h2>
+      <div className=" p-4  bg-theme-oldlace border border-theme-navy rounded-md shadow-md">
+        <h2 className="text-lg mb-4 text-theme-navy font-bold"> {title} Yield Distribution</h2>
         <div className="h-64 translate-y-6">
           <Bar
             data={{
@@ -301,10 +301,10 @@ const Home: React.FC = () => {
             }}
             options={{
               plugins: {
-                legend: { display: false, labels: { color: "#F4EEE8" } },
+                legend: { display: false, labels: { color: "#040728" } },
                 title: { display: false, text: "Yield Distribution" },
               },
-              scales: { y: { beginAtZero: true, ticks: { color: "#F4EEE8" } }, x: { ticks: { color: "#F4EEE8" } } },
+              scales: { y: { beginAtZero: true, ticks: { color: "#040728" } }, x: { ticks: { color: "#040728" } } },
             }}
           />
         </div>
@@ -319,8 +319,8 @@ const Home: React.FC = () => {
     }, {} as Record<string, number>);
 
     return (
-      <div className=" p-4 bg-theme-navy rounded-md shadow-md">
-        <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">Category Distribution</h2>
+      <div className=" p-4 bg-theme-oldlace rounded-md shadow-md border border-theme-navy">
+        <h2 className="text-lg mb-4 text-theme-navy font-bold">Category Distribution</h2>
         <div className="h-64 translate-x-8">
           <Pie
             data={{
@@ -337,7 +337,7 @@ const Home: React.FC = () => {
             }}
             options={{
               plugins: {
-                legend: { position: "right" as const, labels: { color: "#F4EEE8" } },
+                legend: { position: "right" as const, labels: { color: "#040728" } },
                 title: { display: false, text: "Category Distribution" },
               },
             }}
@@ -361,8 +361,8 @@ const Home: React.FC = () => {
     }, Object.fromEntries(tvlRanges.map((range) => [range, 0])));
 
     return (
-      <div className=" p-4 bg-theme-navy rounded-md shadow-md">
-        <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">TVL Distribution</h2>
+      <div className=" p-4 bg-theme-oldlace rounded-md shadow-md border border-theme-navy">
+        <h2 className="text-lg mb-4 text-theme-navy font-bold">TVL Distribution</h2>
         <div className="h-64 translate-y-6">
           <Bar
             data={{
@@ -370,16 +370,16 @@ const Home: React.FC = () => {
               datasets: [
                 {
                   data: Object.values(tvlCounts),
-                  backgroundColor: "#025BEE",
+                  backgroundColor: "#040728",
                 },
               ],
             }}
             options={{
               plugins: {
-                legend: { display: false, labels: { color: "#F4EEE8" } },
+                legend: { display: false, labels: { color: "#040728" } },
                 title: { display: false, text: "TVL Distribution" },
               },
-              scales: { y: { beginAtZero: true, ticks: { color: "#F4EEE8" } }, x: { ticks: { color: "#F4EEE8" } } },
+              scales: { y: { beginAtZero: true, ticks: { color: "#040728" } }, x: { ticks: { color: "#040728" } } },
             }}
           />
         </div>
@@ -414,7 +414,7 @@ const Home: React.FC = () => {
                 <th className="p-2 border border-theme-navy">Link</th>
               </tr>
             </thead>
-            <tbody className="bg-theme-pan-champagne">
+            <tbody className="bg-theme-oldlace">
               {sortedOpportunities.map((opp, index) => (
                 <tr
                   key={opp.id}
@@ -509,7 +509,7 @@ const Home: React.FC = () => {
   const allOpportunities = Object.values(opportunities).flat();
 
   const chartContainer = (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 border-t border-t-theme-navy/20 pt-12">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 border-t border-t-theme-navy pt-12">
       <NetworkDistributionChart opportunities={allOpportunities} />
       <TVLDistributionChart opportunities={allOpportunities} />
       <CategoryDistributionChart opportunities={allOpportunities} />
@@ -520,16 +520,16 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="">
-      <h1 className="text-3xl  mb-2 text-theme-navy font-morion font-semibold">Curated Yield Opportunities</h1>
+    <div className="max-w-7xl">
+      <h1 className="text-3xl  mb-2 text-theme-navy font-morion font-semibold ">Curated Yield Opportunities</h1>
 
       <div className="flex justify-between items-center ">
         <p className="mb-4 text-theme-navy text-md">
-          Last Updated: <span className="text-lg">{formatLastUpdated(lastUpdated ? lastUpdated : new Date())}</span>
+          Last Updated: <span className="">{formatLastUpdated(lastUpdated ? lastUpdated : new Date())}</span>
           {user?.isPaidUser ? (
             <span className=""></span>
           ) : (
-            <span className="animate-pulse text-theme-copper  "> - 48 hours delayed for visitors</span>
+            <span className="animate-pulse text-theme-navy  text-md"> (48 hours delayed for visitors)</span>
           )}
         </p>
         <p className="mb-4 text-theme-navy text-md"></p>
@@ -538,8 +538,8 @@ const Home: React.FC = () => {
           disabled={!user?.isPaidUser}
           className={`px-4 py-2 text-sm rounded-md sm:translate-y-6 shadow-md ${
             user?.isPaidUser
-              ? " text-theme-pan-champagne bg-theme-sky hover:opacity-70"
-              : "text-theme-pan-champagne bg-theme-sky opacity-50"
+              ? " text-theme-pan-champagne bg-theme-sky border border-theme-navy hover:opacity-70"
+              : "text-theme-pan-champagne bg-theme-sky border border-theme-navy opacity-50"
           } transition-colors duration-200`}
         >
           Download PDF
@@ -555,7 +555,7 @@ const Home: React.FC = () => {
             <p className="mb-2">{recentOpportunitiesCount} more opportunities await</p>
             <Link
               to="/subscribe"
-              className="inline-block px-6 py-2 text-lg border rounded-md text-theme-pan-champagne bg-theme-sky hover:opacity-70 transition-colors duration-200 shadow-md"
+              className="inline-block px-6 py-2 text-lg border rounded-md border-theme-navy text-theme-pan-champagne bg-theme-sky hover:opacity-70 transition-colors duration-200 shadow-md"
             >
               Join the crew
             </Link>
