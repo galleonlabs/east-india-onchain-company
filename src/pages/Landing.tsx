@@ -14,8 +14,8 @@ const Landing: React.FC = () => {
         <div className="justify-center flex mb-8">
           <img src={logo} className="h-32 w-32" alt="logo" />
         </div>
-        <h1 className="text-5xl mb-6 font-morion font-semibold">DeFi Yield Merchants</h1>
-        <p className="text-lg mb-8 max-w-4xl mx-auto">
+        <h1 className="text-5xl mb-6 font-morion font-semibold bg-theme-champagne/40">DeFi Yield Merchants</h1>
+        <p className="text-lg mb-8 max-w-4xl mx-auto bg-theme-champagne/40">
           Every week, the East India Onchain Company team curates yield opportunities in the DeFi sector,
           <br className="hidden show:block"></br> providing you with free insights to make informed decisions about your
           digital assets.
@@ -98,7 +98,7 @@ const YieldCard: React.FC<{ Icon: React.ElementType; title: string; description:
 );
 
 const Feature: React.FC<{ icon: string; text: string }> = ({ icon, text }) => (
-  <div className="flex items-center space-x-3">
+  <div className="flex items-center space-x-3 bg-theme-champagne/40">
     <img src={icon} alt="Feature icon" className="w-12 h-12 flex-shrink-0" />
     <p className="text-lg md:pl-2 pl-2">{text}</p>
   </div>
