@@ -9,7 +9,7 @@ import ResourcesIcon from "../assets/brand/Resources-Icon.png";
 
 const Landing: React.FC = () => {
   return (
-    <div className="text-theme-navy sm:max-w-5xl  mx-auto sm:px-6 lg:px-8  bg-[url('./Frame.png')] bg-no-repeat bg-cover bg-center px-4">
+    <div className="text-theme-navy sm:max-w-5xl  mx-auto sm:px-6 lg:px-8  bg-[url('/Frame.png')] bg-no-repeat bg-cover bg-center px-4">
       <header className="text-center py-8 ">
         <div className="justify-center flex mb-8">
           <img src={logo} className="h-32 w-32" alt="logo" />
@@ -90,7 +90,7 @@ const YieldCard: React.FC<{ Icon: React.ElementType; title: string; description:
   title,
   description,
 }) => (
-  <div className="border rounded-md border-theme-navy bg-[url('./Frame.png')] bg-no-repeat bg-cover bg-center text-theme-pan-champagne bg-theme-navy px-6 py-6 transition-transform duration-300 hover:scale-105 shadow-md">
+  <div className="border rounded-md border-theme-navy bg-[url('/Frame.png')] bg-no-repeat bg-cover bg-center text-theme-pan-champagne bg-theme-navy px-6 py-6 transition-transform duration-300 hover:scale-105 shadow-md">
     <Icon strokeWidth={1} className="w-12 h-12 mb-3 mx-auto " />
     <h3 className="text-2xl mb-2 text-center">{title}</h3>
     <p className="text-center">{description}</p>

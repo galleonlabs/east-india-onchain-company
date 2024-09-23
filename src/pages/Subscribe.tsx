@@ -120,7 +120,7 @@ const Subscribe: React.FC = () => {
   };
 
   const renderSubscriptionOption = (duration: "month" | "year", amount: string) => (
-    <div className="bg-theme-pan-champagne rounded-md p-4 text-theme-pan-navy bg-[url('./Frame.png')]">
+    <div className="bg-theme-pan-champagne rounded-md p-4 text-theme-pan-navy bg-[url('/Frame.png')]">
       <h3 className="text-xl mb-2 ">{duration.charAt(0).toUpperCase() + duration.slice(1)} Access</h3>
       <p className="mb-4">Access all yield opportunities for one {duration}</p>
       <p className="text-2xl mb-4 font-morion font-semibold">{amount} ETH</p>
@@ -170,12 +170,12 @@ const Subscribe: React.FC = () => {
       )}
 
       {isSubscribed ? (
-        <div className=" rounded-md bg-theme-sky text-theme-pan-champagne p-6 mb-8 bg-[url('./Frame.png')]  bg-no-repeat bg-cover bg-center shadow-md">
+        <div className=" rounded-md bg-theme-sky text-theme-pan-champagne p-6 mb-8 bg-[url('/Frame.png')]  bg-no-repeat bg-cover bg-center shadow-md">
           <h2 className="text-xl mb-4 terminal-prompt">You have joined the crew</h2>
           <p>Enjoy immediate access to all new yield opportunities.</p>
         </div>
       ) : (
-        <div className="bg-theme-navy text-theme-pan-champagne bg-[url('./Frame.png')]  bg-no-repeat bg-cover bg-center p-6 mb-8 rounded-md shadow-md">
+        <div className="bg-theme-navy text-theme-pan-champagne bg-[url('/Frame.png')]  bg-no-repeat bg-cover bg-center p-6 mb-8 rounded-md shadow-md">
           <h2 className="text-2xl mb-4">Choose your duration</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -190,7 +190,7 @@ const Subscribe: React.FC = () => {
       )}
 
       <div
-        className={`bg-theme-navy rounded-md text-theme-pan-champagne p-6 mb-8 bg-[url('./Frame.png')]  bg-no-repeat bg-cover bg-center shadow-md ${
+        className={`bg-theme-navy rounded-md text-theme-pan-champagne p-6 mb-8 bg-[url('/Frame.png')]  bg-no-repeat bg-cover bg-center shadow-md ${
           !isSubscribed ? "opacity-50" : ""
         }`}
       >
