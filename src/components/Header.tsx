@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="py-4 text-theme-pan-champagne border-b border-theme-navy bg-theme-navy">
+    <header className="py-4 text-theme-pan-champagne border-b border-theme-navy bg-theme-navy shadow-md">
       <nav className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="text-2xl flex items-center hover:opacity-80 transition-opacity font-morion">

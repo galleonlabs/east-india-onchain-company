@@ -197,7 +197,7 @@ const Home: React.FC = () => {
     }, {} as Record<string, number>);
 
     return (
-      <div className=" p-4 bg-theme-navy rounded-md">
+      <div className=" p-4 bg-theme-navy rounded-md shadow-md">
         <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">Network Distribution</h2>
         <div className="h-64 translate-x-8 text-theme-pan-champagne">
           <Pie
@@ -229,7 +229,7 @@ const Home: React.FC = () => {
     }, {} as Record<string, number>);
 
     return (
-      <div className=" p-4  bg-theme-navy rounded-md ">
+      <div className=" p-4  bg-theme-navy rounded-md shadow-md">
         <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">Risk Distribution</h2>
         <div className="h-64 translate-y-6">
           <Bar
@@ -286,7 +286,7 @@ const Home: React.FC = () => {
     }
 
     return (
-      <div className=" p-4  bg-theme-navy rounded-md ">
+      <div className=" p-4  bg-theme-navy rounded-md shadow-md">
         <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold"> {title} Yield Distribution</h2>
         <div className="h-64 translate-y-6">
           <Bar
@@ -319,7 +319,7 @@ const Home: React.FC = () => {
     }, {} as Record<string, number>);
 
     return (
-      <div className=" p-4 bg-theme-navy rounded-md ">
+      <div className=" p-4 bg-theme-navy rounded-md shadow-md">
         <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">Category Distribution</h2>
         <div className="h-64 translate-x-8">
           <Pie
@@ -361,7 +361,7 @@ const Home: React.FC = () => {
     }, Object.fromEntries(tvlRanges.map((range) => [range, 0])));
 
     return (
-      <div className=" p-4 bg-theme-navy rounded-md ">
+      <div className=" p-4 bg-theme-navy rounded-md shadow-md">
         <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">TVL Distribution</h2>
         <div className="h-64 translate-y-6">
           <Bar
@@ -396,7 +396,7 @@ const Home: React.FC = () => {
       <div className="mb-8">
         <h2 className="text-xl font-bold mb-4 text-theme-navy">{title}</h2>
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse border-theme-navy text-theme-navy">
+          <table className="w-full border-collapse border-theme-navy text-theme-navy shadow-md">
             <thead>
               <tr className="bg-theme-navy text-theme-pan-champagne">
                 <th className="p-2 border border-theme-navy ">Name</th>
@@ -414,13 +414,13 @@ const Home: React.FC = () => {
                 <th className="p-2 border border-theme-navy">Link</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-theme-pan-champagne">
               {sortedOpportunities.map((opp, index) => (
                 <tr
                   key={opp.id}
                   className={`${
                     opp.isBenchmark ? "" : ""
-                  } hover:bg-theme-navy/5 transition-colors duration-200 animate-fadeIn`}
+                  } hover:bg-theme-pan-navy/5 transition-colors duration-200 animate-fadeIn `}
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <td className="p-2 border border-theme-navy text-theme-navy">
@@ -509,7 +509,7 @@ const Home: React.FC = () => {
   const allOpportunities = Object.values(opportunities).flat();
 
   const chartContainer = (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 border-t border-t-theme-pan-navy pt-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 border-t border-t-theme-navy/20 pt-12">
       <NetworkDistributionChart opportunities={allOpportunities} />
       <TVLDistributionChart opportunities={allOpportunities} />
       <CategoryDistributionChart opportunities={allOpportunities} />
@@ -529,16 +529,14 @@ const Home: React.FC = () => {
           {user?.isPaidUser ? (
             <span className=""></span>
           ) : (
-            <span className="animate-pulse text-theme-copper  ">
-              {" "}- 48 hours delayed for visitors
-            </span>
+            <span className="animate-pulse text-theme-copper  "> - 48 hours delayed for visitors</span>
           )}
         </p>
         <p className="mb-4 text-theme-navy text-md"></p>
         <button
           onClick={handleDownloadPDF}
           disabled={!user?.isPaidUser}
-          className={`px-4 py-2 text-sm rounded-md ${
+          className={`px-4 py-2 text-sm rounded-md sm:translate-y-6 shadow-md ${
             user?.isPaidUser
               ? " text-theme-pan-champagne bg-theme-sky hover:opacity-70"
               : "text-theme-pan-champagne bg-theme-sky opacity-50"
@@ -557,7 +555,7 @@ const Home: React.FC = () => {
             <p className="mb-2">{recentOpportunitiesCount} more opportunities await</p>
             <Link
               to="/subscribe"
-              className="inline-block px-6 py-2 text-lg border rounded-md text-theme-pan-champagne bg-theme-sky hover:opacity-70 transition-colors duration-200"
+              className="inline-block px-6 py-2 text-lg border rounded-md text-theme-pan-champagne bg-theme-sky hover:opacity-70 transition-colors duration-200 shadow-md"
             >
               Join the crew
             </Link>

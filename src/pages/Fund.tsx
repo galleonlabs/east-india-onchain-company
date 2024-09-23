@@ -44,7 +44,7 @@ const Fund: React.FC = () => {
         </p>
       </section>
 
-      <section className="mb-8 bg-theme-navy text-theme-pan-champagne rounded-md bg-[url('./Frame.png')]  bg-no-repeat bg-cover bg-center p-6">
+      <section className="mb-8 bg-theme-navy text-theme-pan-champagne rounded-md bg-[url('./Frame.png')]  bg-no-repeat bg-cover bg-center p-6 shadow-md">
         <h2 className="text-2xl mb-4">How does it work</h2>
         <ul className="list-disc list-inside space-y-2">
           <li>Guidance on best practices for on-chain portfolio management</li>
@@ -76,14 +76,16 @@ const Fund: React.FC = () => {
             </div>
             <button
               type="submit"
-              className="bg-theme-sky text-theme-pan-champagne px-4 py-2 rounded-md hover:bg-opacity-70 transition-colors"
+              className="bg-theme-sky text-theme-pan-champagne px-4 py-2 rounded-md hover:bg-opacity-70 transition-colors shadow-md"
             >
               Register Interest
             </button>
           </form>
         )}
         {message && (
-          <p className={`mt-4 ${message.type === "success" ? "text-theme-sky" : "text-theme-copper"}`}>{message.content}</p>
+          <p className={`mt-4 ${message.type === "success" ? "text-theme-sky" : "text-theme-copper"}`}>
+            {message.content}
+          </p>
         )}
         <p className="mb-4 mt-4 opacity-75 text-theme-navy">
           This program provides strictly educational content to help guide you in making safer decisions with your

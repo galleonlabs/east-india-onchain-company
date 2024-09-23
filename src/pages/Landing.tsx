@@ -9,7 +9,7 @@ import ResourcesIcon from "../assets/brand/Resources-Icon.png";
 
 const Landing: React.FC = () => {
   return (
-    <div className="text-theme-navy sm:max-w-5xl  mx-auto sm:px-6 lg:px-8 border-l border-r border-theme-navy/20 px-4">
+    <div className="text-theme-navy sm:max-w-5xl  mx-auto sm:px-6 lg:px-8 border-l border-r border-theme-navy/20 bg-[url('./Frame.png')] bg-no-repeat bg-cover bg-center px-4">
       <header className="text-center py-8 ">
         <div className="justify-center flex mb-8">
           <img src={logo} className="h-32 w-32" alt="logo" />
@@ -65,13 +65,13 @@ const Landing: React.FC = () => {
         <div className="space-y-4 sm:space-y-0 sm:space-x-4">
           <Link
             to="/yield"
-            className="inline-block px-6 py-2 text-lg rounded-md hover:opacity-70  text-theme-pan-champagne bg-theme-pan-navy hover:text-theme-pan-champagne transition-colors duration-200 w-full sm:w-auto"
+            className="inline-block px-6 py-2 text-lg rounded-md hover:opacity-70  text-theme-pan-champagne bg-theme-pan-navy hover:text-theme-pan-champagne transition-colors duration-200 w-full sm:w-auto shadow-md"
           >
             Explore Yield Opportunities
           </Link>
           <Link
             to="/subscribe"
-            className="inline-block px-6 py-2 text-lg rounded-md hover:opacity-70  text-theme-pan-champagne bg-theme-sky hover:text-theme-pan-champagne transition-colors duration-200 w-full sm:w-auto"
+            className="inline-block px-6 py-2 text-lg rounded-md hover:opacity-70  text-theme-pan-champagne bg-theme-sky hover:text-theme-pan-champagne transition-colors duration-200 w-full sm:w-auto shadow-md"
           >
             Join the Crew
           </Link>
@@ -90,7 +90,7 @@ const YieldCard: React.FC<{ Icon: React.ElementType; title: string; description:
   title,
   description,
 }) => (
-  <div className="border rounded-md border-theme-navy bg-[url('./Frame.png')] bg-no-repeat bg-cover bg-center text-theme-pan-champagne bg-theme-navy px-6 py-6 transition-transform duration-300 hover:scale-105">
+  <div className="border rounded-md border-theme-navy bg-[url('./Frame.png')] bg-no-repeat bg-cover bg-center text-theme-pan-champagne bg-theme-navy px-6 py-6 transition-transform duration-300 hover:scale-105 shadow-md">
     <Icon strokeWidth={1} className="w-12 h-12 mb-3 mx-auto " />
     <h3 className="text-2xl mb-2 text-center">{title}</h3>
     <p className="text-center">{description}</p>
