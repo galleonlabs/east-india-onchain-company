@@ -10,19 +10,17 @@ import ResourcesIcon from "../assets/brand/Resources-Icon.png";
 
 const Landing: React.FC = () => {
   return (
-    <div className="text-theme-pan-navy max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-theme-navy  max-w-5xl mx-auto sm:px-6 lg:px-8 border-l border-r border-theme-navy/20 px-16">
       <header className="text-center py-8 mt-8">
-        <h1 className="text-4xl mb-6 underline underline-offset-8">
-          Yield Merchants of Natural Crypto Resources
-        </h1>
-        <p className="text-xl mb-8 max-w-5xl mx-auto">
-          The East India Onchain Company team curates yield opportunities in the DeFi sector, providing
-          you with free insights to make informed decisions about your digital assets.
+        <h1 className="text-5xl mb-6 font-morion font-semibold">DeFi Yield Merchants</h1>
+        <p className="text-lg mb-8 max-w-4xl mx-auto">
+          Every week, the East India Onchain Company team curates yield opportunities in the DeFi sector,<br></br>{" "}
+          providing you with free insights to make informed decisions about your digital assets.
         </p>
       </header>
 
       <section className="mb-6 max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl  mb-6 text-center">Discover Yield Opportunities</h2>
+        <h2 className="text-3xl  mb-8 text-center">Discover Yield Opportunities</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <YieldCard
             Icon={Coins}
@@ -40,25 +38,37 @@ const Landing: React.FC = () => {
       <section className=" p-8 mb-8  max-w-5xl mx-auto">
         <h2 className="text-3xl  mb-8 text-center">Why Sail With Us?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Feature icon={ResourcesIcon} text="Curated selection of yield opportunities for both stablecoin and ETH portfolios" />
-          <Feature icon={AboutIcon} text="Diverse strategies across all networks to source yield from all corners of DeFi" />
-          <Feature icon={ApplicationIcon} text="Comprehensive risk assessments and insights to cater to different profiles" />
-          <Feature icon={CommunityIcon} text="Frequently updated every week to always beat standard DeFi yield benchmarks" />
+          <Feature
+            icon={ResourcesIcon}
+            text="Curated selection of yield opportunities for both stablecoin and ETH portfolios"
+          />
+          <Feature
+            icon={AboutIcon}
+            text="Diverse strategies across all networks to source yield from all corners of DeFi"
+          />
+          <Feature
+            icon={ApplicationIcon}
+            text="Comprehensive risk assessments and insights to cater to different profiles"
+          />
+          <Feature
+            icon={CommunityIcon}
+            text="Frequently updated every week to always beat standard DeFi yield benchmarks"
+          />
         </div>
       </section>
 
-      <section className="text-center border-t border-theme-pan-navy max-w-5xl pt-8 mx-auto">
-        <h2 className="text-3xl mb-4 ">Ready to Explore?</h2>
+      <section className="text-center border-t border-theme-pan-navy/20 max-w-5xl pt-8 mx-auto">
+        <h2 className="text-3xl mb-8 ">Ready to Explore?</h2>
         <div className="space-y-4 sm:space-y-0 sm:space-x-4">
           <Link
             to="/yield"
-            className="inline-block px-6 py-2 text-lg border border-theme-pan-navy hover:bg-theme-pan-navy hover:text-theme-pan-champagne transition-colors duration-200"
+            className="inline-block px-6 py-2 text-lg rounded-md hover:opacity-70  text-theme-pan-champagne bg-theme-pan-navy hover:text-theme-pan-champagne transition-colors duration-200"
           >
             Explore Yield Opportunities
           </Link>
           <Link
             to="/subscribe"
-            className="inline-block px-6 py-2 text-lg border border-theme-pan-sky text-theme-pan-sky hover:bg-theme-pan-sky hover:text-theme-pan-champagne transition-colors duration-200"
+            className="inline-block px-6 py-2 text-lg rounded-md hover:opacity-70  text-theme-pan-champagne bg-theme-sky hover:text-theme-pan-champagne transition-colors duration-200"
           >
             Join the Crew
           </Link>
@@ -66,7 +76,7 @@ const Landing: React.FC = () => {
       </section>
 
       <footer className="text-center text-sm opacity-75 py-4">
-        <p>The East India Onchain Company is operated by Galleon Labs</p>
+        <p>The East India Onchain Company is operated by Galleon</p>
       </footer>
     </div>
   );
@@ -77,8 +87,8 @@ const YieldCard: React.FC<{ Icon: React.ElementType; title: string; description:
   title,
   description,
 }) => (
-  <div className="border border-theme-oldlace bg-theme-pan-navy/10 px-6 py-6 transition-transform duration-300 hover:scale-105">
-    <Icon strokeWidth={1} className="w-12 h-12 mb-3 mx-auto text-theme-pan-navy" />
+  <div className="border rounded-md border-theme-navy bg-[url('./Frame.png')]  bg-no-repeat bg-cover bg-center text-theme-pan-champagne bg-theme-navy px-6 py-6 transition-transform duration-300 hover:scale-105">
+    <Icon strokeWidth={1} className="w-12 h-12 mb-3 mx-auto " />
     <h3 className="text-2xl mb-2 text-center">{title}</h3>
     <p className="text-center">{description}</p>
   </div>
@@ -86,8 +96,8 @@ const YieldCard: React.FC<{ Icon: React.ElementType; title: string; description:
 
 const Feature: React.FC<{ icon: string; text: string }> = ({ icon, text }) => (
   <div className="flex items-center space-x-3">
-    <img src={icon} alt="Feature icon" className="w-8 h-8 flex-shrink-0 grayscale-[40%]" />
-    <p className="text-lg md:pl-0 pl-2">{text}</p>
+    <img src={icon} alt="Feature icon" className="w-12 h-12 flex-shrink-0" />
+    <p className="text-lg md:pl-2 pl-2">{text}</p>
   </div>
 );
 

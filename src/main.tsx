@@ -23,9 +23,9 @@ const config = getDefaultConfig({
 const queryClient = new QueryClient();
 
 const customTheme = darkTheme({
-  accentColor: "#27272A",
-  accentColorForeground: "#F4EEE8",
-  borderRadius: undefined,
+  accentColor: "#F4EEE8",
+  accentColorForeground: "#27272A",
+  borderRadius: 'small',
   fontStack: "system",
   overlayBlur: "small",
 });
@@ -62,14 +62,14 @@ createRoot(document.getElementById("root")!).render(
               selectedOptionBorder: "#F4EEE8",
             },
             fonts: {
-              body: "Bona Nova SC, sans-serif",
+              body: "Morion, sans-serif",
             },
             radii: {
-              actionButton: "0px",
-              connectButton: "0px",
-              menuButton: "0px",
-              modal: "0px",
-              modalMobile: "0px",
+              actionButton: "4px",
+              connectButton: "4px",
+              menuButton: "4px",
+              modal: "4px",
+              modalMobile: "4px",
             },
             shadows: {
               connectButton: "",

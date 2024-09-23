@@ -9,28 +9,30 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="py-4 text-theme-pan-navy border-b border-theme-pan-navy bg-theme-pan-champagne">
+    <header className="py-4 text-theme-pan-champagne border-b border-theme-navy bg-theme-navy">
       <nav className="container mx-auto px-4">
         <div className="flex justify-between items-center">
-          <Link to="/" className="text-2xl flex items-center hover:opacity-80 transition-opacity">
-            <img src={logo} className="h-8 w-8 mr-4" alt="logo" />
-            {!user ? "East India Onchain Company" : "East India Onchain Co."}
+          <Link to="/" className="text-2xl flex items-center hover:opacity-80 transition-opacity font-morion">
+            <img src={logo} className="h-10 w-10 mr-4" alt="logo" />
+            <p className="-translate-y-4 text-sm pr-2 w-0">Galleon's</p>
+            <p className="translate-y-2">{!user ? "East India Onchain Company" : "East India Onchain Co."}</p>
           </Link>
+
           <div className="hidden md:flex items-center space-x-5">
-            {/* <Link to="/" className="hover:text-theme-pan-sky transition-colors duration-200">
+            {/* <Link to="/" className="hover:text-theme-champagne transition-colors duration-200">
               Home
             </Link> */}
-            <Link to="/yield" className="hover:text-theme-pan-sky transition-colors duration-200">
+            <Link to="/yield" className="hover:text-theme-champagne transition-colors duration-200">
               Yield
             </Link>
-            <Link to="/subscribe" className="hover:text-theme-pan-sky transition-colors duration-200">
+            <Link to="/subscribe" className="hover:text-theme-champagne transition-colors duration-200">
               Join the Crew
             </Link>
-            <Link to="/fund" className="hover:text-theme-pan-sky transition-colors duration-200">
+            <Link to="/fund" className="hover:text-theme-champagne transition-colors duration-200">
               Fund
             </Link>
             {isAdmin && (
-              <Link to="/admin" className="hover:text-theme-pan-sky transition-colors duration-200">
+              <Link to="/admin" className="hover:text-theme-champagne transition-colors duration-200">
                 Admin
               </Link>
             )}
@@ -49,32 +51,32 @@ const Header: React.FC = () => {
           <div className="mt-4 md:hidden">
             <Link
               to="/"
-              className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
+              className="block py-2 hover:text-theme-champagne text-theme-pan-navy transition-colors duration-200"
             >
               Home
             </Link>
             <Link
               to="/yield"
-              className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
+              className="block py-2 hover:text-theme-champagne text-theme-pan-navy transition-colors duration-200"
             >
               Yield
             </Link>
             <Link
               to="/subscribe"
-              className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
+              className="block py-2 hover:text-theme-champagne text-theme-pan-navy transition-colors duration-200"
             >
               Join the Crew
             </Link>
             <Link
               to="/fund"
-              className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
+              className="block py-2 hover:text-theme-champagne text-theme-pan-navy transition-colors duration-200"
             >
               Fund
             </Link>
             {isAdmin && (
               <Link
                 to="/admin"
-                className="block py-2 hover:text-theme-pan-sky text-theme-pan-navy transition-colors duration-200"
+                className="block py-2 hover:text-theme-champagne text-theme-pan-navy transition-colors duration-200"
               >
                 Admin
               </Link>

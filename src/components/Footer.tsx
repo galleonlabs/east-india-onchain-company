@@ -3,21 +3,21 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="border-t border-theme-pan-navy text-theme-pan-navy p-4">
+    <footer className="border-t border-theme-navy text-theme-navy p-4">
       <div className="container mx-auto flex justify-center items-center">
-        <a href="https://x.com/galleonlabs" className="mx-2 hover:text-theme-pan-sky" target="_blank">
-          TWITTER
+        <a href="https://x.com/galleonlabs" className="mx-2 hover:text-theme-sky" target="_blank">
+          Twitter
         </a>
-        <a href="https://github.com/galleonlabs" className="mx-2 hover:text-theme-pan-sky" target="_blank">
-          GITHUB
+        <a href="https://github.com/galleonlabs" className="mx-2 hover:text-theme-sky" target="_blank">
+          GitHub
         </a>
-        <a href="https://thetradewinds.substack.com/" className="mx-2 hover:text-theme-pan-sky" target="_blank">
-          NEWSLETTER
+        <a href="https://thetradewinds.substack.com/" className="mx-2 hover:text-theme-sky" target="_blank">
+          Newsletter
         </a>
-        <a className="mx-2 hover:text-theme-pan-sky"
+        <a className="mx-2 hover:text-theme-sky"
             href="mailto:gm@galleonlabs.io"
         >
-          CONTACT
+          Contact
         </a>
       </div>
       <div className="opacity-75 text-sm mt-4 max-w-7xl mx-auto text-center">

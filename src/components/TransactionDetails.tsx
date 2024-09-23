@@ -15,12 +15,12 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({ transactionHash
   const explorerUrl = getNetworkExplorerUrl(networkChainId);
 
   return (
-    <div className="bg-theme-pan-navy/10 text-terminal p-6 mb-8 border border-theme-oldlace">
-      <h2 className="text-xl mb-4 terminal-prompt">Transaction Details</h2>
+    <div className=" text-terminal border-l border-theme-navy px-6 mx-12 mb-8 pb-2 ">
+      <h2 className="text-lg mb-2 terminal-prompt">Transaction Details</h2>
       <p className="break-all">
         Explorer:{" "}
         <a
-          className="text-theme-pan-sky"
+          className="text-theme-sky"
           target="_blank"
           rel="noopener noreferrer"
           href={`${explorerUrl}/tx/${transactionHash}`}

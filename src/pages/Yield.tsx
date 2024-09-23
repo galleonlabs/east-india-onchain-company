@@ -197,22 +197,22 @@ const Home: React.FC = () => {
     }, {} as Record<string, number>);
 
     return (
-      <div className=" p-4 bg-theme-pan-navy/10 shadow ">
-        <h2 className="text-lg mb-4 text-theme-pan-navy font-bold">Network Distribution</h2>
-        <div className="h-64 translate-x-8">
+      <div className=" p-4 bg-theme-navy rounded-md">
+        <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">Network Distribution</h2>
+        <div className="h-64 translate-x-8 text-theme-pan-champagne">
           <Pie
             data={{
               labels: Object.keys(networkCounts),
               datasets: [
                 {
                   data: Object.values(networkCounts),
-                  backgroundColor: ["#DC7F5A", "#0072B5", "#FDE6C4", "#4A8594", "#006580"],
+                  backgroundColor: ["#DC7F5A", "#025BEE", "#FDE6C4", "#4A8594", "#006580"],
                 },
               ],
             }}
             options={{
               plugins: {
-                legend: { position: "right" as const },
+                legend: { position: "right" as const, labels: { color: "#F4EEE8" } },
                 title: { display: false, text: "Network Distribution" },
               },
             }}
@@ -227,27 +227,27 @@ const Home: React.FC = () => {
       acc[opp.relativeRisk] = (acc[opp.relativeRisk] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
-    
+
     return (
-      <div className=" p-4 bg-theme-pan-navy/10 shadow ">
-        <h2 className="text-lg mb-4 text-theme-pan-navy font-bold">Risk Distribution</h2>
+      <div className=" p-4  bg-theme-navy rounded-md ">
+        <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">Risk Distribution</h2>
         <div className="h-64 translate-y-6">
           <Bar
             data={{
-              labels: ['Low', 'Medium', 'High'],
+              labels: ["Low", "Medium", "High"],
               datasets: [
                 {
-                  data: [riskCounts['Low'], riskCounts['Medium'], riskCounts['High']],
-                  backgroundColor: ["#FDE6C4", "#0072B5", "#DC7F5A"],
+                  data: [riskCounts["Low"], riskCounts["Medium"], riskCounts["High"]],
+                  backgroundColor: ["#FDE6C4", "#025BEE", "#DC7F5A"],
                 },
               ],
             }}
             options={{
               plugins: {
-                legend: { display: false },
+                legend: { display: false, labels: { color: "#F4EEE8" } },
                 title: { display: false, text: "Risk Distribution" },
               },
-              scales: { y: { beginAtZero: true } },
+              scales: { y: { beginAtZero: true, ticks: { color: "#F4EEE8" } }, x: { ticks: { color: "#F4EEE8" } } },
             }}
           />
         </div>
@@ -286,8 +286,8 @@ const Home: React.FC = () => {
     }
 
     return (
-      <div className=" p-4 bg-theme-pan-navy/10 shadow ">
-        <h2 className="text-lg mb-4 text-theme-pan-navy font-bold"> {title} Yield Distribution</h2>
+      <div className=" p-4  bg-theme-navy rounded-md ">
+        <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold"> {title} Yield Distribution</h2>
         <div className="h-64 translate-y-6">
           <Bar
             data={{
@@ -295,16 +295,16 @@ const Home: React.FC = () => {
               datasets: [
                 {
                   data: Object.values(yieldCounts),
-                  backgroundColor: "#040728",
+                  backgroundColor: "#025BEE",
                 },
               ],
             }}
             options={{
               plugins: {
-                legend: { display: false },
+                legend: { display: false, labels: { color: "#F4EEE8" } },
                 title: { display: false, text: "Yield Distribution" },
               },
-              scales: { y: { beginAtZero: true } },
+              scales: { y: { beginAtZero: true, ticks: { color: "#F4EEE8" } }, x: { ticks: { color: "#F4EEE8" } } },
             }}
           />
         </div>
@@ -319,25 +319,25 @@ const Home: React.FC = () => {
     }, {} as Record<string, number>);
 
     return (
-      <div className=" p-4 bg-theme-pan-navy/10 shadow ">
-        <h2 className="text-lg mb-4 text-theme-pan-navy font-bold">Category Distribution</h2>
+      <div className=" p-4 bg-theme-navy rounded-md ">
+        <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">Category Distribution</h2>
         <div className="h-64 translate-x-8">
           <Pie
             data={{
               labels: Object.keys(categoryCounts).map((x) => {
-                if (x === "stablecoin") return "Stablecoin Yield";
-                if (x === "volatileAsset") return "ETH Yield";
+                if (x === "stablecoin") return "Stablecoin";
+                if (x === "volatileAsset") return "ETH";
               }),
               datasets: [
                 {
                   data: Object.values(categoryCounts),
-                  backgroundColor: ["#DC7F5A", "#0072B5", "#FDE6C4"],
+                  backgroundColor: ["#DC7F5A", "#025BEE", "#FDE6C4"],
                 },
               ],
             }}
             options={{
               plugins: {
-                legend: { position: "right" as const },
+                legend: { position: "right" as const, labels: { color: "#F4EEE8" } },
                 title: { display: false, text: "Category Distribution" },
               },
             }}
@@ -361,8 +361,8 @@ const Home: React.FC = () => {
     }, Object.fromEntries(tvlRanges.map((range) => [range, 0])));
 
     return (
-      <div className=" p-4 bg-theme-pan-navy/10 shadow ">
-        <h2 className="text-lg mb-4 text-theme-pan-navy font-bold">TVL Distribution</h2>
+      <div className=" p-4 bg-theme-navy rounded-md ">
+        <h2 className="text-lg mb-4 text-theme-pan-champagne font-bold">TVL Distribution</h2>
         <div className="h-64 translate-y-6">
           <Bar
             data={{
@@ -370,16 +370,16 @@ const Home: React.FC = () => {
               datasets: [
                 {
                   data: Object.values(tvlCounts),
-                  backgroundColor: "#0072B5",
+                  backgroundColor: "#025BEE",
                 },
               ],
             }}
             options={{
               plugins: {
-                legend: { display: false },
+                legend: { display: false, labels: { color: "#F4EEE8" } },
                 title: { display: false, text: "TVL Distribution" },
               },
-              scales: { y: { beginAtZero: true } },
+              scales: { y: { beginAtZero: true, ticks: { color: "#F4EEE8" } }, x: { ticks: { color: "#F4EEE8" } } },
             }}
           />
         </div>
@@ -394,30 +394,24 @@ const Home: React.FC = () => {
 
     return (
       <div className="mb-8">
-        <h2 className="text-xl font-bold mb-4 text-theme-pan-navy">{title}</h2>
+        <h2 className="text-xl font-bold mb-4 text-theme-navy">{title}</h2>
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-theme-pan-navy text-theme-pan-navy">
+          <table className="w-full border-collapse border-theme-navy text-theme-navy">
             <thead>
-              <tr className="bg-theme-pan-navy text-theme-pan-champagne">
-                <th className="p-2 border border-theme-pan-navy">Name</th>
-                <th
-                  className="p-2 border border-theme-pan-navy cursor-pointer"
-                  onClick={() => handleSort("estimatedApy")}
-                >
+              <tr className="bg-theme-navy text-theme-pan-champagne">
+                <th className="p-2 border border-theme-navy ">Name</th>
+                <th className="p-2 border border-theme-navy cursor-pointer" onClick={() => handleSort("estimatedApy")}>
                   APY & Risk-Adjusted {sortKey === "estimatedApy" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
                 </th>
-                <th className="p-2 border border-theme-pan-navy">Network</th>
-                <th className="p-2 border border-theme-pan-navy cursor-pointer" onClick={() => handleSort("tvl")}>
+                <th className="p-2 border border-theme-navy">Network</th>
+                <th className="p-2 border border-theme-navy cursor-pointer" onClick={() => handleSort("tvl")}>
                   TVL {sortKey === "tvl" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
                 </th>
-                <th
-                  className="p-2 border border-theme-pan-navy cursor-pointer"
-                  onClick={() => handleSort("relativeRisk")}
-                >
+                <th className="p-2 border border-theme-navy cursor-pointer" onClick={() => handleSort("relativeRisk")}>
                   Risk {sortKey === "relativeRisk" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
                 </th>
-                <th className="p-2 border border-theme-pan-navy">Notes</th>
-                <th className="p-2 border border-theme-pan-navy">Link</th>
+                <th className="p-2 border border-theme-navy">Notes</th>
+                <th className="p-2 border border-theme-navy">Link</th>
               </tr>
             </thead>
             <tbody>
@@ -425,32 +419,37 @@ const Home: React.FC = () => {
                 <tr
                   key={opp.id}
                   className={`${
-                    opp.isBenchmark ? "bg-theme-pan-sky/10" : ""
-                  } hover:bg-theme-pan-navy/5 transition-colors duration-200 animate-fadeIn`}
+                    opp.isBenchmark ? "" : ""
+                  } hover:bg-theme-navy/5 transition-colors duration-200 animate-fadeIn`}
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">
+                  <td className="p-2 border border-theme-navy text-theme-navy">
                     {opp.dateAdded && isNew(opp.dateAdded) && (
-                      <span className="text-theme-pan-sky text-xs border border-theme-pan-sky px-1 py-0.5 mr-1.5">
+                      <span className="text-theme-sky rounded-md text-xs border border-theme-sky px-1 py-0.5 mr-1.5">
                         NEW
                       </span>
                     )}
-                    {opp.name} {opp.isBenchmark && "(Benchmark)"}
+                    {opp.name}{" "}
+                    {opp.isBenchmark && (
+                      <span className="text-theme-copper rounded-md  px-1 py-0.5 ml-1 text-xs border border-theme-copper">
+                        Benchmark
+                      </span>
+                    )}
                   </td>
-                  <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">
+                  <td className="p-2 border border-theme-navy text-theme-navy">
                     <span className="font-semibold">{opp.estimatedApy.toFixed(2)}%</span> /{" "}
                     {calculateRiskAdjustedAPY(opp).toFixed(2)}%
                   </td>
-                  <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.network}</td>
-                  <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{formatTVL(opp.tvl)}</td>
-                  <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.relativeRisk}</td>
-                  <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">{opp.notes}</td>
-                  <td className="p-2 border border-theme-pan-navy text-theme-pan-navy">
+                  <td className="p-2 border border-theme-navy text-theme-navy">{opp.network}</td>
+                  <td className="p-2 border border-theme-navy text-theme-navy">{formatTVL(opp.tvl)}</td>
+                  <td className="p-2 border border-theme-navy text-theme-navy">{opp.relativeRisk}</td>
+                  <td className="p-2 border border-theme-navy text-theme-navy">{opp.notes}</td>
+                  <td className="p-2 border border-theme-navy text-theme-navy">
                     <a
                       href={opp.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-theme-pan-navy hover:underline"
+                      className="text-theme-navy hover:underline"
                     >
                       Visit
                     </a>
@@ -458,8 +457,8 @@ const Home: React.FC = () => {
                 </tr>
               ))}
               {!user?.isPaidUser && totalOpportunities > categoryOpportunities.length && (
-                <tr className="bg-theme-pan-navy/10 text-theme-pan-navy">
-                  <td colSpan={7} className="p-2 border border-theme-pan-navy text-center">
+                <tr className="bg-theme-navy text-theme-navy">
+                  <td colSpan={7} className="p-2 border border-theme-navy text-center">
                     {recentOpportunitiesCount} more opportunities available for crew members.
                   </td>
                 </tr>
@@ -500,7 +499,7 @@ const Home: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div className="text-theme-pan-navy">Loading yield opportunities...</div>;
+    return <div className="text-theme-navy">Loading yield opportunities...</div>;
   }
 
   if (error) {
@@ -522,28 +521,27 @@ const Home: React.FC = () => {
 
   return (
     <div className="">
-      <h1 className="text-3xl  mb-2 text-theme-pan-navy">Curated Yield Opportunities</h1>
+      <h1 className="text-3xl  mb-2 text-theme-navy font-morion font-semibold">Curated Yield Opportunities</h1>
 
       <div className="flex justify-between items-center ">
-        <p className="mb-4 text-theme-pan-navy text-md">
-          LAST UPDATED: <span className="text-lg">{formatLastUpdated(lastUpdated ? lastUpdated : new Date())}</span>
-        </p>
-        <p className="mb-4 text-theme-pan-navy text-md">
+        <p className="mb-4 text-theme-navy text-md">
+          Last Updated: <span className="text-lg">{formatLastUpdated(lastUpdated ? lastUpdated : new Date())}</span>
           {user?.isPaidUser ? (
-            <span className="text-lg"></span>
+            <span className=""></span>
           ) : (
-            <span className="animate-pulse bg-theme-pan-navy/10 py-1 px-4 border border-theme-oldlace">
-              48 hours delayed for visitors
+            <span className="animate-pulse text-theme-copper  ">
+              {" "}- 48 hours delayed for visitors
             </span>
           )}
         </p>
+        <p className="mb-4 text-theme-navy text-md"></p>
         <button
           onClick={handleDownloadPDF}
           disabled={!user?.isPaidUser}
-          className={`px-4 py-2 text-sm border ${
+          className={`px-4 py-2 text-sm rounded-md ${
             user?.isPaidUser
-              ? "border-theme-pan-navy text-theme-pan-navy hover:bg-theme-pan-navy hover:text-theme-pan-champagne"
-              : "border-gray-300 text-gray-300 cursor-not-allowed"
+              ? " text-theme-pan-champagne bg-theme-sky hover:opacity-70"
+              : "text-theme-pan-champagne bg-theme-sky opacity-50"
           } transition-colors duration-200`}
         >
           Download PDF
@@ -555,11 +553,11 @@ const Home: React.FC = () => {
 
       {!user ||
         (user && !user?.isPaidUser && (
-          <div className=" mx-auto text-center text-theme-pan-navy">
+          <div className=" mx-auto text-center text-theme-navy">
             <p className="mb-2">{recentOpportunitiesCount} more opportunities await</p>
             <Link
               to="/subscribe"
-              className="inline-block px-6 py-2 text-lg border border-theme-pan-sky text-theme-pan-sky hover:bg-theme-pan-sky hover:text-theme-pan-champagne transition-colors duration-200"
+              className="inline-block px-6 py-2 text-lg border rounded-md text-theme-pan-champagne bg-theme-sky hover:opacity-70 transition-colors duration-200"
             >
               Join the crew
             </Link>

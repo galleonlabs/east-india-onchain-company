@@ -29,13 +29,13 @@ const Fund: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto text-theme-pan-navy">
-      <h1 className="text-3xl mb-6">Self-Managed Fund Program</h1>
+    <div className="max-w-4xl mx-auto text-theme-navy">
+      <h1 className="text-3xl mb-6 font-morion font-semibold">Self-Managed Fund Program</h1>
 
       <section className="mb-8">
         <div className="flex">
           <h2 className="text-2xl mb-4">About the Program</h2>
-          <img src={ResourcesIcon} alt="Feature icon" className="w-8 h-8 ml-4 flex-shrink-0 grayscale-[40%]" />
+          <img src={ResourcesIcon} alt="Feature icon" className="w-10 h-10 -translate-y-1 ml-4 flex-shrink-0" />
         </div>
         <p className="mb-4">
           Our self-managed fund program is designed to guide users in best practices for securing and executing changes
@@ -44,7 +44,7 @@ const Fund: React.FC = () => {
         </p>
       </section>
 
-      <section className="mb-8 bg-theme-pan-navy/10 p-6">
+      <section className="mb-8 bg-theme-navy text-theme-pan-champagne rounded-md bg-[url('./Frame.png')]  bg-no-repeat bg-cover bg-center p-6">
         <h2 className="text-2xl mb-4">How does it work</h2>
         <ul className="list-disc list-inside space-y-2">
           <li>Guidance on best practices for on-chain portfolio management</li>
@@ -58,7 +58,7 @@ const Fund: React.FC = () => {
       <section className="mb-8">
         <h2 className="text-2xl mb-4">Register Your Interest</h2>
         {isInterested ? (
-          <p className="text-green-600">Thank you for your interest! We'll be in touch soon.</p>
+          <p className="text-theme-pan-navy">Thank you for your interest! We'll be in touch soon.</p>
         ) : (
           <form onSubmit={handleRegisterInterest} className="space-y-4">
             <div>
@@ -71,21 +71,21 @@ const Fund: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full p-2 border border-theme-pan-navy rounded"
+                className="w-full p-2 border border-theme-navy rounded-md"
               />
             </div>
             <button
               type="submit"
-              className="bg-theme-pan-navy text-theme-pan-champagne px-4 py-2 rounded hover:bg-opacity-90 transition-colors"
+              className="bg-theme-sky text-theme-pan-champagne px-4 py-2 rounded-md hover:bg-opacity-70 transition-colors"
             >
               Register Interest
             </button>
           </form>
         )}
         {message && (
-          <p className={`mt-4 ${message.type === "success" ? "text-green-600" : "text-red-600"}`}>{message.content}</p>
+          <p className={`mt-4 ${message.type === "success" ? "text-theme-sky" : "text-theme-copper-600"}`}>{message.content}</p>
         )}
-        <p className="mb-4 mt-4 opacity-75">
+        <p className="mb-4 mt-4 opacity-75 text-theme-navy">
           This program provides strictly educational content to help guide you in making safer decisions with your
           digital assets. It is not financial advice. By registering your interest, you agree to our Terms of Service
           and Privacy Policy. We will never share your email address with third parties.

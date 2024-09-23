@@ -18,7 +18,7 @@ const App: React.FC = () => {
       <AuthProvider>
         <Router>
           <Suspense fallback={<div>Loading...</div>}>
-            <div className="min-h-screen bg-theme-pan-champagne">
+            <div className="min-h-screen bg-theme-champagne font-wigrum text-theme-navy">
               <div className="terminal-window">
                 <Header />
                 <main className="p-4 max-w-7xl mx-auto pb-32 pt-16">

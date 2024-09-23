@@ -5,19 +5,20 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Bona Nova SC", ...defaultTheme.fontFamily.sans],
+        morion: ["Morion", "Inter var"],
+        wigrum: ["Wigrum", "Inter var"],
       },
       colors: {
-        "theme-pan-navy": "#27272A",
-        "theme-pan-sky": "#0072B5",
-        "theme-pan-champagne": "#F4EEE8",
+        "theme-champagne": "#FDE6C4",
+        "theme-navy": "#040728",
         "theme-white": "#FFFFFF",
         "theme-oldlace": "#FEF3E2",
         "theme-sky": "#025BEE",
         "theme-aqua": "#59F4F4",
         "theme-copper": "#DC7F5A",
-        "theme-champagne": "#FDE6C4",
-        "theme-navy": "#040728",
+        "theme-pan-navy": "#27272A",
+        "theme-pan-sky": "#0072B5",
+        "theme-pan-champagne": "#F4EEE8",
       },
       animation: {
         fadeIn: "fadeIn 0.5s ease-out",
