@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
         <a href="https://github.com/galleonlabs" className="mx-2 hover:text-theme-sky" target="_blank">
           GitHub
         </a>
-        <a href="https://thetradewinds.substack.com/" className="mx-2 hover:text-theme-sky" target="_blank">
+        <a href="https://blog.eastindiaonchaincompany.com" className="mx-2 hover:text-theme-sky" target="_blank">
           Newsletter
         </a>
         <a className="mx-2 hover:text-theme-sky"
